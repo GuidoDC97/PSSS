@@ -27,7 +27,7 @@ public class DocenteController {
         return docenteService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/cerca")
     public List<Docente> getDocenteByNomeCognome(@RequestParam(value = "nome") String nome,
                                                  @RequestParam("cognome") String cognome){
         return docenteService.findByNomeCognome(nome, cognome);

@@ -3,6 +3,7 @@ package com.psss.registroElettronico.backend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +19,12 @@ public class Docente {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @NonNull
     private String nome;
+    @NonNull
     private String cognome;
-    private GregorianCalendar data;
-    private String codiceFiscale;
+//    private GregorianCalendar data;
+//    private String codiceFiscale;
 
 
 

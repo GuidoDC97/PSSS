@@ -22,5 +22,5 @@ public class Studente {
     private String nome;
     @NonNull
     private String cognome;
-    private GregorianCalendar data;
+//    private GregorianCalendar data;
 }
