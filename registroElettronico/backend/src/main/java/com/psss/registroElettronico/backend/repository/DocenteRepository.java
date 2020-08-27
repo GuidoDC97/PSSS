@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DocenteRepository extends JpaRepository<Docente, Long> {
 
-    List<Docente> findByNomeCognome(String nome, String cognome);
+    List<Docente> findByNomeAndCognome(String nome, String cognome);
 
 
 }

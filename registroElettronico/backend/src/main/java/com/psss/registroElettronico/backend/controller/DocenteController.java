@@ -1,6 +1,5 @@
 package com.psss.registroElettronico.backend.controller;
 
-
 import com.psss.registroElettronico.backend.model.Docente;
 import com.psss.registroElettronico.backend.service.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class DocenteController {
     @GetMapping("/cerca")
     public List<Docente> getDocenteByNomeCognome(@RequestParam(value = "nome") String nome,
                                                  @RequestParam("cognome") String cognome){
-        return docenteService.findByNomeCognome(nome, cognome);
+        return docenteService.findByNomeAndCognome(nome, cognome);
 
     }
 

@@ -29,7 +29,7 @@ public class StudenteController {
     @GetMapping("/cerca")
     public List<Studente> getStudenteByNomeCognome(@RequestParam(value = "nome") String nome,
                                                    @RequestParam(value = "cognome") String cognome) {
-        return studenteService.findByNomeCognome(nome, cognome);
+        return studenteService.findByNomeAndCognome(nome, cognome);
     }
 
     @PostMapping

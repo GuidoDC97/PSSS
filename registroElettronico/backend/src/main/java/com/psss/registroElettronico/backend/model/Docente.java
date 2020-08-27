@@ -1,6 +1,7 @@
 package com.psss.registroElettronico.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;

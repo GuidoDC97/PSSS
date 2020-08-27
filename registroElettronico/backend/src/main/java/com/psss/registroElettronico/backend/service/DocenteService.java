@@ -24,8 +24,8 @@ public class DocenteService {
         return docenteRepository.findById(id);
     }
 
-    public List<Docente> findByNomeCognome(String nome, String cognome) {
-        return docenteRepository.findByNomeCognome(nome, cognome);
+    public List<Docente> findByNomeAndCognome(String nome, String cognome) {
+        return docenteRepository.findByNomeAndCognome(nome, cognome);
     }
 
     public Docente saveAndFlush(Docente d) {
