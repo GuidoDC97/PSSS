@@ -2,12 +2,14 @@ package com.psss.registroElettronico.backend.service;
 
 import com.psss.registroElettronico.backend.model.Studente;
 import com.psss.registroElettronico.backend.repository.StudenteRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class StudenteService {
 
@@ -22,12 +24,12 @@ public class StudenteService {
         return studenteRepository.findById(id);
     }
 
-    public List<Studente> findByNomeCognome(String nome, String cognome) {
-        return studenteRepository.findByNomeCognome(nome, cognome);
-    }
+//    public List<Studente> findByNomeCognome(String nome, String cognome) {
+//        return studenteRepository.findByNomeCognome(nome, cognome);
+//    }
 
-    public Studente save(Studente s) {
-        return studenteRepository.save(s);
+    public Studente saveAndFlush(Studente s) {
+        return studenteRepository.saveAndFlush(s);
     }
 
     public void deleteById(Long id) {
