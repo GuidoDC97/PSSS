@@ -1,12 +1,17 @@
 package com.psss.registroElettronico.backend.model;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.GregorianCalendar;
 
+@Data
+@AllArgsConstructor
 @Entity(name="docenti")
 public class Docente {
 
@@ -17,8 +22,7 @@ public class Docente {
     private String cognome;
     private GregorianCalendar data;
     private String codiceFiscale;
-    private String username;
-    private String password;
+
 
 
 
