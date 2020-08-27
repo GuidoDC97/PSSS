@@ -3,6 +3,7 @@ package com.psss.registroElettronico.backend.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import java.util.GregorianCalendar;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="studenti")
 public class Studente {
