@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 
 @Data
 @AllArgsConstructor
-@Entity
+@Entity(name="studenti")
 public class Studente {
 
     @Id

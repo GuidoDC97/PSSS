@@ -24,9 +24,9 @@ public class StudenteService {
         return studenteRepository.findById(id);
     }
 
-//    public List<Studente> findByNomeCognome(String nome, String cognome) {
-//        return studenteRepository.findByNomeCognome(nome, cognome);
-//    }
+    public List<Studente> findByNomeCognome(String nome, String cognome) {
+        return studenteRepository.findByNomeCognome(nome, cognome);
+    }
 
     public Studente saveAndFlush(Studente s) {
         return studenteRepository.saveAndFlush(s);

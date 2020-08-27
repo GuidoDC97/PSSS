@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("docenti")
+@RequestMapping("/docenti")
 public class DocenteController {
 
     @Autowired
@@ -22,23 +22,24 @@ public class DocenteController {
     }
 
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping("/{id}")
     public Optional<Docente> getDocente(@PathVariable Long id){
         return docenteService.findById(id);
     }
 
     @GetMapping
-    public List<Docente> getDocenteByNomeCognome(@RequestBody String nome, @RequestBody String cognome){
+    public List<Docente> getDocenteByNomeCognome(@RequestParam(value = "nome") String nome,
+                                                 @RequestParam("cognome") String cognome){
         return docenteService.findByNomeCognome(nome, cognome);
 
     }
 
     @PostMapping
     public Docente create(@RequestBody final Docente docente){
-        return docenteService.save(docente);
+        return docenteService.saveAndFlush(docente);
     }
 
-    @RequestMapping(value="{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable Long id){
         docenteService.deleteById(id);
     }

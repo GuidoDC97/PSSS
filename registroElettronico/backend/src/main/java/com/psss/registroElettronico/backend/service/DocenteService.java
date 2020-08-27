@@ -28,7 +28,7 @@ public class DocenteService {
         return docenteRepository.findByNomeCognome(nome, cognome);
     }
 
-    public Docente save(Docente d) {
+    public Docente saveAndFlush(Docente d) {
         return docenteRepository.saveAndFlush(d);
     }
 
