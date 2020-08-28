@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.w3c.dom.stylesheets.LinkStyle;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -32,15 +29,18 @@ public class Docente {
 //    private String codiceFiscale;
 
 
+    @OneToMany
     private List<Nota> note;
+    @OneToMany
     private List<Voto> voti;
+    @OneToMany
     private List<Assegno> assegni;
+    @OneToMany
     private List<Materia> materie;
+    @ManyToMany
     private List<Classe> classi;
+    @OneToMany
     private List<AttivitaDidattica> attivitadidattiche;
     //TODO gestire l'orario del docente
-
-
-
 
 }

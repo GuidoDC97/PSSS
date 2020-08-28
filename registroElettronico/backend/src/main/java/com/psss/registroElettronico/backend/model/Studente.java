@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -28,10 +25,13 @@ public class Studente {
     private String cognome;
 //    private GregorianCalendar data;
 
-    private List<AssenzaRitardo> assenzeRitardi;
+    @OneToMany
+    private List<Assenza> assenze;
+    @OneToMany
     private List<Nota> note;
+    @OneToMany
     private List<Voto> voti;
-    private List<VotoScrutinio> votiScrutinio;
+    @ManyToOne
     private Classe classe;
     //TODO Gestire l'orario dello studente
 

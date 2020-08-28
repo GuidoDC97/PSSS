@@ -10,9 +10,8 @@ import java.util.GregorianCalendar;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "attivitadidattiche")
-public class AttivitaDidattica {
-
+@Entity(name = "assenze")
+public class Assenza{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -20,7 +19,7 @@ public class AttivitaDidattica {
     private String testo;
 
     @ManyToOne
-    private Docente docente;
+    private Studente studente;
     @ManyToOne
-    private Classe classe;
+    private Docente docente;
 }
