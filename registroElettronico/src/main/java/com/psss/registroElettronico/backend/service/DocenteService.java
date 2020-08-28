@@ -15,7 +15,7 @@ public class DocenteService {
     @Autowired
     private DocenteRepository docenteRepository;
 
-    @GetMapping
+    //@GetMapping
     public List<Docente> findAll() {
         return docenteRepository.findAll();
     }

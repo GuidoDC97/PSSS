@@ -8,5 +8,6 @@ import java.util.List;
 public interface VotoRepository extends JpaRepository<Voto, Long>{
 
     List<Voto> findByDocente(Long id);
+    List<Voto> findByStudente(Long id);
 
 }

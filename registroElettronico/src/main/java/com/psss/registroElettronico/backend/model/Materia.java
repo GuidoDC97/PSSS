@@ -15,6 +15,7 @@ public class Materia {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    private String codice;
     private String materia;
 
     @ManyToMany

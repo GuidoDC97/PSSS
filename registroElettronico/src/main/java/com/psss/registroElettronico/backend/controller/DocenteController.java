@@ -39,7 +39,7 @@ public class DocenteController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long id){
+    public void deleteDocente(@PathVariable Long id){
         docenteService.deleteById(id);
     }
 }

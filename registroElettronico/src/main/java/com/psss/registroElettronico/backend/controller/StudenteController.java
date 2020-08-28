@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/studente")
+@RequestMapping("/studenti")
 public class StudenteController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class StudenteController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long id){
+    public void deleteStudente(@PathVariable Long id){
         studenteService.deleteById(id);
     }
 }
