@@ -1,7 +1,5 @@
 package com.psss.registroElettronico.backend.sicurezza;
 
-import com.psss.registroElettronico.backend.model.Utente;
-import com.psss.registroElettronico.backend.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

@@ -48,7 +48,6 @@
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/SecurityConfiguration.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -81,30 +80,13 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/ElaboratoTesi_0" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.psss.registroElettronico.backend.model" />
-    </key>
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/registroElettronico" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\fabio\Desktop\psss\registroElettronico\backend\src\main\resources\webapp" />
       <recent name="C:\Users\fabio\Desktop\psss\registroElettronico\backend\src\main\resources" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="BackendApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -126,7 +108,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -145,9 +127,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -163,30 +143,34 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="702" y="394" width="516" height="268" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598543298654" />
-    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598622351021">
+    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1598623767758">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598622351021" />
-    <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1598610194946">
+    <state x="690" y="272" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598623767758" />
+    <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1598623650903">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="280" key="FileChooserDialogImpl/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598610194946" />
-    <state width="1875" height="285" key="GridCell.Tab.0.bottom" timestamp="1598622500319">
+    <state x="740" y="280" key="FileChooserDialogImpl/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598623650903" />
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom" timestamp="1598624297517">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1875" height="285" key="GridCell.Tab.0.bottom/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598622500319" />
-    <state width="1875" height="285" key="GridCell.Tab.0.center" timestamp="1598622500319">
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598624297517" />
+    <state width="1877" height="285" key="GridCell.Tab.0.center" timestamp="1598624297517">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1875" height="285" key="GridCell.Tab.0.center/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598622500319" />
-    <state width="1875" height="285" key="GridCell.Tab.0.left" timestamp="1598622500319">
+    <state width="1877" height="285" key="GridCell.Tab.0.center/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598624297517" />
+    <state width="1877" height="285" key="GridCell.Tab.0.left" timestamp="1598624297517">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1875" height="285" key="GridCell.Tab.0.left/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598622500319" />
-    <state width="1875" height="285" key="GridCell.Tab.0.right" timestamp="1598622500319">
+    <state width="1877" height="285" key="GridCell.Tab.0.left/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598624297517" />
+    <state width="1877" height="285" key="GridCell.Tab.0.right" timestamp="1598624297517">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1875" height="285" key="GridCell.Tab.0.right/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598622500319" />
+    <state width="1877" height="285" key="GridCell.Tab.0.right/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598624297517" />
+    <state x="342" y="186" key="new project wizard" timestamp="1598623481116">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="342" y="186" key="new project wizard/1920.0.1536.840/0.0.1920.1050@0.0.1920.1050" timestamp="1598623481116" />
     <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1598604166573">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
