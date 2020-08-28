@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +27,12 @@ public class Studente {
     @NonNull
     private String cognome;
 //    private GregorianCalendar data;
+
+    private List<AssenzaRitardo> assenzeRitardi;
+    private List<Nota> note;
+    private List<Voto> voti;
+    private List<VotoScrutinio> votiScrutinio;
+    private Classe classe;
+    //TODO Gestire l'orario dello studente
+
 }
