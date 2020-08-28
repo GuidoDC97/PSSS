@@ -23,11 +23,11 @@ public class Studente {
     private String cognome;
 //    private GregorianCalendar data;
 
-    @OneToMany
+    @OneToMany(mappedBy = "studente")
     private List<Assenza> assenze;
-    @OneToMany
+    @OneToMany(mappedBy = "studente")
     private List<Nota> note;
-    @OneToMany
+    @OneToMany(mappedBy = "studente")
     private List<Voto> voti;
     @ManyToOne
     private Classe classe;

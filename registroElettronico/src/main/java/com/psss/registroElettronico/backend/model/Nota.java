@@ -20,7 +20,9 @@ public class Nota {
 
 
     @ManyToOne
+    @JoinColumn(name="studente_id")
     private Studente studente;
     @ManyToOne
+    @JoinColumn(name="docente_id")
     private Docente docente;
 }

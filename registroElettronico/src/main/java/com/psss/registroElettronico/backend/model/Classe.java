@@ -19,13 +19,13 @@ public class Classe {
     private Character sezione;
     private int annoScolastico;
 
-    @ManyToMany()
-    private List<Materia> materie;
-    @OneToMany
-    private List<Assegno> assegni;
     @ManyToMany
+    private List<Materia> materie;
+    @OneToMany(mappedBy = "classe")
+    private List<Assegno> assegni;
+    @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti;
-    @OneToMany
+    @OneToMany(mappedBy = "classe")
     private List<Studente> studenti;
 
 

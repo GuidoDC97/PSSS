@@ -26,17 +26,17 @@ public class Docente {
 //    private String codiceFiscale;
 
 
-    @OneToMany
+    @OneToMany(mappedBy = "docente")
     private List<Nota> note;
-    @OneToMany
+    @OneToMany(mappedBy = "docente")
     private List<Voto> voti;
-    @OneToMany
+    @OneToMany(mappedBy = "docente")
     private List<Assegno> assegni;
-    @OneToMany
+    @ManyToMany
     private List<Materia> materie;
     @ManyToMany
     private List<Classe> classi;
-    @OneToMany
+    @OneToMany(mappedBy = "docente")
     private List<AttivitaDidattica> attivitadidattiche;
     //TODO gestire l'orario del docente
 

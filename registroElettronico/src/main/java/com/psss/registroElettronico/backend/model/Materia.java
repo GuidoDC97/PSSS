@@ -18,10 +18,10 @@ public class Materia {
     private String codice;
     private String materia;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "materie")
     private List<Classe> classi;
-    @ManyToMany
+    @ManyToMany(mappedBy = "materie")
     private List<Docente> docenti;
-    @OneToMany
+    @OneToMany(mappedBy = "materia")
     private List<Assegno> assegni;
 }
