@@ -22,7 +22,33 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87c66eeb-f5b1-4b67-9c2a-5b828dcf849d" name="Default Changelist" comment="" />
+    <list default="true" id="87c66eeb-f5b1-4b67-9c2a-5b828dcf849d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/controller/UtenteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Ruolo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Utente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/repository/RuoloRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/repository/UtenteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/service/RuoloService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/service/UtenteService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/AuthenticationEntryPointConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/SecurityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/UserDetailsServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/validation.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/webapp/login.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/webapp/registration.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/webapp/welcome.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_test_5_3_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Docente.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Docente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Studente.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/model/Studente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/psss/registroElettronico/backend/sicurezza/SecurityConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,7 +57,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
+        <option value="Class" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -62,6 +88,24 @@
       <recent name="com.psss.registroElettronico.backend.model" />
     </key>
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\fabio\Desktop\psss\registroElettronico\backend\src\main\resources\webapp" />
+      <recent name="C:\Users\fabio\Desktop\psss\registroElettronico\backend\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="RunManager">
     <configuration name="BackendApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.psss.registroElettronico.backend.BackendApplication" />
@@ -82,7 +126,10 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="87c66eeb-f5b1-4b67-9c2a-5b828dcf849d" name="Default Changelist" comment="" />
@@ -98,7 +145,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
