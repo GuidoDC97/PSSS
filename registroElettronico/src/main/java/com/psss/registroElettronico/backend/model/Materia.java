@@ -24,6 +24,7 @@ public class Materia {
     private List<Classe> classi;
     @ManyToMany(mappedBy = "materie")
     private List<Docente> docenti;
-    @OneToMany(mappedBy = "materia")
+    @OneToMany(mappedBy = "materia", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Assegno> assegni;
+    //TODO: si vuole tenere traccia di tutti gli assegni per ciascuna materia?
 }

@@ -21,10 +21,11 @@ public class Classe {
     private Character sezione;
     private int annoScolastico;
 
-    @ManyToMany
+    @ManyToMany()
     private List<Materia> materie;
     @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti;
-    @OneToMany(mappedBy = "classe")
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, orphanRemoval = true)
+    //TODO: decidere se elminare o meno gli studenti all'atto dell'eliminazione della classe
     private List<Studente> studenti;
 }

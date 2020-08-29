@@ -1,5 +1,6 @@
 package com.psss.registroElettronico.backend.controller;
 
+import com.psss.registroElettronico.backend.model.Nota;
 import com.psss.registroElettronico.backend.model.Studente;
 import com.psss.registroElettronico.backend.service.StudenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ public class StudenteController {
     @GetMapping
     public List<Studente> getStudenti() {
         List<Studente> lista = studenteService.findAll();
-//        lista.get(0).getNome();
+        System.out.println("Ho chiamato la findAll()");
+        List<Nota> note = lista.get(0).getNote();
         return lista;
     }
 
@@ -28,7 +30,7 @@ public class StudenteController {
     }
 
     @GetMapping("/cerca")
-    public List<Studente> getStudenteByNomeCognome(@RequestParam(value = "nome") String nome,
+    public List<Studente> getStudenteByNomeAndCognome(@RequestParam(value = "nome") String nome,
                                                    @RequestParam(value = "cognome") String cognome) {
         return studenteService.findByNomeAndCognome(nome, cognome);
     }

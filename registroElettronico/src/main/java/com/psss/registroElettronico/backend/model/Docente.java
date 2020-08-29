@@ -27,18 +27,20 @@ public class Docente {
 //    private GregorianCalendar data;
 //    private String codiceFiscale;
 
-    @OneToMany(mappedBy = "docente")
+
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = false)
     //@JsonBackReference
     private List<Nota> note;
-    @OneToMany(mappedBy = "docente")
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Voto> voti;
-    @OneToMany(mappedBy = "docente")
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Assegno> assegni;
     @ManyToMany
     private List<Materia> materie;
     @ManyToMany
     private List<Classe> classi;
-    @OneToMany(mappedBy = "docente")
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<AttivitaDidattica> attivitadidattiche;
     //TODO gestire l'orario del docente
+
 }

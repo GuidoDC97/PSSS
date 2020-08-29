@@ -33,7 +33,6 @@ public class Studente {
     @OneToMany(mappedBy = "studente")
     private List<Voto> voti;
     @ManyToOne(fetch = FetchType.LAZY)
-
     private Classe classe;
     //TODO Gestire l'orario dello studente
 
