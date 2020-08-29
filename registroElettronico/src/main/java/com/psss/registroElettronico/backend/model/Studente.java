@@ -24,9 +24,6 @@ public class Studente {
     private String cognome;
 //    private GregorianCalendar data;
 
-<<<<<<< Updated upstream
-    @ManyToOne
-=======
     @OneToMany(mappedBy = "studente")
     private List<Assenza> assenze;
     @OneToMany(mappedBy = "studente")
@@ -36,10 +33,9 @@ public class Studente {
     @OneToMany(mappedBy = "studente")
     private List<Voto> voti;
     @ManyToOne(fetch = FetchType.LAZY)
->>>>>>> Stashed changes
+
     private Classe classe;
     //TODO Gestire l'orario dello studente
-
 
     public Studente (String nome, String cognome){
         this.nome = nome;

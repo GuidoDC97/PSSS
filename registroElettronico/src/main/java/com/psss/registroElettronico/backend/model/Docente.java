@@ -27,9 +27,6 @@ public class Docente {
 //    private GregorianCalendar data;
 //    private String codiceFiscale;
 
-<<<<<<< Updated upstream
-=======
-
     @OneToMany(mappedBy = "docente")
     //@JsonBackReference
     private List<Nota> note;
@@ -37,18 +34,11 @@ public class Docente {
     private List<Voto> voti;
     @OneToMany(mappedBy = "docente")
     private List<Assegno> assegni;
->>>>>>> Stashed changes
     @ManyToMany
     private List<Materia> materie;
     @ManyToMany
     private List<Classe> classi;
-<<<<<<< Updated upstream
-=======
     @OneToMany(mappedBy = "docente")
     private List<AttivitaDidattica> attivitadidattiche;
     //TODO gestire l'orario del docente
-
-
-
->>>>>>> Stashed changes
 }
