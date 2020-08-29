@@ -22,6 +22,4 @@ public class Materia {
     private List<Classe> classi;
     @ManyToMany(mappedBy = "materie")
     private List<Docente> docenti;
-    @OneToMany(mappedBy = "materia")
-    private List<Assegno> assegni;
 }

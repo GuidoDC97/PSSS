@@ -21,13 +21,8 @@ public class Classe {
 
     @ManyToMany
     private List<Materia> materie;
-    @OneToMany(mappedBy = "classe")
-    private List<Assegno> assegni;
     @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti;
     @OneToMany(mappedBy = "classe")
     private List<Studente> studenti;
-
-
-
 }

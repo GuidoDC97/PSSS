@@ -57,11 +57,11 @@ public class RegistroElettronicoApplication extends WebSecurityConfigurerAdapter
 //		};
 //	}
 
-	// In database con authorities
-	@Bean
-	UserDetailsService userDetailsService(DataSource dataSource) {
-		return new JdbcUserDetailsManager(dataSource);
-	}
+	// In database con authorities -> non serve se abbiamo la classe UserRepositoryUserService
+//	@Bean
+//	UserDetailsService userDetailsService(DataSource dataSource) {
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
 
 	@Bean
 	PasswordEncoder passwordEncoder() {

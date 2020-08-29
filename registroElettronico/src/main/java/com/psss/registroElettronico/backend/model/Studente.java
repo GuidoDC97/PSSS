@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Data
@@ -23,12 +24,6 @@ public class Studente {
     private String cognome;
 //    private GregorianCalendar data;
 
-    @OneToMany(mappedBy = "studente")
-    private List<Assenza> assenze;
-    @OneToMany(mappedBy = "studente")
-    private List<Nota> note;
-    @OneToMany(mappedBy = "studente")
-    private List<Voto> voti;
     @ManyToOne
     private Classe classe;
     //TODO Gestire l'orario dello studente

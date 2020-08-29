@@ -23,14 +23,23 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Boolean enabled = true;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<UserAuthority> authorities = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserAuthority> userAuthorities = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
+
+    public User(User user) {
+        this.id = user.id;
+        this.username = user.username;
+        this.password = user.password;
+        this.enabled = user.enabled;
+        userAuthorities = user.userAuthorities;
+    }
+
     public void addAuthority(String authority) {
-        authorities.add(new UserAuthority(this, authority));
+        userAuthorities.add(new UserAuthority(this, authority));
     }
 }

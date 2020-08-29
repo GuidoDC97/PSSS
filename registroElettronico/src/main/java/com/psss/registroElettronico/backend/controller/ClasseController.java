@@ -48,5 +48,4 @@ public class ClasseController {
     public void deleteClasse(@PathVariable Long id){
         classeService.deleteById(id);
     }
-
 }

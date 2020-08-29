@@ -25,19 +25,8 @@ public class Docente {
 //    private GregorianCalendar data;
 //    private String codiceFiscale;
 
-
-    @OneToMany(mappedBy = "docente")
-    private List<Nota> note;
-    @OneToMany(mappedBy = "docente")
-    private List<Voto> voti;
-    @OneToMany(mappedBy = "docente")
-    private List<Assegno> assegni;
     @ManyToMany
     private List<Materia> materie;
     @ManyToMany
     private List<Classe> classi;
-    @OneToMany(mappedBy = "docente")
-    private List<AttivitaDidattica> attivitadidattiche;
-    //TODO gestire l'orario del docente
-
 }
