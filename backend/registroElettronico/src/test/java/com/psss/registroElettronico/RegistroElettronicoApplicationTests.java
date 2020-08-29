@@ -1,4 +1,4 @@
-package com.example.psss.registroElettronico;
+package com.psss.registroElettronico;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

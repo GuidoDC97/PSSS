@@ -22,18 +22,18 @@ import java.util.List;
 import static org.springframework.http.HttpMethod.GET;
 
 @SpringBootApplication
-public class RegistroElettronicoApplication extends WebSecurityConfigurerAdapter {
+public class RegistroElettronicoApplication {
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests(a -> a
-						.mvcMatchers(GET, "/docenti").hasAuthority("READ")
-						.anyRequest().hasAuthority("WRITE")
-				).httpBasic();
-
-		http.csrf().disable();
-	}
+//	@Override
+//	protected void configure(HttpSecurity http) throws Exception {
+//		http
+//				.authorizeRequests(a -> a
+//						.mvcMatchers(GET, "/docenti").hasAuthority("READ")
+//						.anyRequest().hasAuthority("WRITE")
+//				).httpBasic();
+//
+//		http.csrf().disable();
+//	}
 
 	// In memory
 //	@Bean
@@ -63,10 +63,10 @@ public class RegistroElettronicoApplication extends WebSecurityConfigurerAdapter
 //		return new JdbcUserDetailsManager(dataSource);
 //	}
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+//	@Bean
+//	PasswordEncoder passwordEncoder() {
+//		return new BCryptPasswordEncoder();
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(RegistroElettronicoApplication.class, args);
