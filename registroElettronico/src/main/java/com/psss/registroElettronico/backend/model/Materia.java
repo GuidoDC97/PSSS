@@ -1,5 +1,6 @@
 package com.psss.registroElettronico.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "materie")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Materia {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -22,4 +24,12 @@ public class Materia {
     private List<Classe> classi;
     @ManyToMany(mappedBy = "materie")
     private List<Docente> docenti;
+<<<<<<< Updated upstream
+=======
+    @OneToMany(mappedBy = "materia")
+    private List<Assegno> assegni;
+
+
+
+>>>>>>> Stashed changes
 }

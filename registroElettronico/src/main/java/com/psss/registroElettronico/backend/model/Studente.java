@@ -1,9 +1,7 @@
 package com.psss.registroElettronico.backend.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.GregorianCalendar;
@@ -13,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "studenti")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "note", "assenze", "ritardi", "voti", "classe"})
+@ToString(exclude = {"note", "assenze", "ritardi", "voti", "classe"})
 public class Studente {
 
     @Id
@@ -24,8 +24,27 @@ public class Studente {
     private String cognome;
 //    private GregorianCalendar data;
 
+<<<<<<< Updated upstream
     @ManyToOne
+=======
+    @OneToMany(mappedBy = "studente")
+    private List<Assenza> assenze;
+    @OneToMany(mappedBy = "studente")
+    private List<Ritardo> ritardi;
+    @OneToMany(mappedBy = "studente")
+    private List<Nota> note;
+    @OneToMany(mappedBy = "studente")
+    private List<Voto> voti;
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> Stashed changes
     private Classe classe;
     //TODO Gestire l'orario dello studente
+
+
+    public Studente (String nome, String cognome){
+        this.nome = nome;
+        this.cognome = cognome;
+    }
+
 
 }

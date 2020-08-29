@@ -2,6 +2,7 @@ package com.psss.registroElettronico.backend.controller;
 
 import com.psss.registroElettronico.backend.model.Docente;
 import com.psss.registroElettronico.backend.service.DocenteService;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

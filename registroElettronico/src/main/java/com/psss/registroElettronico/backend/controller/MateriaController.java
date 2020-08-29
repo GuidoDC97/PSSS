@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/materia")
+@RequestMapping("/materie")
 public class MateriaController {
 
     @Autowired

@@ -18,14 +18,14 @@ public class RegistroElettronicoInitializer implements SmartInitializingSingleto
     public void afterSingletonsInstantiated() {
 
         // Decommentare la prima volta per popolare il database
-//        User fabio = new User("fabio", passwordEncoder.encode("leo"));
-//        User antimo = new User("antimo", passwordEncoder.encode("leo"));
-//
-//        fabio.addAuthority("READ");
-//        fabio.addAuthority("WRITE");
-//        antimo.addAuthority("READ");
-//
-//        userRepository.saveAndFlush(fabio);
-//        userRepository.saveAndFlush(antimo);
+        User fabio = new User("fabio", passwordEncoder.encode("leo"));
+        User antimo = new User("antimo", passwordEncoder.encode("leo"));
+
+        fabio.addAuthority("READ");
+        fabio.addAuthority("WRITE");
+        antimo.addAuthority("READ");
+
+        userRepository.saveAndFlush(fabio);
+        userRepository.saveAndFlush(antimo);
     }
 }
