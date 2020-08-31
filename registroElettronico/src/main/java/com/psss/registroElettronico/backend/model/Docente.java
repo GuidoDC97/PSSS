@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.CharArrayReader;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Data
@@ -13,32 +16,43 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "docenti")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "note", "voti", "assegni",
-                        "materie", "classi", "attivitadidattiche"})
+                       "materie", "classi", "attivitadidattiche"})
 @ToString(exclude = {"note", "voti", "assegni", "materie", "classi", "attivitadidattiche"})
 public class Docente {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @NonNull
     private String nome;
-    @NonNull
     private String cognome;
-//    private GregorianCalendar data;
-//    private String codiceFiscale;
+    private GregorianCalendar dataNascita;
+    @Column(unique = true)
+    private String codiceFiscale;
+    //TODO: implementare il metodo setCodiceFiscale con gli opportuni controlli. Decidere dove implementarlo.
 
-    @OneToMany(mappedBy = "docente")
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL)
     //@JsonBackReference
-    private List<Nota> note;
-    @OneToMany(mappedBy = "docente")
-    private List<Voto> voti;
-    @OneToMany(mappedBy = "docente")
-    private List<Assegno> assegni;
+    private List<Nota> note = new ArrayList<>();
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL)
+    private List<Voto> voti = new ArrayList<>();
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL)
+    private List<Assegno> assegni = new ArrayList<>();
     @ManyToMany
-    private List<Materia> materie;
+    private List<Materia> materie = new ArrayList<>();
     @ManyToMany
-    private List<Classe> classi;
-    @OneToMany(mappedBy = "docente")
+    private List<Classe> classi = new ArrayList<>();
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.ALL)
     private List<AttivitaDidattica> attivitadidattiche;
     //TODO gestire l'orario del docente
+
+    public void addMateria(Materia materia){
+        materia.addDocente(this);
+        getMaterie().add(materia);
+    }
+
+    public void addClasse(Classe classe){
+        classe.addDocente(this);
+        getClassi().add(classe);
+    }
+
 }

@@ -4,12 +4,14 @@ import com.psss.registroElettronico.backend.model.Docente;
 import com.psss.registroElettronico.backend.repository.DocenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DocenteService {
 
     @Autowired
@@ -26,6 +28,10 @@ public class DocenteService {
 
     public List<Docente> findByNomeAndCognome(String nome, String cognome) {
         return docenteRepository.findByNomeAndCognome(nome, cognome);
+    }
+
+    public List<Docente> findByCodiceFiscale(String codiceFiscale) {
+        return docenteRepository.findByCodiceFiscale(codiceFiscale);
     }
 
     public Docente saveAndFlush(Docente d) {

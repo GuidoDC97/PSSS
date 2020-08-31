@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.GregorianCalendar;
@@ -21,10 +23,12 @@ public class Nota {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="studente_id")
+    //@JoinColumn(name="studente_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Studente studente;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="docente_id")
+    //@JoinColumn(name="docente_id")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     //@JsonManagedReference
     private Docente docente;
 

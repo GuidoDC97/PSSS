@@ -1,5 +1,6 @@
 package com.psss.registroElettronico.backend.controller;
 
+import com.psss.registroElettronico.backend.model.Docente;
 import com.psss.registroElettronico.backend.model.Materia;
 import com.psss.registroElettronico.backend.model.Studente;
 import com.psss.registroElettronico.backend.service.MateriaService;
@@ -24,6 +25,15 @@ public class MateriaController {
 
     @GetMapping("/{id}")
     public Optional<Materia> getMateria(@PathVariable Long id) {
+
+
+        System.out.println("Ricerco la materia");
+        Materia materia = materiaService.findByCodice("MAT").get(0);
+        System.out.println("Richiamo il metodo getDocenti()");
+        List<Docente> docenti = materia.getDocenti();
+        System.out.println("Richiedo la stampa dei docenti");
+        System.out.println(docenti);
+
         return materiaService.findById(id);
     }
 
