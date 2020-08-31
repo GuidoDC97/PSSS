@@ -37,6 +37,7 @@ public class DocentiView extends Div {
     private TextField cognome = new TextField();
     private TextField filtro = new TextField();
 
+
     private Button elimina = new Button("Elimina");
     private Button salva = new Button("Salva");
 
@@ -92,15 +93,18 @@ public class DocentiView extends Div {
 
         // the grid valueChangeEvent will clear the form too
         elimina.addClickListener(e -> {
-            deleteDocente();
             grid.asSingleSelect().clear();
+
+            // Todo: correggere l'eliminazione (SELECT invece di DELETE)
+            docenteService.deleteByNomeAndCognome(nome.getValue(), cognome.getValue());
+            Notification.show("Docente eliminato con successo!");
+
             updateGrid();
         });
 
         salva.addClickListener(e -> {
             saveDocente();
             updateGrid();
-            grid.asSingleSelect().clear();
         });
 
         SplitLayout splitLayout = new SplitLayout();
@@ -188,11 +192,7 @@ public class DocentiView extends Div {
         // Todo: validazione dei campi
         Docente docente = new Docente(nome.getValue(), cognome.getValue());
         docenteService.saveAndFlush(docente);
+        System.out.println("DEBUG: " + docente.toString());
         Notification.show("Docente aggiunto con successo!");
-    }
-
-    private void deleteDocente() {
-        docenteService.deleteByNomeAndCognome(nome.getValue(), cognome.getValue());
-        Notification.show("Docente eliminato con successo!");
     }
 }

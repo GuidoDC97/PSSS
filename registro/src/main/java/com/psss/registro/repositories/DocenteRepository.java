@@ -14,7 +14,7 @@ public interface DocenteRepository extends JpaRepository<Docente, Long> {
 
     List<Docente> findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(String nome, String cognome);
 
-    @Transactional
+    @Transactional @Modifying
     Long deleteByNomeAndCognome(String nome, String cognome);
 
 }
