@@ -4,6 +4,7 @@ import com.psss.registro.models.Docente;
 import com.psss.registro.repositories.DocenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -15,17 +16,20 @@ public class DocenteService {
     @Autowired
     private DocenteRepository docenteRepository;
 
-    //@GetMapping
     public List<Docente> findAll() {
         return docenteRepository.findAll();
     }
 
-    public Optional<Docente> findById(Long id) {
-        return docenteRepository.findById(id);
+    public List<Docente> findAll(String filtro) {
+        if(filtro == null || filtro.isEmpty()) {
+            return docenteRepository.findAll();
+        } else {
+            return docenteRepository.findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(filtro, filtro);
+        }
     }
 
-    public List<Docente> findByNomeAndCognome(String nome, String cognome) {
-        return docenteRepository.findByNomeAndCognome(nome, cognome);
+    public Optional<Docente> findById(Long id) {
+        return docenteRepository.findById(id);
     }
 
     public Docente saveAndFlush(Docente d) {

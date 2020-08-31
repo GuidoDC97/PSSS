@@ -17,6 +17,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -24,7 +25,6 @@ import com.psss.registro.views.main.MainView;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.vaadin.artur.helpers.CrudServiceDataProvider;
 
 @Route(value = "docenti", layout = MainView.class)
 @PageTitle("Docenti")
@@ -35,19 +35,24 @@ public class DocentiView extends Div {
 
     private TextField nome = new TextField();
     private TextField cognome = new TextField();
+    private TextField filtro = new TextField();
+
 
     private Button elimina = new Button("Elimina");
     private Button salva = new Button("Salva");
 
     private Binder<Docente> binder;
 
-    public DocentiView(@Autowired DocenteService docenteService) {
+//    @Autowired
+    private DocenteService docenteService;
+
+    public DocentiView(DocenteService docenteService) {
+        this.docenteService = docenteService;
+
         setId("docenti-view");
         // Configure Grid
         grid = new Grid<>(Docente.class);
         grid.setColumns("nome", "cognome");
-//        grid.setDataProvider(new CrudServiceDataProvider<Docente, Void>(docenteService));
-        grid.setItems(docenteService.findAll());
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
@@ -94,17 +99,12 @@ public class DocentiView extends Div {
             docenteService.deleteByNomeAndCognome(nome.getValue(), cognome.getValue());
             Notification.show("Docente eliminato con successo!");
 
-            grid.setItems(docenteService.findAll());
+            updateGrid();
         });
 
         salva.addClickListener(e -> {
-            // Todo: validazione dei campi
-            Docente docente = new Docente(nome.getValue(), cognome.getValue());
-            docenteService.saveAndFlush(docente);
-            System.out.println("DEBUG: " + docente.toString());
-            Notification.show("Docente aggiunto con successo!");
-
-            grid.setItems(docenteService.findAll());
+            saveDocente();
+            updateGrid();
         });
 
         SplitLayout splitLayout = new SplitLayout();
@@ -115,8 +115,26 @@ public class DocentiView extends Div {
 
         add(splitLayout);
 
+        configureNome();
+        configureCognome();
+        configureFiltro();
+
+        updateGrid();
+    }
+
+    private void configureNome() {
         nome.setClearButtonVisible(true);
+    }
+
+    private void configureCognome() {
         cognome.setClearButtonVisible(true);
+    }
+
+    private void configureFiltro() {
+        filtro.setPlaceholder("Cerca per nome...");
+        filtro.setClearButtonVisible(true);
+        filtro.setValueChangeMode(ValueChangeMode.LAZY);
+        filtro.addValueChangeListener(e-> updateGrid());
     }
 
     private void createEditorLayout(SplitLayout splitLayout) {
@@ -151,7 +169,8 @@ public class DocentiView extends Div {
         wrapper.setId("grid-wrapper");
         wrapper.setWidthFull();
         splitLayout.addToPrimary(wrapper);
-        wrapper.add(grid);
+
+        wrapper.add(filtro, grid);
     }
 
     private void addFormItem(Div wrapper, FormLayout formLayout, AbstractField field, String fieldName) {
@@ -163,5 +182,17 @@ public class DocentiView extends Div {
     private void populateForm(Docente value) {
         // Value can be null as well, that clears the form
         binder.readBean(value);
+    }
+
+    private void updateGrid() {
+        grid.setItems(docenteService.findAll(filtro.getValue()));
+    }
+
+    private void saveDocente() {
+        // Todo: validazione dei campi
+        Docente docente = new Docente(nome.getValue(), cognome.getValue());
+        docenteService.saveAndFlush(docente);
+        System.out.println("DEBUG: " + docente.toString());
+        Notification.show("Docente aggiunto con successo!");
     }
 }
