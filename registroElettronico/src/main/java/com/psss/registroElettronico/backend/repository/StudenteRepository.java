@@ -8,4 +8,5 @@ import java.util.List;
 public interface StudenteRepository extends JpaRepository<Studente, Long> {
 
     List<Studente> findByNomeAndCognome(String nome, String cognome);
+    List<Studente> findByCodiceFiscale(String codiceFiscale);
 }
