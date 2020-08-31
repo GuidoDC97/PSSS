@@ -55,7 +55,7 @@ public class MainView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         layout.add(viewTitle);
-        layout.add(new Image("images/user.svg", "Avatar"));
+//        layout.add(new Image("images/user.svg", "Avatar"));
         return layout;
     }
 
