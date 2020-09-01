@@ -216,7 +216,6 @@ public class DocentiView extends Div {
         Label titolo = new Label("Nuovo docente");
         titolo.setClassName("bold-text-layout");
         dialogAdd.add(titolo);
-
         Div addDiv = new Div();
         addDiv.setId("editor");
         dialogAdd.add(addDiv);
@@ -234,6 +233,7 @@ public class DocentiView extends Div {
 
     private void createFormAddLayout(Div addDiv) {
         nomeAdd.setClearButtonVisible(true);
+        nomeAdd.setAutofocus(true);
         nomeAdd.getElement().getClassList().add("full-width");
         cognomeAdd.setClearButtonVisible(true);
         cognomeAdd.getElement().getClassList().add("full-width");
