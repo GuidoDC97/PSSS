@@ -55,7 +55,7 @@ public class MainView extends AppLayout {
         layout.add(new DrawerToggle());
         viewTitle = new H1();
         layout.add(viewTitle);
-        layout.add(new Image("images/user.svg", "Avatar"));
+//        layout.add(new Image("images/user.svg", "Avatar"));
         return layout;
     }
 
@@ -69,7 +69,7 @@ public class MainView extends AppLayout {
         HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        logoLayout.add(new Image("images/logo.svg", "Registro logo"));
+        logoLayout.add(new Image("images/logo.svg", "Registro logo"));
         logoLayout.add(new H1("Registro"));
         layout.add(logoLayout, menu);
         return layout;

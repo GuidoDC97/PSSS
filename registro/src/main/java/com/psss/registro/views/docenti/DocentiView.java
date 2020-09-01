@@ -13,6 +13,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
+import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -32,91 +34,67 @@ import com.psss.registro.views.main.MainView;
 @CssImport("./styles/views/docenti/docenti-view.css")
 public class DocentiView extends Div {
 
-    private Grid<Docente> grid;
-    FormLayout formLayout;
-    FormLayout formAdd;
+    private Grid<Docente> grid = new Grid<>(Docente.class);
 
-    private TextField nome = new TextField();
-    private TextField cognome = new TextField();
+    FormLayout formEdit = new FormLayout();
+    FormLayout formAdd = new FormLayout();
+
+//    Dialog dialogAdd = new Dialog(new H3("Nuovo docente"));
+    Dialog dialogAdd = new Dialog(new Text("Nuovo docente"));
+
+    private TextField nomeEdit = new TextField();
+    private TextField cognomeEdit = new TextField();
 
     private TextField nomeAdd = new TextField();
     private TextField cognomeAdd = new TextField();
 
     private TextField filtro = new TextField();
 
-    private Button elimina = new Button("Elimina");
     private Button aggiungi = new Button("Aggiungi");
+    private Button conferma = new Button("Conferma");
+
     private Button aggiorna = new Button("Aggiorna");
+    private Button elimina = new Button("Elimina");
 
-    private Binder<Docente> binder;
+    private Binder<Docente> binderEdit = new Binder<>(Docente.class);
+    private Binder<Docente> binderAdd = new Binder<>(Docente.class);;
 
-//    @Autowired
     private DocenteService docenteService;
 
     public DocentiView(DocenteService docenteService) {
+
         this.docenteService = docenteService;
 
         setId("docenti-view");
-        // Configure Grid
-        grid = new Grid<>(Docente.class);
-        grid.setColumns("nome", "cognome");
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-        grid.setHeightFull();
-
-        // Configure Form
-        binder = new Binder<>(Docente.class);
-
-        // Bind fields. This where you'd define e.g. validation rules
-        binder.bindInstanceFields(this);
 
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        createGridLayout(splitLayout);
-        createEditorLayout(splitLayout);
+        createGridLayout(splitLayout);      // primary: grid
+        createEditorLayout(splitLayout);    // secondary: editor
 
         splitLayout.getSecondaryComponent().setVisible(false);
-
         add(splitLayout);
-
-        configureNome();
-        configureCognome();
-        configureFiltro();
 
         updateGrid();
 
-        Dialog dialog = new Dialog(new H3("Nuovo docente"));
-        dialog.setId("editor-layout");
-
-        Div addDiv = new Div();
-        addDiv.setId("editor");
-
-        formAdd = new FormLayout();
-        addFormItem(addDiv, formAdd, nomeAdd, "Nome");
-        addFormItem(addDiv, formAdd, cognomeAdd, "Cognome");
-        formAdd.setSizeFull();
-
-        Button conferma = new Button("Conferma");
-        HorizontalLayout confermaLayout = new HorizontalLayout();
-        confermaLayout.setId("button-layout");
-        confermaLayout.setWidthFull();
-        confermaLayout.setSpacing(true);
-        conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        confermaLayout.add(conferma);
-
-        dialog.add(addDiv, conferma);
-
-        aggiungi.addClickListener(event -> dialog.open());
+        createDialog();
+        createEditBinder();
+        createAddBinder();
 
         // Listeners
         // when a row is selected or deselected, populate form
         grid.asSingleSelect().addValueChangeListener(event -> {
             populateForm(event.getValue());
-            if(event.getHasValue().isEmpty()) {
-                splitLayout.getSecondaryComponent().setVisible(false);
-            } else {
-                splitLayout.getSecondaryComponent().setVisible(true);
-            }
+            splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
+        });
+
+        aggiungi.addClickListener(event -> dialogAdd.open());
+
+        conferma.addClickListener(e -> {
+            addDocente();
+            updateGrid();
+            dialogAdd.close();
         });
 
         // the grid valueChangeEvent will clear the form too
@@ -126,12 +104,6 @@ public class DocentiView extends Div {
             grid.asSingleSelect().clear();
         });
 
-        conferma.addClickListener(e -> {
-            addDocente();
-            updateGrid();
-            dialog.close();
-        });
-
         aggiorna.addClickListener(e -> {
             updateDocente();
             updateGrid();
@@ -139,72 +111,143 @@ public class DocentiView extends Div {
         });
     }
 
-    private void configureNome() {
-        nome.setClearButtonVisible(true);
+    private void createGridLayout(SplitLayout splitLayout) {
+        grid.setColumns("nome", "cognome");
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.setHeightFull();
+
+        Div wrapper = new Div();
+        wrapper.setId("grid-wrapper");
+        wrapper.setWidthFull();
+
+        createToolbarLayout(wrapper);
+
+        wrapper.add(grid);
+
+        splitLayout.addToPrimary(wrapper);
     }
 
-    private void configureCognome() {
-        cognome.setClearButtonVisible(true);
-    }
+    private void createToolbarLayout(Div wrapper) {
+        HorizontalLayout toolBarLayout = new HorizontalLayout();
+        toolBarLayout.setId("button-layout");
+        toolBarLayout.setWidthFull();
+        toolBarLayout.setSpacing(true);
 
-    private void configureFiltro() {
         filtro.setPlaceholder("Filtra per nome...");
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
         filtro.addValueChangeListener(e-> updateGrid());
+
+        aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        toolBarLayout.add(filtro, aggiungi);
+
+        wrapper.add(toolBarLayout);
     }
 
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorLayoutDiv = new Div();
         editorLayoutDiv.setId("editor-layout");
+
         Div editorDiv = new Div();
         editorDiv.setId("editor");
+
         editorLayoutDiv.add(editorDiv);
 
-        formLayout = new FormLayout();
-        addFormItem(editorDiv, formLayout, nome, "Nome");
-        addFormItem(editorDiv, formLayout, cognome, "Cognome");
-
-        createButtonLayout(editorLayoutDiv);
+        createFormEditLayout(editorDiv);
+        createButtonEditLayout(editorLayoutDiv);
 
         splitLayout.addToSecondary(editorLayoutDiv);
     }
 
-    private void createButtonLayout(Div editorLayoutDiv) {
+    private void createFormEditLayout(Div editorDiv) {
+        nomeEdit.setClearButtonVisible(true);
+        nomeEdit.getElement().getClassList().add("full-width");
+        cognomeEdit.setClearButtonVisible(true);
+        cognomeEdit.getElement().getClassList().add("full-width");
+        formEdit.addFormItem(nomeEdit, "Nome");
+        formEdit.addFormItem(cognomeEdit, "Cognome");
+        editorDiv.add(formEdit);
+    }
+
+    private void createButtonEditLayout(Div editorLayoutDiv) {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setId("button-layout");
         buttonLayout.setWidthFull();
         buttonLayout.setSpacing(true);
+
         elimina.addThemeVariants(ButtonVariant.LUMO_ERROR);
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         buttonLayout.add(aggiorna, elimina);
         editorLayoutDiv.add(buttonLayout);
     }
 
-    private void createGridLayout(SplitLayout splitLayout) {
-        Div wrapper = new Div();
-        wrapper.setId("grid-wrapper");
-        wrapper.setWidthFull();
-        splitLayout.addToPrimary(wrapper);
+    private void createDialog() {
+        dialogAdd.setId("editor-layout");
 
-        HorizontalLayout filtroLayout = new HorizontalLayout();
-        filtroLayout.setId("button-layout");
-        filtroLayout.setWidthFull();
-        filtroLayout.setSpacing(true);
-        aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        filtroLayout.add(filtro, aggiungi);
-        wrapper.add(filtroLayout, grid);
+        Div addDiv = new Div();
+        addDiv.setId("editor");
+
+        dialogAdd.add(addDiv);
+
+        createFormAddLayout(addDiv);
+        createButtonAddLayout(dialogAdd);
     }
 
-    private void addFormItem(Div wrapper, FormLayout formLayout, AbstractField field, String fieldName) {
-        formLayout.addFormItem(field, fieldName);
-        wrapper.add(formLayout);
-        field.getElement().getClassList().add("full-width");
+    private void createFormAddLayout(Div addDiv) {
+        nomeAdd.setClearButtonVisible(true);
+        nomeAdd.getElement().getClassList().add("full-width");
+        cognomeAdd.setClearButtonVisible(true);
+        cognomeAdd.getElement().getClassList().add("full-width");
+        formAdd.addFormItem(nomeAdd, "Nome");
+        formAdd.addFormItem(cognomeAdd, "Cognome");
+        formAdd.setSizeFull();
+        addDiv.add(formAdd);
+    }
+
+    private void createButtonAddLayout(Dialog dialog) {
+        HorizontalLayout confermaLayout = new HorizontalLayout();
+        confermaLayout.setId("button-layout");
+        confermaLayout.setWidthFull();
+        confermaLayout.setSpacing(true);
+
+        conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+        confermaLayout.add(conferma);
+        dialog.add(conferma);
+    }
+
+    private void createEditBinder() {
+        binderEdit.forField(nomeEdit)
+                .withValidator(new StringLengthValidator(
+                        "Please add the first name", 1, null))
+                .bind(Docente::getNome, Docente::setNome);
+        binderEdit.forField(cognomeEdit)
+                .withValidator(new StringLengthValidator(
+                        "Please add the first name", 1, null))
+                .bind(Docente::getCognome, Docente::setCognome);
+
+        binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
+    }
+
+    private void createAddBinder() {
+        binderAdd.forField(nomeAdd)
+                .withValidator(new StringLengthValidator(
+                        "Please add the first name", 1, null))
+                .bind(Docente::getNome, Docente::setNome);
+        binderAdd.forField(cognomeAdd)
+                .withValidator(new StringLengthValidator(
+                        "Please add the first name", 1, null))
+                .bind(Docente::getCognome, Docente::setCognome);
+
+        binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
+
     }
 
     private void populateForm(Docente value) {
         // Value can be null as well, that clears the form
-        binder.readBean(value);
+        binderEdit.readBean(value);
     }
 
     private void updateGrid() {
@@ -218,16 +261,16 @@ public class DocentiView extends Div {
     }
 
     private void deleteDocente(){
-        docenteService.deleteByNomeAndCognome(nome.getValue(), cognome.getValue());
+        Docente docente = grid.getSelectedItems().iterator().next();
+        docenteService.deleteById(docente.getId());
+//        docenteService.deleteByNomeAndCognome(nomeEdit.getValue(), cognomeEdit.getValue());
         Notification.show("Docente eliminato con successo!");
     }
 
     private void updateDocente() {
-        Docente docenteUpdated = new Docente(nome.getValue(), cognome.getValue());
+        Docente docenteUpdated = new Docente(nomeEdit.getValue(), cognomeEdit.getValue());
         Docente docente = grid.getSelectedItems().iterator().next();
-//        Docente docente = docenteService.getOne(grid.getSelectedItems().iterator().next().getId());
         docenteService.updateDocente(docente, docenteUpdated);
-        System.out.println("DEBUG: " + docente.toString());
         Notification.show("Docente aggiornato con successo!");
     }
 }

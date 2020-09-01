@@ -19,9 +19,7 @@ public class Docente {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @NonNull @NotEmpty @NotBlank
     private String nome;
-    @NonNull @NotEmpty @NotBlank
     private String cognome;
 //    private GregorianCalendar data;
 //    private String codiceFiscale;
@@ -41,7 +39,7 @@ public class Docente {
 //    private List<AttivitaDidattica> attivitadidattiche;
 //    //TODO gestire l'orario del docente
 
-    public Docente(@NonNull @NotEmpty @NotBlank String nome, @NonNull @NotEmpty @NotBlank String cognome) {
+    public Docente(String nome, String cognome) {
         this.nome = nome;
         this.cognome = cognome;
     }
