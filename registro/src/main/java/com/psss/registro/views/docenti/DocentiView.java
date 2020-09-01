@@ -25,6 +25,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.psss.registro.views.main.MainView;
+//TODO: fetchare i docenti dalla lista della griglia
+
 
 @Route(value = "docenti", layout = MainView.class)
 @PageTitle("Docenti")
@@ -222,7 +224,6 @@ public class DocentiView extends Div {
         Label titolo = new Label("Nuovo docente");
         titolo.setClassName("bold-text-layout");
         dialogAdd.add(titolo);
-
         Div addDiv = new Div();
         addDiv.setId("editor");
         dialogAdd.add(addDiv);
@@ -240,6 +241,7 @@ public class DocentiView extends Div {
 
     private void createFormAddLayout(Div addDiv) {
         nomeAdd.setClearButtonVisible(true);
+        nomeAdd.setAutofocus(true);
         nomeAdd.getElement().getClassList().add("full-width");
         cognomeAdd.setClearButtonVisible(true);
         cognomeAdd.getElement().getClassList().add("full-width");
@@ -254,8 +256,6 @@ public class DocentiView extends Div {
         confermaLayout.setId("button-layout");
         confermaLayout.setWidthFull();
         confermaLayout.setSpacing(true);
-
-        // le shortcut ai bottoni buggono per un problema di scope
         conferma.setEnabled(false);
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickShortcut(Key.ENTER).listenOn(addDiv);
@@ -301,6 +301,7 @@ public class DocentiView extends Div {
     }
 
     private void updateGrid() {
+        //grid.setPageSize(2);
         grid.setItems(docenteService.findAll(filtro.getValue()));
     }
 
@@ -323,3 +324,5 @@ public class DocentiView extends Div {
         Notification.show("Docente aggiornato con successo!");
     }
 }
+
+//TODO: implementare callback per ACK operazioni su DB?
