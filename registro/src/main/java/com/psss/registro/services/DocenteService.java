@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +32,8 @@ public class DocenteService {
         return docenteRepository.findById(id);
     }
 
-    public Docente createDocente(Docente d) {
+    public Docente saveAndFlush(Docente d) {
         return docenteRepository.saveAndFlush(d);
-    }
-
-    public Docente updateDocente(Docente docente, Docente docenteUpdated) {
-        docente.setNome(docenteUpdated.getNome());
-        docente.setCognome(docenteUpdated.getCognome());
-        return docenteRepository.saveAndFlush(docente);
     }
 
     public void deleteById(Long id) {
@@ -49,9 +42,5 @@ public class DocenteService {
 
     public Long deleteByNomeAndCognome(String nome, String cognome) {
         return docenteRepository.deleteByNomeAndCognome(nome, cognome);
-    }
-
-    public Docente getOne(Long id) {
-        return docenteRepository.getOne(id);
     }
 }
