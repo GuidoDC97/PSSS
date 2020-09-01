@@ -213,7 +213,7 @@ public class DocentiView extends Div {
 
     private void addDocente() {
         Docente docente = new Docente(nomeAdd.getValue(), cognomeAdd.getValue());
-        docenteService.saveAndFlush(docente);
+        docenteService.createDocente(docente);
         Notification.show("Docente aggiunto con successo!");
     }
 
@@ -223,8 +223,10 @@ public class DocentiView extends Div {
     }
 
     private void updateDocente() {
-        Docente docente = new Docente(nome.getValue(), cognome.getValue());
-        docenteService.saveAndFlush(docente);
+        Docente docenteUpdated = new Docente(nome.getValue(), cognome.getValue());
+        Docente docente = grid.getSelectedItems().iterator().next();
+//        Docente docente = docenteService.getOne(grid.getSelectedItems().iterator().next().getId());
+        docenteService.updateDocente(docente, docenteUpdated);
         System.out.println("DEBUG: " + docente.toString());
         Notification.show("Docente aggiornato con successo!");
     }
