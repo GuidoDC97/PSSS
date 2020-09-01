@@ -25,6 +25,10 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.psss.registro.views.main.MainView;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 //TODO: fetchare i docenti dalla lista della griglia
 
 
@@ -61,11 +65,11 @@ public class DocentiView extends Div {
     private Binder<Docente> binderAdd = new Binder<>(Docente.class);;
 
     private DocenteService docenteService;
+    private List<Docente> docenti;
 
     public DocentiView(DocenteService docenteService) {
 
         this.docenteService = docenteService;
-
         setId("docenti-view");
 
         SplitLayout splitLayout = new SplitLayout();
@@ -77,7 +81,7 @@ public class DocentiView extends Div {
         splitLayout.getSecondaryComponent().setVisible(false);
         add(splitLayout);
 
-        updateGrid();
+        initGrid();
 
         createAddDialog();
         createEditBinder();
@@ -112,10 +116,18 @@ public class DocentiView extends Div {
         toolBarLayout.setSpacing(false);
         toolBarLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
-        filtro.setPlaceholder("Filtra per nome...");
+        filtro.setPlaceholder("Cerca...");
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
-        filtro.addValueChangeListener(e-> updateGrid());
+        filtro.addValueChangeListener(event -> {
+            Set<Docente> foundDocenti = docenti.stream()
+                    .filter(docente -> docente.getNome().toLowerCase()
+                            .startsWith(event.getValue().toLowerCase()) ||
+                            docente.getCognome().toLowerCase()
+                            .startsWith(event.getValue().toLowerCase()))
+                    .collect(Collectors.toSet());
+            grid.setItems(foundDocenti);
+        });
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> dialogAdd.open());
@@ -300,20 +312,29 @@ public class DocentiView extends Div {
         binderEdit.readBean(value);
     }
 
+    private void initGrid(){
+        docenti = docenteService.findAll();
+        grid.setItems(docenti);
+    }
+
     private void updateGrid() {
         //grid.setPageSize(2);
-        grid.setItems(docenteService.findAll(filtro.getValue()));
+        grid.setItems(docenti);
     }
+
+
 
     private void addDocente() {
         Docente docente = new Docente(nomeAdd.getValue(), cognomeAdd.getValue());
         docenteService.createDocente(docente);
+        docenti.add(docente);
         Notification.show("Docente aggiunto con successo!");
     }
 
     private void deleteDocente(){
         Docente docente = grid.getSelectedItems().iterator().next();
         docenteService.deleteById(docente.getId());
+        docenti.remove(docente);
         Notification.show("Docente eliminato con successo!");
     }
 
@@ -321,6 +342,8 @@ public class DocentiView extends Div {
         Docente docenteUpdated = new Docente(nomeEdit.getValue(), cognomeEdit.getValue());
         Docente docente = grid.getSelectedItems().iterator().next();
         docenteService.updateDocente(docente, docenteUpdated);
+        docenti.remove(docente);
+        docenti.add(docenteUpdated);
         Notification.show("Docente aggiornato con successo!");
     }
 }
