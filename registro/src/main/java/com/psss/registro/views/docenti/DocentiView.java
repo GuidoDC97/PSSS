@@ -3,6 +3,8 @@ package com.psss.registro.views.docenti;
 import com.psss.registro.models.Docente;
 import com.psss.registro.services.DocenteService;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Shortcuts;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -12,6 +14,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -33,8 +36,8 @@ public class DocentiView extends Div {
     FormLayout formEdit = new FormLayout();
     FormLayout formAdd = new FormLayout();
 
-//    Dialog dialogAdd = new Dialog(new H3("Nuovo docente"));
     Dialog dialogAdd = new Dialog();
+    Dialog dialogDel = new Dialog();
 
     private TextField nomeEdit = new TextField();
     private TextField cognomeEdit = new TextField();
@@ -49,6 +52,8 @@ public class DocentiView extends Div {
 
     private Button aggiorna = new Button("Aggiorna");
     private Button elimina = new Button("Elimina");
+    private Button confermaDel = new Button("Conferma");
+    private Button chiudiDel = new Button("Chiudi");
 
     private Binder<Docente> binderEdit = new Binder<>(Docente.class);
     private Binder<Docente> binderAdd = new Binder<>(Docente.class);;
@@ -72,7 +77,7 @@ public class DocentiView extends Div {
 
         updateGrid();
 
-        createDialog();
+        createAddDialog();
         createEditBinder();
         createAddBinder();
     }
@@ -102,7 +107,9 @@ public class DocentiView extends Div {
         HorizontalLayout toolBarLayout = new HorizontalLayout();
         toolBarLayout.setId("button-layout");
         toolBarLayout.setWidthFull();
-        toolBarLayout.setSpacing(true);
+//        toolBarLayout.setSpacing(true);
+        toolBarLayout.setSpacing(false);
+        toolBarLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         filtro.setPlaceholder("Filtra per nome...");
         filtro.setClearButtonVisible(true);
@@ -110,6 +117,7 @@ public class DocentiView extends Div {
         filtro.addValueChangeListener(e-> updateGrid());
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        aggiungi.addClickShortcut(Key.ENTER).listenOn(wrapper);
         aggiungi.addClickListener(event -> dialogAdd.open());
 
         toolBarLayout.add(filtro, aggiungi);
@@ -144,6 +152,40 @@ public class DocentiView extends Div {
         formEdit.addFormItem(nomeEdit, "Nome");
         formEdit.addFormItem(cognomeEdit, "Cognome");
         editorDiv.add(formEdit);
+
+        createDeleteDialog();
+    }
+
+    private void createDeleteDialog() {
+        dialogDel.setCloseOnEsc(false);
+        dialogDel.setCloseOnOutsideClick(false);
+
+        dialogDel.add(new Text("Sei sicuro di voler eliminare un docente?"));
+
+        createButtonDelLayout(dialogDel);
+    }
+
+    private void createButtonDelLayout(Dialog dialogDel) {
+        HorizontalLayout confermaLayout = new HorizontalLayout();
+        confermaLayout.setId("button-layout");
+        confermaLayout.setWidthFull();
+        confermaLayout.setSpacing(true);
+
+        confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+//        confermaDel.addClickShortcut(Key.ENTER);
+        confermaDel.addClickListener(e -> {
+            deleteDocente();
+            updateGrid();
+            grid.asSingleSelect().clear();
+            dialogDel.close();
+        });
+        chiudiDel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        chiudiDel.addClickListener(e -> {
+            dialogDel.close();
+        });
+
+        confermaLayout.add(confermaDel, chiudiDel);
+        dialogDel.add(confermaLayout);
     }
 
     private void createButtonEditLayout(Div editorLayoutDiv) {
@@ -153,14 +195,10 @@ public class DocentiView extends Div {
         buttonLayout.setSpacing(true);
 
         elimina.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        elimina.addClickListener(e -> {
-            deleteDocente();
-            updateGrid();
-            grid.asSingleSelect().clear();
-        });
+        elimina.addClickListener(event -> dialogDel.open());
 
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        aggiorna.addClickShortcut(Key.ENTER);
+//        aggiorna.addClickShortcut(Key.ENTER).listenOn(editorLayoutDiv);
         aggiorna.addClickListener(e -> {
             updateDocente();
             updateGrid();
@@ -171,7 +209,7 @@ public class DocentiView extends Div {
         editorLayoutDiv.add(buttonLayout);
     }
 
-    private void createDialog() {
+    private void createAddDialog() {
         dialogAdd.setId("editor-layout");
 
         Label titolo = new Label("Nuovo docente");
@@ -188,7 +226,6 @@ public class DocentiView extends Div {
         dialogAdd.setCloseOnEsc(true);
         dialogAdd.addOpenedChangeListener(e -> {
             if(!e.isOpened()) {
-//                grid.asSingleSelect().clear();
                 binderAdd.readBean(null);
             }
         });
@@ -205,14 +242,23 @@ public class DocentiView extends Div {
         addDiv.add(formAdd);
     }
 
-    private void createButtonAddLayout(Dialog dialog) {
+    private void createButtonAddLayout(Dialog dialogAdd) {
         HorizontalLayout confermaLayout = new HorizontalLayout();
         confermaLayout.setId("button-layout");
         confermaLayout.setWidthFull();
         confermaLayout.setSpacing(true);
 
+        // le shortcut ai bottoni buggono per un problema di scope
+//        Shortcuts.addShortcutListener(this,
+//                (e -> {
+//                    addDocente();
+//                    updateGrid();
+//                    dialogAdd.close();
+//                }), Key.ENTER)
+//                .listenOn(dialogAdd);
+        conferma.setEnabled(false);
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        conferma.addClickShortcut(Key.ENTER);
+//        conferma.addClickShortcut(Key.ENTER);
         conferma.addClickListener(e -> {
             addDocente();
             updateGrid();
@@ -220,7 +266,7 @@ public class DocentiView extends Div {
         });
 
         confermaLayout.add(conferma);
-        dialog.add(conferma);
+        dialogAdd.add(confermaLayout);
     }
 
     private void createEditBinder() {
