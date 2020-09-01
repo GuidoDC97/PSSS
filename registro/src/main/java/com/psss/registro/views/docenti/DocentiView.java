@@ -12,6 +12,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -102,7 +103,8 @@ public class DocentiView extends Div {
         HorizontalLayout toolBarLayout = new HorizontalLayout();
         toolBarLayout.setId("button-layout");
         toolBarLayout.setWidthFull();
-        toolBarLayout.setSpacing(true);
+        toolBarLayout.setSpacing(false);
+        toolBarLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         filtro.setPlaceholder("Filtra per nome...");
         filtro.setClearButtonVisible(true);
