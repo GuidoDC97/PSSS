@@ -20,8 +20,9 @@
   height: 100%;
 }
 
-.full-width {
-  width: 100%;
+.bold-text-layout {
+  font-weight: bold;
+  font-size: 20px;
 }
 
 #editor-layout {
@@ -38,6 +39,6 @@
 #button-layout {
   width: 100%;
   flex-wrap: wrap;
-  background-color: var(--lumo-contrast-5pct);
+  /*background-color: var(--lumo-contrast-5pct);*/
   padding: var(--lumo-space-s) var(--lumo-space-l);
 }
