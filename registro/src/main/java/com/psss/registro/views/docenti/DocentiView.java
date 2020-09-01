@@ -116,7 +116,6 @@ public class DocentiView extends Div {
         filtro.addValueChangeListener(e-> updateGrid());
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        aggiungi.addClickShortcut(Key.ENTER).listenOn(wrapper);
         aggiungi.addClickListener(event -> dialogAdd.open());
 
         toolBarLayout.add(filtro, aggiungi);
@@ -159,7 +158,14 @@ public class DocentiView extends Div {
         dialogDel.setCloseOnEsc(false);
         dialogDel.setCloseOnOutsideClick(false);
 
-        dialogDel.add(new Text("Sei sicuro di voler eliminare un docente?"));
+        Div delDiv = new Div();
+        delDiv.setId("editor");
+
+        Label text = new Label("Sei sicuro di voler eliminare un docente?");
+        text.setClassName("text-layout");
+        delDiv.add(text);
+
+        dialogDel.add(delDiv);
 
         createButtonDelLayout(dialogDel);
     }
@@ -168,10 +174,11 @@ public class DocentiView extends Div {
         HorizontalLayout confermaLayout = new HorizontalLayout();
         confermaLayout.setId("button-layout");
         confermaLayout.setWidthFull();
-        confermaLayout.setSpacing(true);
+        confermaLayout.setSpacing(false);
+        confermaLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        confermaDel.addClickShortcut(Key.ENTER);
+//        confermaDel.addClickShortcut(Key.ENTER).listenOn(confermaLayout); //bugga
         confermaDel.addClickListener(e -> {
             deleteDocente();
             updateGrid();
@@ -191,13 +198,14 @@ public class DocentiView extends Div {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setId("button-layout");
         buttonLayout.setWidthFull();
-        buttonLayout.setSpacing(true);
+        buttonLayout.setSpacing(false);
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         elimina.addThemeVariants(ButtonVariant.LUMO_ERROR);
         elimina.addClickListener(event -> dialogDel.open());
 
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        aggiorna.addClickShortcut(Key.ENTER).listenOn(editorLayoutDiv);
+        aggiorna.addClickShortcut(Key.ENTER).listenOn(editorLayoutDiv);
         aggiorna.addClickListener(e -> {
             updateDocente();
             updateGrid();
@@ -220,7 +228,7 @@ public class DocentiView extends Div {
         dialogAdd.add(addDiv);
 
         createFormAddLayout(addDiv);
-        createButtonAddLayout(dialogAdd);
+        createButtonAddLayout(dialogAdd, addDiv);
 
         dialogAdd.setCloseOnEsc(true);
         dialogAdd.addOpenedChangeListener(e -> {
@@ -241,23 +249,16 @@ public class DocentiView extends Div {
         addDiv.add(formAdd);
     }
 
-    private void createButtonAddLayout(Dialog dialogAdd) {
+    private void createButtonAddLayout(Dialog dialogAdd, Div addDiv) {
         HorizontalLayout confermaLayout = new HorizontalLayout();
         confermaLayout.setId("button-layout");
         confermaLayout.setWidthFull();
         confermaLayout.setSpacing(true);
 
         // le shortcut ai bottoni buggono per un problema di scope
-//        Shortcuts.addShortcutListener(this,
-//                (e -> {
-//                    addDocente();
-//                    updateGrid();
-//                    dialogAdd.close();
-//                }), Key.ENTER)
-//                .listenOn(dialogAdd);
         conferma.setEnabled(false);
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        conferma.addClickShortcut(Key.ENTER);
+        conferma.addClickShortcut(Key.ENTER).listenOn(addDiv);
         conferma.addClickListener(e -> {
             addDocente();
             updateGrid();

@@ -25,6 +25,10 @@
   font-size: 20px;
 }
 
+.text-layout {
+  font-size: 18px;
+}
+
 #editor-layout {
   width: 400px;
   display: flex;
