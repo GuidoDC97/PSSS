@@ -25,6 +25,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.psss.registro.views.main.MainView;
+//TODO: fetchare i docenti dalla lista della griglia
+
 
 @Route(value = "docenti", layout = MainView.class)
 @PageTitle("Docenti")
@@ -247,7 +249,7 @@ public class DocentiView extends Div {
         confermaLayout.setWidthFull();
         confermaLayout.setSpacing(true);
 
-        // le shortcut ai bottoni buggono per un problema di scope
+        // le shortcut ai bottoni buggano per un problema di scope
 //        Shortcuts.addShortcutListener(this,
 //                (e -> {
 //                    addDocente();
@@ -300,6 +302,7 @@ public class DocentiView extends Div {
     }
 
     private void updateGrid() {
+        //grid.setPageSize(2);
         grid.setItems(docenteService.findAll(filtro.getValue()));
     }
 
@@ -322,3 +325,5 @@ public class DocentiView extends Div {
         Notification.show("Docente aggiornato con successo!");
     }
 }
+
+//TODO: implementare callback per ACK operazioni su DB?
