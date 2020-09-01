@@ -107,7 +107,6 @@ public class DocentiView extends Div {
         HorizontalLayout toolBarLayout = new HorizontalLayout();
         toolBarLayout.setId("button-layout");
         toolBarLayout.setWidthFull();
-//        toolBarLayout.setSpacing(true);
         toolBarLayout.setSpacing(false);
         toolBarLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
