@@ -6,10 +6,10 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.psss.registro.views.main.MainView;
+import com.psss.registro.views.main.SegretarioMainView;
 
-@Route(value = "about", layout = MainView.class)
-@RouteAlias(value = "", layout = MainView.class)
+@Route(value = "segretario/about", layout = SegretarioMainView.class)
+@RouteAlias(value = "", layout = SegretarioMainView.class)
 @PageTitle("About")
 @CssImport("./styles/views/about/about-view.css")
 public class AboutView extends Div {

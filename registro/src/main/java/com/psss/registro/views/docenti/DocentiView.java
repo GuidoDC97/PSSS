@@ -3,8 +3,6 @@ package com.psss.registro.views.docenti;
 import com.psss.registro.models.Docente;
 import com.psss.registro.services.DocenteService;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Shortcuts;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,7 +22,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import com.psss.registro.views.main.MainView;
+import com.psss.registro.views.main.SegretarioMainView;
 
 import java.util.List;
 import java.util.Set;
@@ -32,7 +30,7 @@ import java.util.stream.Collectors;
 //TODO: fetchare i docenti dalla lista della griglia
 
 
-@Route(value = "docenti", layout = MainView.class)
+@Route(value = "segretario/docenti", layout = SegretarioMainView.class)
 @PageTitle("Docenti")
 @CssImport("./styles/views/docenti/docenti-view.css")
 public class DocentiView extends Div {
@@ -62,7 +60,7 @@ public class DocentiView extends Div {
     private Button chiudiDel = new Button("Chiudi");
 
     private Binder<Docente> binderEdit = new Binder<>(Docente.class);
-    private Binder<Docente> binderAdd = new Binder<>(Docente.class);;
+    private Binder<Docente> binderAdd = new Binder<>(Docente.class);
 
     private DocenteService docenteService;
     private List<Docente> docenti;
@@ -200,9 +198,7 @@ public class DocentiView extends Div {
             dialogDel.close();
         });
         chiudiDel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        chiudiDel.addClickListener(e -> {
-            dialogDel.close();
-        });
+        chiudiDel.addClickListener(e -> dialogDel.close());
 
         confermaLayout.add(confermaDel, chiudiDel);
         dialogDel.add(confermaLayout);

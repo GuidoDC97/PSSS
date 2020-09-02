@@ -24,13 +24,13 @@ public class EventListenerInitialize {
         logger.info("Initializing database");
 
         // Decommentare la prima volta per popolare il database
-        User segretario = new User("admin", passwordEncoder.encode("admin"));
-        User antimo = new User("antimo", passwordEncoder.encode("leo"));
-
-        segretario.addAuthority("SEGRETARIO");
-        antimo.addAuthority("DOCENTE");
-
-        userRepository.saveAndFlush(segretario);
-        userRepository.saveAndFlush(antimo);
+//        User segretario = new User("admin", passwordEncoder.encode("admin"));
+//        User antimo = new User("antimo", passwordEncoder.encode("leo"));
+//
+//        segretario.addAuthority("SEGRETARIO");
+//        antimo.addAuthority("DOCENTE");
+//
+//        userRepository.saveAndFlush(segretario);
+//        userRepository.saveAndFlush(antimo);
     }
 }
