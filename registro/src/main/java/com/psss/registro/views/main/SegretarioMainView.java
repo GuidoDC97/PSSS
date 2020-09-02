@@ -9,6 +9,8 @@ import com.psss.registro.views.about.AboutView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.*;
@@ -56,7 +58,10 @@ public class SegretarioMainView extends AppLayout {
 //        layout.add(new Image("images/user.svg", "Avatar"));
         layout.expand(viewTitle);
 
+//        Button logout = new Button(new Anchor("logout", "Log out"));
+//        logout.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         Anchor logout = new Anchor("logout", "Log out");
+        logout.setId("anchor");
         layout.add(logout);
 
         return layout;

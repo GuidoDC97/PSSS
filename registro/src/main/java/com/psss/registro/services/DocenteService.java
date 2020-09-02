@@ -37,9 +37,17 @@ public class DocenteService {
         return docenteRepository.saveAndFlush(d);
     }
 
-    public Docente updateDocente(Docente docente, Docente docenteUpdated) {
-        docente.setNome(docenteUpdated.getNome());
-        docente.setCognome(docenteUpdated.getCognome());
+    public Docente updateDocente(Docente docente, Docente docenteTemp) {
+        docente.setNome(docenteTemp.getNome());
+        docente.setCognome(docenteTemp.getCognome());
+        docente.setCodiceFiscale(docenteTemp.getCodiceFiscale());
+        docente.setSesso(docenteTemp.getSesso());
+        docente.setData(docenteTemp.getData());
+        docente.setEmail(docenteTemp.getEmail());
+        // TODO: gestire email e username
+        docente.setUsername(docenteTemp.getEmail());
+        docente.setTelefono(docenteTemp.getTelefono());
+
         return docenteRepository.saveAndFlush(docente);
     }
 

@@ -70,6 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new MySimpleUrlAuthenticationSuccessHandler();
     }
 
+    // TODO: fare in modo che si veda l'icona sulla tab di Chrome
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
@@ -82,7 +83,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/icons/**",
                 "/images/**",
                 "/styles/**",
-                "/h2-console/**");
+                "/frontend/**"
+        );
     }
 
     @Bean

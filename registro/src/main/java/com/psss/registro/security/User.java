@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "users")
 public class User implements Serializable {
 
@@ -25,9 +26,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<UserAuthority> userAuthorities = new ArrayList<>();
 
-    public User(String username, String password) {
+    public User(String username, String password, String authority) {
         this.username = username;
         this.password = password;
+        this.userAuthorities.add(new UserAuthority(this, authority));
     }
 
     public User(User user) {
