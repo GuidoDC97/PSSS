@@ -3,9 +3,11 @@ package com.psss.registro.views.main;
 import java.util.Arrays;
 import java.util.Optional;
 
+import com.psss.registro.views.classi.ClassiView;
 import com.psss.registro.views.docenti.DocentiView;
 import com.psss.registro.views.about.AboutView;
 
+import com.psss.registro.views.materie.MaterieView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -94,8 +96,10 @@ public class SegretarioMainView extends AppLayout {
 
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[] {
-            new RouterLink("About", AboutView.class),
-            new RouterLink("Docenti", DocentiView.class)
+                new RouterLink("About", AboutView.class),
+                new RouterLink("Materie", MaterieView.class),
+                new RouterLink("Classi", ClassiView.class),
+                new RouterLink("Docenti", DocentiView.class)
         };
         return Arrays.stream(links).map(SegretarioMainView::createTab).toArray(Tab[]::new);
     }

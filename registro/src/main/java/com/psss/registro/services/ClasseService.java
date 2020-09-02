@@ -1,9 +1,8 @@
-package com.psss.registroElettronico.backend.service;
+package com.psss.registro.services;
 
-import com.psss.registroElettronico.backend.model.Classe;
-import com.psss.registroElettronico.backend.model.Docente;
-import com.psss.registroElettronico.backend.repository.ClasseRepository;
-import com.psss.registroElettronico.backend.repository.DocenteRepository;
+import com.psss.registro.models.Classe;
+import com.psss.registro.models.Docente;
+import com.psss.registro.repositories.ClasseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +33,15 @@ public class ClasseService {
         return classeRepository.findByAnnoScolasticoAndSezione(anno, sezione);
     }
 
-    public Classe saveAndFlush(Classe c) {
+    public Classe createClasse(Classe c) {
         return classeRepository.saveAndFlush(c);
+    }
+
+    public Classe updateClasse(Classe classe, Classe classeUpdated) {
+        classe.setAnno(classeUpdated.getAnno());
+        classe.setSezione(classeUpdated.getSezione());
+        classe.setAnnoScolastico(classeUpdated.getAnnoScolastico());
+        return classeRepository.saveAndFlush(classe);
     }
 
     public void deleteById(Long id) {

@@ -36,15 +36,13 @@ public class Docente extends User {
 //    @ManyToMany
 //    private List<Classe> classi;
 //    @OneToMany(mappedBy = "docente")
-
 //    @OneToMany(mappedBy = "docente")
-//    //@JsonBackReference
+    //@JsonBackReference
 //    private List<Nota> note;
 //    @OneToMany(mappedBy = "docente")
 //    private List<Voto> voti;
 //    @OneToMany(mappedBy = "docente")
 //    private List<Assegno> assegni;
-
 //    private List<AttivitaDidattica> attivitadidattiche;
 //    //TODO gestire l'orario del docente
 
