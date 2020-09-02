@@ -489,8 +489,8 @@ public class StudentiView extends Div {
                 codiceFiscaleEdit.getValue(), sessoEdit.getValue(), emailEdit.getValue(), numeroTelefonoEdit.getValue());
         Studente studente = grid.getSelectedItems().iterator().next();
         studenteService.updateStudente(studente, studenteUpdated);
-        studenti.remove(studente);
-        studenti.add(studenteUpdated);
+        // studenti.remove(studente);
+        // studenti.add(studenteUpdated);
         Notification.show("Studente aggiornato con successo!");
     }
 

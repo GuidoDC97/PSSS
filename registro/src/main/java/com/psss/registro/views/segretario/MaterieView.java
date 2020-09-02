@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @PageTitle("Materie")
 @CssImport("./styles/views/materie/materie-view.css")
 public class MaterieView extends Div {
-
+    //TODO: sistemare bug di modifica del nome della materia
     private Grid<Materia> grid = new Grid<>(Materia.class);
 
     FormLayout formEdit = new FormLayout();
@@ -389,8 +389,8 @@ public class MaterieView extends Div {
         if(!exist){
             Materia materia = grid.getSelectedItems().iterator().next();
             materiaService.updateMateria(materia, materiaUpdated);
-            materie.remove(materia);
-            materie.add(materiaUpdated);
+            //materie.remove(materia);
+            //materie.add(materiaUpdated);
             Notification.show("Materia aggiornata con successo!");
         }
     }
