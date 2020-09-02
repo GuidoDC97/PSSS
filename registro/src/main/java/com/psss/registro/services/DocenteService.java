@@ -2,6 +2,8 @@ package com.psss.registro.services;
 
 import com.psss.registro.models.Docente;
 import com.psss.registro.repositories.DocenteRepository;
+import com.psss.registro.security.UserAuthority;
+import com.psss.registro.security.UserAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ public class DocenteService {
 
     @Autowired
     private DocenteRepository docenteRepository;
+    @Autowired
+    private UserAuthorityRepository userAuthorityRepository;
 
     public List<Docente> findAll() {
         return docenteRepository.findAll();
@@ -34,12 +38,26 @@ public class DocenteService {
     }
 
     public Docente createDocente(Docente d) {
+
+        UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
+
+        d.setUserAuthority(authority);
+        authority.addUser(d);
+
+        userAuthorityRepository.saveAndFlush(authority);
         return docenteRepository.saveAndFlush(d);
     }
 
-    public Docente updateDocente(Docente docente, Docente docenteUpdated) {
-        docente.setNome(docenteUpdated.getNome());
-        docente.setCognome(docenteUpdated.getCognome());
+    public Docente updateDocente(Docente docente, Docente docenteTemp) {
+        docente.setNome(docenteTemp.getNome());
+        docente.setCognome(docenteTemp.getCognome());
+        docente.setCodiceFiscale(docenteTemp.getCodiceFiscale());
+        docente.setSesso(docenteTemp.getSesso());
+        docente.setData(docenteTemp.getData());
+//        docente.setEmail(docenteTemp.getEmail());
+        docente.setUsername(docenteTemp.getUsername());
+        docente.setTelefono(docenteTemp.getTelefono());
+
         return docenteRepository.saveAndFlush(docente);
     }
 

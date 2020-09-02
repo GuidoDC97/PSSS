@@ -1,6 +1,8 @@
 package com.psss.registro;
 
 import com.psss.registro.security.User;
+import com.psss.registro.security.UserAuthority;
+import com.psss.registro.security.UserAuthorityRepository;
 import com.psss.registro.security.UserRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -17,20 +19,26 @@ public class EventListenerInitialize {
     private static final Logger logger = LoggerFactory.getLogger(EventListenerInitialize.class);
 
     private final UserRepository userRepository;
+    private final UserAuthorityRepository userAuthorityRepository;
     private final PasswordEncoder passwordEncoder;
 
     @EventListener(ApplicationReadyEvent.class)
     public void initializeDatabase() {
         logger.info("Initializing database");
-
-        //Decommentare la prima volta per popolare il database
+//
+//        // Decommentare la prima volta per popolare il database
+//        UserAuthority segretarioAuthority = new UserAuthority("SEGRETARIO");
+//        UserAuthority docenteAuthority = new UserAuthority("DOCENTE");
+//        UserAuthority studenteAuthority = new UserAuthority("STUDENTE");
+//
 //        User segretario = new User("admin", passwordEncoder.encode("admin"));
-//        User antimo = new User("antimo", passwordEncoder.encode("leo"));
 //
-//        segretario.addAuthority("SEGRETARIO");
-//        antimo.addAuthority("DOCENTE");
+//        segretario.setUserAuthority(segretarioAuthority);
+//        segretarioAuthority.addUser(segretario);
 //
+//        userAuthorityRepository.saveAndFlush(segretarioAuthority);
+//        userAuthorityRepository.saveAndFlush(docenteAuthority);
+//        userAuthorityRepository.saveAndFlush(studenteAuthority);
 //        userRepository.saveAndFlush(segretario);
-//        userRepository.saveAndFlush(antimo);
     }
 }

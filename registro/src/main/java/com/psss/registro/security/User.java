@@ -6,12 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity(name = "users")
 public class User implements Serializable {
 
@@ -22,8 +21,8 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Boolean enabled = true;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserAuthority> userAuthorities = new ArrayList<>();
+    @ManyToOne
+    private UserAuthority userAuthority;
 
     public User(String username, String password) {
         this.username = username;
@@ -35,10 +34,6 @@ public class User implements Serializable {
         this.username = user.username;
         this.password = user.password;
         this.enabled = user.enabled;
-        userAuthorities = user.userAuthorities;
-    }
-
-    public void addAuthority(String authority) {
-        userAuthorities.add(new UserAuthority(this, authority));
+        this.userAuthority = user.userAuthority;
     }
 }
