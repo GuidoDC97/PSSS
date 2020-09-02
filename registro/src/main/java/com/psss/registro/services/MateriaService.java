@@ -50,8 +50,8 @@ public class MateriaService {
         materiaRepository.deleteById(id);
     }
 
-    public Long deleteByNomeAndCognome(String nome, String nomemateria) {
-        return materiaRepository.deleteByCodiceAndNome(nome, nomemateria);
+    public Long deleteByCodice(String codice) {
+        return materiaRepository.deleteByCodice(codice);
     }
 
     public Materia getOne(Long id) {

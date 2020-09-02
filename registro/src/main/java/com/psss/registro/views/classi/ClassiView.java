@@ -5,10 +5,11 @@ import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
 import com.psss.registro.services.ClasseService;
 import com.psss.registro.services.DocenteService;
-import com.psss.registro.views.main.MainView;
+import com.psss.registro.views.main.SegretarioMainView;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -20,9 +21,15 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.data.validator.IntegerRangeValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -35,13 +42,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 //TODO: definire final i campi inizializzati fuori dal costruttore.
-@Route(value = "docenti", layout = MainView.class)
+@Route(value = "docenti", layout = SegretarioMainView.class)
 @PageTitle("Classi")
 @CssImport("./styles/views/classi/classi-view.css")
 public class ClassiView extends Div {
 
-    public class Validator extends com.vaadin.flow.data.binder.Validator (){
-        
+    public class AnnoValidator implements Validator {
+
+        @Override
+        public ValidationResult apply(Object o, ValueContext valueContext) {
+            return null;
+        }
+
+        @Override
+        public Object apply(Object o, Object o2) {
+            return null;
+        }
     }
 
 
@@ -53,14 +69,14 @@ public class ClassiView extends Div {
     Dialog dialogAdd = new Dialog();
     Dialog dialogDel = new Dialog();
 
-    private TextField annoEdit = new TextField();
-    private TextField sezioneEdit = new TextField();
-    private TextField annoScolasticoEdit = new TextField();
+    private ComboBox<Integer> annoEdit = new ComboBox<Integer> ();
+    private ComboBox<Character>  sezioneEdit = new ComboBox<Character> ();
+    private IntegerField annoScolasticoEdit = new IntegerField();
     //TODO AGGIUNGERE MATERIE CON IL DROP
 
-    private TextField annoAdd = new TextField();
-    private TextField sezioneAdd = new TextField();
-    private TextField annoScolasticoAdd = new TextField();
+    private final ComboBox<Integer>  annoAdd = new ComboBox<Integer> ();
+    private ComboBox<Character>  sezioneAdd = new ComboBox<Character> ();
+    private IntegerField annoScolasticoAdd = new IntegerField();
 
     private TextField filtro = new TextField();
 
@@ -166,10 +182,11 @@ public class ClassiView extends Div {
     }
 
     private void createFormEditLayout(Div editorDiv) {
-        annoEdit.setClearButtonVisible(true);
+
         annoEdit.getElement().getClassList().add("full-width");
-        sezioneEdit.setClearButtonVisible(true);
+        annoEdit.setItems(1,2,3,4,5);
         sezioneEdit.getElement().getClassList().add("full-width");
+        sezioneEdit.setItems('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
         annoScolasticoEdit.setClearButtonVisible(true);
         annoScolasticoEdit.getElement().getClassList().add("full-width");
         formEdit.addFormItem(annoEdit, "Anno");
@@ -187,7 +204,7 @@ public class ClassiView extends Div {
         Div delDiv = new Div();
         delDiv.setId("editor");
 
-        Label text = new Label("Sei sicuro di voler eliminare una materia?");
+        Label text = new Label("Sei sicuro di voler eliminare una classe?");
         text.setClassName("text-layout");
         delDiv.add(text);
 
@@ -264,16 +281,16 @@ public class ClassiView extends Div {
     }
 
     private void createFormAddLayout(Div addDiv) {
-        annoAdd.setClearButtonVisible(true);
         annoAdd.setAutofocus(true);
         annoAdd.getElement().getClassList().add("full-width");
-        sezioneAdd.setClearButtonVisible(true);
+        annoAdd.setItems(1,2,3,4,5);
         sezioneAdd.getElement().getClassList().add("full-width");
+        sezioneAdd.setItems('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
         annoScolasticoAdd.setClearButtonVisible(true);
         annoScolasticoAdd.getElement().getClassList().add("full-width");
         formAdd.addFormItem(annoAdd, "Anno");
         formAdd.addFormItem(sezioneAdd, "Sezione");
-        formAdd.addFormItem(annoScolasticoAdd, "Anno scolastico")
+        formAdd.addFormItem(annoScolasticoAdd, "Anno scolastico");
         formAdd.setSizeFull();
         addDiv.add(formAdd);
     }
@@ -295,29 +312,22 @@ public class ClassiView extends Div {
         confermaLayout.add(conferma);
         dialogAdd.add(confermaLayout);
     }
-    //<--------------------------------------------------------------------------------------------------------
-    //TODO: studiare i validator.
+
     private void createEditBinder() {
-        binderEdit.forField(annoEdit)
-                .withValidator(new IntegerRangeValidator("Inserire un anno valido",1,5))
-                .bind(Docente::getNome, Docente::setNome);
-        binderEdit.forField(cognomeEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il cognome", 1, null))
-                .bind(Docente::getCognome, Docente::setCognome);
+
+        binderEdit.forField(annoEdit).asRequired("Selezionare l'anno").bind(Classe::getAnno, Classe::setAnno);
+        binderEdit.forField(sezioneEdit).asRequired("Selezionare la sezione").bind(Classe::getSezione, Classe::setSezione);
+        binderEdit.forField(annoScolasticoEdit).asRequired("Inserire l'anno scolastico")
+                .bind(Classe::getAnnoScolastico, Classe::setAnnoScolastico);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
 
     private void createAddBinder() {
-        binderAdd.forField(nomeAdd)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il nome", 1, null))
-                .bind(Docente::getNome, Docente::setNome);
-        binderAdd.forField(cognomeAdd)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il cognome", 1, null))
-                .bind(Docente::getCognome, Docente::setCognome);
+        binderAdd.forField(annoAdd).asRequired("Selezionare l'anno").bind(Classe::getAnno, Classe::setAnno);
+        binderAdd.forField(sezioneAdd).asRequired("Selezionare la sezione").bind(Classe::getSezione, Classe::setSezione);
+        binderAdd.forField(annoScolasticoAdd).asRequired("Inserire l'anno scolastico")
+                .bind(Classe::getAnnoScolastico, Classe::setAnnoScolastico);
 
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
@@ -337,10 +347,13 @@ public class ClassiView extends Div {
         grid.setItems(classi);
     }
 
-
+    //TODO: gestire correttamente le liste che costituiscono la griglia come ha fatto Fabio.
     //TODO: gestire bene il costruttore
     private void addClasse() {
-        Classe classe = new Classe(Integer.parseInt(annoAdd.getValue()), Character.valueOf(sezioneAdd.getValue().charAt(0)), Integer.parseInt(annoScolasticoAdd.getValue()), new ArrayList<Materia>());
+        Classe classe = new Classe(annoAdd.getValue(),
+                        sezioneAdd.getValue(),
+                        annoScolasticoAdd.getValue(),
+                        new ArrayList<Materia>());
         classeService.createClasse(classe);
         classi.add(classe);
         Notification.show("Classe aggiunta con successo!");
@@ -354,12 +367,43 @@ public class ClassiView extends Div {
     }
 
     private void updateClasse() {
-        Classe classeUpdated = new Classe(Integer.parseInt(annoAdd.getValue()), Character.valueOf(sezioneAdd.getValue().charAt(0)), Integer.parseInt(annoScolasticoAdd.getValue()), new ArrayList<Materia>());
-        Classe classe = grid.getSelectedItems().iterator().next();
-        classeService.updateClasse(classe, classeUpdated);
-        classi.remove(classe);
-        classi.add(classeUpdated);
-        Notification.show("Classe aggiornata con successo!");
+//        Classe classeUpdated = new Classe(annoEdit.getValue(),
+//                                sezioneEdit.getValue(),
+//                                annoScolasticoEdit.getValue(),
+//                                new ArrayList<Materia>());
+//        Classe classe = grid.getSelectedItems().iterator().next();
+//        classeService.updateClasse(classe, classeUpdated);
+//        classi.remove(classe);
+//        classi.add(classeUpdated);
+//        Notification.show("Classe aggiornata con successo!");
+
+
+
+        Classe classeUpdated = new Classe(annoEdit.getValue(),
+                sezioneEdit.getValue(),
+                annoScolasticoEdit.getValue(),
+                new ArrayList<Materia>());
+
+        boolean exist = false;
+        System.out.println(classeUpdated);
+        for(Classe classeInList : classi){
+            //System.out.println(classeInList.equals(classeUpdated));
+            System.out.println(classeInList);
+
+            if(classeInList.equals(classeUpdated)) {
+                Notification.show("Materia già esistente!");
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            Classe classe = grid.getSelectedItems().iterator().next();
+            classeService.updateClasse(classe, classeUpdated);
+            classi.remove(classi);
+            classi.add(classeUpdated);
+            Notification.show("Materia aggiornata con successo!");
+        }
+
     }
 
 }

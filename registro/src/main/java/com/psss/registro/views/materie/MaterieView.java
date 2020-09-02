@@ -2,9 +2,9 @@ package com.psss.registro.views.materie;
 
 import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
+import com.psss.registro.views.main.SegretarioMainView;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Shortcuts;
-import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.KeyPressEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,17 +24,16 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import com.psss.registro.views.main.MainView;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@Route(value = "materia", layout = MainView.class)
+@Route(value = "materia", layout = SegretarioMainView.class)
 @PageTitle("Materie")
-@CssImport("./styles/views/materia/materia-view.css")
-public class MateriaView extends Div {
+@CssImport("./styles/views/materie/materie-view.css")
+public class MaterieView extends Div {
 
     private Grid<Materia> grid = new Grid<>(Materia.class);
 
@@ -66,10 +65,10 @@ public class MateriaView extends Div {
     private MateriaService materiaService;
     private List<Materia> materie;
 
-    public MateriaView(MateriaService materiaService) {
+    public MaterieView(MateriaService materiaService) {
 
         this.materiaService = materiaService;
-        setId("materia-view");
+        setId("materie-view");
 
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
@@ -88,7 +87,7 @@ public class MateriaView extends Div {
     }
 
     private void createGridLayout(SplitLayout splitLayout) {
-        grid.setColumns("codice", "nomemateria");
+        grid.setColumns("codice", "nome");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
@@ -162,6 +161,11 @@ public class MateriaView extends Div {
         nomemateriaEdit.getElement().getClassList().add("full-width");
         formEdit.addFormItem(codiceEdit, "Codice Materia");
         formEdit.addFormItem(nomemateriaEdit, "Nome Materia");
+
+        codiceEdit.addValueChangeListener(e->{
+            codiceEdit.setValue(codiceEdit.getValue().toUpperCase());
+        });
+
         editorDiv.add(formEdit);
 
         createDeleteDialog();
@@ -259,6 +263,19 @@ public class MateriaView extends Div {
         formAdd.addFormItem(codiceAdd, "Codice");
         formAdd.addFormItem(nomemateriaAdd, "Nome Materia");
         formAdd.setSizeFull();
+
+        codiceAdd.addValueChangeListener(e->{
+            codiceAdd.setValue(codiceAdd.getValue().toUpperCase());
+        });
+//        codiceAdd.addKeyDownListener(e->{
+//            System.out.println(e.getCode());
+//            System.out.println(Key.ALPHANUMERIC);
+//            if(e.getCode().equals(Key.ALPHANUMERIC)){
+//                codiceAdd.setValue(codiceAdd.getValue() + e.getKey().getKeys().get(0).toUpperCase());
+//            }
+//
+//        });
+
         addDiv.add(formAdd);
     }
 
@@ -312,11 +329,13 @@ public class MateriaView extends Div {
     }
 
     private void initGrid(){
+        //System.out.println("DEBUG: " + "InitGrid() eseguita");
         materie = materiaService.findAll();
         grid.setItems(materie);
     }
 
     private void updateGrid() {
+        //System.out.println("DEBUG: " + "UpdateGrid() eseguita");
         //grid.setPageSize(2);
         grid.setItems(materie);
     }
@@ -324,25 +343,58 @@ public class MateriaView extends Div {
 
     private void addMateria() {
         Materia materia = new Materia(codiceAdd.getValue(), nomemateriaAdd.getValue());
-        materiaService.createMateria(materia);
-        materie.add(materia);
-        Notification.show("Materia aggiunta con successo!");
+        boolean exist = false;
+        for(Materia materiaInList : materie){
+            if(materiaInList.getCodice().equals(materia.getCodice())) {
+                Notification.show("Materia già esistente!");
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            materiaService.createMateria(materia);
+            materie.add(materia);
+            Notification.show("Materia aggiunta con successo!");
+        }
     }
 
     private void deleteMateria(){
         Materia materia = grid.getSelectedItems().iterator().next();
-        materiaService.deleteById(materia.getId());
-        materie.remove(materia);
-        Notification.show("Materia eliminata con successo!");
+
+        boolean exist = false;
+        for(Materia materiaInList : materie){
+            if(materiaInList.getCodice().equals(materia.getCodice())) {
+                materiaService.deleteById(materia.getId());
+                materie.remove(materia);
+                Notification.show("Materia eliminata con successo!");
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            Notification.show("Materia inesistente!");
+        }
+
     }
 
     private void updateMateria() {
         Materia materiaUpdated = new Materia(codiceEdit.getValue(), nomemateriaEdit.getValue());
-        Materia materia = grid.getSelectedItems().iterator().next();
-        materiaService.updateMateria(materia, materiaUpdated);
-        materie.remove(materia);
-        materie.add(materiaUpdated);
-        Notification.show("Materia aggiornata con successo!");
+
+        boolean exist = false;
+        for(Materia materiaInList : materie){
+            if(materiaInList.getCodice().equals(materiaUpdated.getCodice())) {
+                Notification.show("Materia già esistente!");
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            Materia materia = grid.getSelectedItems().iterator().next();
+            materiaService.updateMateria(materia, materiaUpdated);
+            materie.remove(materia);
+            materie.add(materiaUpdated);
+            Notification.show("Materia aggiornata con successo!");
+        }
     }
 }
 

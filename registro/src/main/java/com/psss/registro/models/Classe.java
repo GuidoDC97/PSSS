@@ -1,12 +1,9 @@
 package com.psss.registro.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @Entity(name = "classi")
 @ToString(exclude = {"materie", "docenti", "studenti"})
+@EqualsAndHashCode(exclude = {"id", "materie", "docenti"})
 public class Classe {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -28,9 +27,9 @@ public class Classe {
     private List<Materia> materie = new ArrayList<>();
     @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti = new ArrayList<>();
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
     //TODO: decidere se elminare o meno gli studenti all'atto dell'eliminazione della classe
-    private List<Studente> studenti = new ArrayList<>();
+    //private List<Studente> studenti = new ArrayList<>();
 
     public Classe(int anno, Character sezione, int annoScolastico, List<Materia> materie){
         this.anno = anno;
@@ -55,7 +54,7 @@ public class Classe {
         getDocenti().add(docente);
     }
 
-    public void addStudente(Studente studente){
-        getStudenti().add(studente);
-    }
+//    public void addStudente(Studente studente){
+//        getStudenti().add(studente);
+//    }
 }

@@ -14,7 +14,8 @@ public interface MateriaRepository extends JpaRepository<Materia, Long> {
 
     List<Materia> findByCodiceContainingIgnoreCaseOrNomeContainingIgnoreCase(String codice, String nome);
 
+    //TODO: è necessaria l'annotation?
     @Transactional
-    Long deleteByCodiceAndNome(String codice, String nome);
+    Long deleteByCodice(String codice);
 
 }
