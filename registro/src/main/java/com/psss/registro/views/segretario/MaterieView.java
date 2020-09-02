@@ -1,8 +1,7 @@
-package com.psss.registro.views.materie;
+package com.psss.registro.views.segretario;
 
 import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
-import com.psss.registro.views.main.SegretarioMainView;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

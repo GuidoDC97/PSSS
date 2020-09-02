@@ -1,13 +1,11 @@
-package com.psss.registro.views.about;
+package com.psss.registro.views.segretario;
 
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.psss.registro.views.main.SegretarioMainView;
 
 @Route(value = "segretario/about", layout = SegretarioMainView.class)
 @RouteAlias(value = "", layout = SegretarioMainView.class)

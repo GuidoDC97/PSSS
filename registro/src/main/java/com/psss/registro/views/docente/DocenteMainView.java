@@ -1,31 +1,28 @@
-package com.psss.registro.views.main;
+package com.psss.registro.views.docente;
 
-import java.util.Arrays;
-import java.util.Optional;
-
-import com.psss.registro.views.classi.ClassiView;
-import com.psss.registro.views.docenti.DocentiView;
-import com.psss.registro.views.about.AboutView;
-
-import com.psss.registro.views.materie.MaterieView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
-import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -34,13 +31,13 @@ import com.vaadin.flow.theme.lumo.Lumo;
 //@PWA(name = "Registro", shortName = "Registro",  enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @CssImport("./styles/views/main/main-view.css")
-@Route(value = "segretario")
-public class SegretarioMainView extends AppLayout {
+@Route(value = "docente")
+public class DocenteMainView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
 
-    public SegretarioMainView() {
+    public DocenteMainView() {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         menu = createMenu();
@@ -60,10 +57,7 @@ public class SegretarioMainView extends AppLayout {
 //        layout.add(new Image("images/user.svg", "Avatar"));
         layout.expand(viewTitle);
 
-//        Button logout = new Button(new Anchor("logout", "Log out"));
-//        logout.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         Anchor logout = new Anchor("logout", "Log out");
-        logout.setId("anchor");
         layout.add(logout);
 
         return layout;
@@ -96,12 +90,10 @@ public class SegretarioMainView extends AppLayout {
 
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[] {
-                new RouterLink("About", AboutView.class),
-                new RouterLink("Materie", MaterieView.class),
-                new RouterLink("Classi", ClassiView.class),
-                new RouterLink("Docenti", DocentiView.class)
+//            new RouterLink("About", AboutView.class),
+//            new RouterLink("Docenti", DocentiView.class)
         };
-        return Arrays.stream(links).map(SegretarioMainView::createTab).toArray(Tab[]::new);
+        return Arrays.stream(links).map(DocenteMainView::createTab).toArray(Tab[]::new);
     }
 
     private static Tab createTab(Component content) {
