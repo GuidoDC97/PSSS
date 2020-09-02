@@ -26,7 +26,6 @@ public class Materia{
     private String codice;
     private String nome;
 
-
     @ManyToMany(mappedBy = "materie")
     private List<Classe> classi = new ArrayList<>();
     //@OnDelete(action = OnDeleteAction.CASCADE)

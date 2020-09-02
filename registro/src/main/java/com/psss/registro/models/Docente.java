@@ -31,10 +31,11 @@ public class Docente extends User {
 //    private String email;
     private String telefono;
 
-//    @ManyToMany
-//    private List<Materia> materie;
-//    @ManyToMany
-//    private List<Classe> classi;
+    @ManyToMany
+    private List<Materia> materie;
+    @ManyToMany
+    private List<Classe> classi;
+
 //    @OneToMany(mappedBy = "docente")
 //    @OneToMany(mappedBy = "docente")
     //@JsonBackReference
