@@ -186,7 +186,7 @@ public class ClassiView extends Div {
         annoEdit.getElement().getClassList().add("full-width");
         annoEdit.setItems(1,2,3,4,5);
         sezioneEdit.getElement().getClassList().add("full-width");
-        sezioneEdit.setItems('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+        sezioneEdit.setItems('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
         annoScolasticoEdit.setClearButtonVisible(true);
         annoScolasticoEdit.getElement().getClassList().add("full-width");
         formEdit.addFormItem(annoEdit, "Anno");
@@ -285,7 +285,7 @@ public class ClassiView extends Div {
         annoAdd.getElement().getClassList().add("full-width");
         annoAdd.setItems(1,2,3,4,5);
         sezioneAdd.getElement().getClassList().add("full-width");
-        sezioneAdd.setItems('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+        sezioneAdd.setItems('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
         annoScolasticoAdd.setClearButtonVisible(true);
         annoScolasticoAdd.getElement().getClassList().add("full-width");
         formAdd.addFormItem(annoAdd, "Anno");

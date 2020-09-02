@@ -4,7 +4,6 @@ import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
 import com.psss.registro.views.main.SegretarioMainView;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.KeyPressEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
