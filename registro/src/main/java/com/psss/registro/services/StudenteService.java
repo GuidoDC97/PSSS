@@ -47,10 +47,17 @@ public class StudenteService {
         return studenteRepository.saveAndFlush(s);
     }
 
-    public Studente updateStudente(Studente Studente, Studente studenteUpdated) {
-        Studente.setNome(studenteUpdated.getNome());
-        Studente.setCognome(studenteUpdated.getCognome());
-        return studenteRepository.saveAndFlush(Studente);
+    public Studente updateStudente(Studente studente, Studente studenteUpdated) {
+        studente.setNome(studenteUpdated.getNome());
+        studente.setCognome(studenteUpdated.getCognome());
+        studente.setCodiceFiscale(studenteUpdated.getCodiceFiscale());
+        studente.setSesso(studenteUpdated.getSesso());
+        studente.setData(studenteUpdated.getData());
+//        docente.setEmail(docenteTemp.getEmail());
+        studente.setUsername(studenteUpdated.getUsername());
+        studente.setTelefono(studenteUpdated.getTelefono());
+
+        return studenteRepository.saveAndFlush(studente);
     }
 
     public void deleteById(Long id) {
