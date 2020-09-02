@@ -1,8 +1,10 @@
-package com.psss.registro.views.docenti;
+package com.psss.registro.views.materie;
 
-import com.psss.registro.models.Docente;
-import com.psss.registro.services.DocenteService;
+import com.psss.registro.models.Materia;
+import com.psss.registro.services.MateriaService;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Shortcuts;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -22,19 +24,19 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import com.psss.registro.views.main.SegretarioMainView;
+import com.psss.registro.views.main.MainView;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Route(value = "segretario/docenti", layout = SegretarioMainView.class)
-@PageTitle("Docenti")
-@CssImport("./styles/views/docenti/docenti-view.css")
-public class DocentiView extends Div {
 
+@Route(value = "materia", layout = MainView.class)
+@PageTitle("Materie")
+@CssImport("./styles/views/materia/materia-view.css")
+public class MateriaView extends Div {
 
-    private Grid<Docente> grid = new Grid<>(Docente.class);
+    private Grid<Materia> grid = new Grid<>(Materia.class);
 
     FormLayout formEdit = new FormLayout();
     FormLayout formAdd = new FormLayout();
@@ -42,11 +44,11 @@ public class DocentiView extends Div {
     Dialog dialogAdd = new Dialog();
     Dialog dialogDel = new Dialog();
 
-    private TextField nomeEdit = new TextField();
-    private TextField cognomeEdit = new TextField();
+    private TextField codiceEdit = new TextField();
+    private TextField nomemateriaEdit = new TextField();
 
-    private TextField nomeAdd = new TextField();
-    private TextField cognomeAdd = new TextField();
+    private TextField codiceAdd = new TextField();
+    private TextField nomemateriaAdd = new TextField();
 
     private TextField filtro = new TextField();
 
@@ -58,16 +60,16 @@ public class DocentiView extends Div {
     private Button confermaDel = new Button("Conferma");
     private Button chiudiDel = new Button("Chiudi");
 
-    private Binder<Docente> binderEdit = new Binder<>(Docente.class);
-    private Binder<Docente> binderAdd = new Binder<>(Docente.class);
+    private Binder<Materia> binderEdit = new Binder<>(Materia.class);
+    private Binder<Materia> binderAdd = new Binder<>(Materia.class);;
 
-    private DocenteService docenteService;
-    private List<Docente> docenti;
+    private MateriaService materiaService;
+    private List<Materia> materie;
 
-    public DocentiView(DocenteService docenteService) {
+    public MateriaView(MateriaService materiaService) {
 
-        this.docenteService = docenteService;
-        setId("docenti-view");
+        this.materiaService = materiaService;
+        setId("materia-view");
 
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
@@ -86,7 +88,7 @@ public class DocentiView extends Div {
     }
 
     private void createGridLayout(SplitLayout splitLayout) {
-        grid.setColumns("nome", "cognome");
+        grid.setColumns("codice", "nomemateria");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
 
@@ -117,13 +119,13 @@ public class DocentiView extends Div {
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
         filtro.addValueChangeListener(event -> {
-            Set<Docente> foundDocenti = docenti.stream()
-                    .filter(docente -> docente.getNome().toLowerCase()
+            Set<Materia> foundMateria = materie.stream()
+                    .filter(materia -> materia.getCodice().toLowerCase()
                             .startsWith(event.getValue().toLowerCase()) ||
-                            docente.getCognome().toLowerCase()
-                            .startsWith(event.getValue().toLowerCase()))
+                            materia.getNome().toLowerCase()
+                                    .startsWith(event.getValue().toLowerCase()))
                     .collect(Collectors.toSet());
-            grid.setItems(foundDocenti);
+            grid.setItems(foundMateria);
         });
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -141,7 +143,7 @@ public class DocentiView extends Div {
         Div editorDiv = new Div();
         editorDiv.setId("editor");
 
-        Label titolo = new Label("Scheda docente");
+        Label titolo = new Label("Scheda materia");
         titolo.setClassName("bold-text-layout");
         editorDiv.add(titolo);
 
@@ -154,12 +156,12 @@ public class DocentiView extends Div {
     }
 
     private void createFormEditLayout(Div editorDiv) {
-        nomeEdit.setClearButtonVisible(true);
-        nomeEdit.getElement().getClassList().add("full-width");
-        cognomeEdit.setClearButtonVisible(true);
-        cognomeEdit.getElement().getClassList().add("full-width");
-        formEdit.addFormItem(nomeEdit, "Nome");
-        formEdit.addFormItem(cognomeEdit, "Cognome");
+        codiceEdit.setClearButtonVisible(true);
+        codiceEdit.getElement().getClassList().add("full-width");
+        nomemateriaEdit.setClearButtonVisible(true);
+        nomemateriaEdit.getElement().getClassList().add("full-width");
+        formEdit.addFormItem(codiceEdit, "Codice Materia");
+        formEdit.addFormItem(nomemateriaEdit, "Nome Materia");
         editorDiv.add(formEdit);
 
         createDeleteDialog();
@@ -172,7 +174,7 @@ public class DocentiView extends Div {
         Div delDiv = new Div();
         delDiv.setId("editor");
 
-        Label text = new Label("Sei sicuro di voler eliminare un docente?");
+        Label text = new Label("Sei sicuro di voler eliminare una materia?");
         text.setClassName("text-layout");
         delDiv.add(text);
 
@@ -191,13 +193,15 @@ public class DocentiView extends Div {
         confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 //        confermaDel.addClickShortcut(Key.ENTER).listenOn(confermaLayout); //bugga
         confermaDel.addClickListener(e -> {
-            deleteDocente();
+            deleteMateria();
             updateGrid();
             grid.asSingleSelect().clear();
             dialogDel.close();
         });
         chiudiDel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        chiudiDel.addClickListener(e -> dialogDel.close());
+        chiudiDel.addClickListener(e -> {
+            dialogDel.close();
+        });
 
         confermaLayout.add(confermaDel, chiudiDel);
         dialogDel.add(confermaLayout);
@@ -216,7 +220,7 @@ public class DocentiView extends Div {
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiorna.addClickShortcut(Key.ENTER).listenOn(editorLayoutDiv);
         aggiorna.addClickListener(e -> {
-            updateDocente();
+            updateMateria();
             updateGrid();
             grid.asSingleSelect().clear();
         });
@@ -228,7 +232,7 @@ public class DocentiView extends Div {
     private void createAddDialog() {
         dialogAdd.setId("editor-layout");
 
-        Label titolo = new Label("Nuovo docente");
+        Label titolo = new Label("Nuova materia");
         titolo.setClassName("bold-text-layout");
         dialogAdd.add(titolo);
         Div addDiv = new Div();
@@ -247,13 +251,13 @@ public class DocentiView extends Div {
     }
 
     private void createFormAddLayout(Div addDiv) {
-        nomeAdd.setClearButtonVisible(true);
-        nomeAdd.setAutofocus(true);
-        nomeAdd.getElement().getClassList().add("full-width");
-        cognomeAdd.setClearButtonVisible(true);
-        cognomeAdd.getElement().getClassList().add("full-width");
-        formAdd.addFormItem(nomeAdd, "Nome");
-        formAdd.addFormItem(cognomeAdd, "Cognome");
+        codiceAdd.setClearButtonVisible(true);
+        codiceAdd.setAutofocus(true);
+        codiceAdd.getElement().getClassList().add("full-width");
+        nomemateriaAdd.setClearButtonVisible(true);
+        nomemateriaAdd.getElement().getClassList().add("full-width");
+        formAdd.addFormItem(codiceAdd, "Codice");
+        formAdd.addFormItem(nomemateriaAdd, "Nome Materia");
         formAdd.setSizeFull();
         addDiv.add(formAdd);
     }
@@ -267,7 +271,7 @@ public class DocentiView extends Div {
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickShortcut(Key.ENTER).listenOn(addDiv);
         conferma.addClickListener(e -> {
-            addDocente();
+            addMateria();
             updateGrid();
             dialogAdd.close();
         });
@@ -277,70 +281,68 @@ public class DocentiView extends Div {
     }
 
     private void createEditBinder() {
-        binderEdit.forField(nomeEdit)
+        binderEdit.forField(codiceEdit)
+                .withValidator(new StringLengthValidator(
+                        "Inserire il codice", 1, null))
+                .bind(Materia::getCodice, Materia::setCodice);
+        binderEdit.forField(nomemateriaEdit)
                 .withValidator(new StringLengthValidator(
                         "Inserire il nome", 1, null))
-                .bind(Docente::getNome, Docente::setNome);
-        binderEdit.forField(cognomeEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il cognome", 1, null))
-                .bind(Docente::getCognome, Docente::setCognome);
+                .bind(Materia::getNome, Materia::setNome);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
 
     private void createAddBinder() {
-        binderAdd.forField(nomeAdd)
+        binderAdd.forField(codiceAdd)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il nome", 1, null))
-                .bind(Docente::getNome, Docente::setNome);
-        binderAdd.forField(cognomeAdd)
+                        "Inserire il codice", 1, null))
+                .bind(Materia::getCodice, Materia::setCodice);
+        binderAdd.forField(nomemateriaAdd)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il cognome", 1, null))
-                .bind(Docente::getCognome, Docente::setCognome);
+                        "Inserire il nome della materia", 1, null))
+                .bind(Materia::getNome, Materia::setNome);
 
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
 
-    private void populateForm(Docente value) {
+    private void populateForm(Materia value) {
         // Value can be null as well, that clears the form
         binderEdit.readBean(value);
     }
 
     private void initGrid(){
-        docenti = docenteService.findAll();
-        grid.setItems(docenti);
+        materie = materiaService.findAll();
+        grid.setItems(materie);
     }
 
     private void updateGrid() {
         //grid.setPageSize(2);
-        grid.setItems(docenti);
+        grid.setItems(materie);
     }
 
 
-
-    private void addDocente() {
-        Docente docente = new Docente(nomeAdd.getValue(), cognomeAdd.getValue());
-        docenteService.createDocente(docente);
-        docenti.add(docente);
-        Notification.show("Docente aggiunto con successo!");
+    private void addMateria() {
+        Materia materia = new Materia(codiceAdd.getValue(), nomemateriaAdd.getValue());
+        materiaService.createMateria(materia);
+        materie.add(materia);
+        Notification.show("Materia aggiunta con successo!");
     }
 
-    private void deleteDocente(){
-        Docente docente = grid.getSelectedItems().iterator().next();
-        docenteService.deleteById(docente.getId());
-        docenti.remove(docente);
-        Notification.show("Docente eliminato con successo!");
+    private void deleteMateria(){
+        Materia materia = grid.getSelectedItems().iterator().next();
+        materiaService.deleteById(materia.getId());
+        materie.remove(materia);
+        Notification.show("Materia eliminata con successo!");
     }
 
-    private void updateDocente() {
-        Docente docenteUpdated = new Docente(nomeEdit.getValue(), cognomeEdit.getValue());
-        Docente docente = grid.getSelectedItems().iterator().next();
-        docenteService.updateDocente(docente, docenteUpdated);
-        docenti.remove(docente);
-        docenti.add(docenteUpdated);
-        Notification.show("Docente aggiornato con successo!");
+    private void updateMateria() {
+        Materia materiaUpdated = new Materia(codiceEdit.getValue(), nomemateriaEdit.getValue());
+        Materia materia = grid.getSelectedItems().iterator().next();
+        materiaService.updateMateria(materia, materiaUpdated);
+        materie.remove(materia);
+        materie.add(materiaUpdated);
+        Notification.show("Materia aggiornata con successo!");
     }
 }
 
-//TODO: implementare callback per ACK operazioni su DB?
