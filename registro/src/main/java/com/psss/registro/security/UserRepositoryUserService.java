@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,9 @@ public class UserRepositoryUserService implements UserDetailsService {
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return super.getUserAuthorities().stream()
-                    .map(userAuthority -> new SimpleGrantedAuthority(userAuthority.getAuthority()))
-                    .collect(Collectors.toList());
+            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(this.getUserAuthority().getAuthority()));
+            return authorities;
         }
 
         @Override

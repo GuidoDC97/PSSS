@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,12 +17,16 @@ public class UserAuthority {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @ManyToOne
-    User user;
     String authority;
+    @OneToMany(mappedBy = "userAuthority", fetch = FetchType.EAGER)
+    List<User> users;
 
-    public UserAuthority(User user, String authority) {
-        this.user = user;
+    public UserAuthority(String authority) {
+        users = new ArrayList<>();
         this.authority = authority;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
     }
 }

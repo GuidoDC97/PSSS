@@ -99,7 +99,9 @@ public class DocentiView extends Div {
     }
 
     private void createGridLayout(SplitLayout splitLayout) {
-        grid.setColumns("nome", "cognome", "codiceFiscale", "sesso", "data", "email", "telefono");
+        grid.setColumns("nome", "cognome", "codiceFiscale", "sesso", "data", "username", "telefono");
+        grid.getColumnByKey("username").setHeader("E-mail");
+
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
         grid.asSingleSelect().addValueChangeListener(event -> {
@@ -177,6 +179,8 @@ public class DocentiView extends Div {
 
         sessoEdit.setItems('M','F');
         sessoEdit.getElement().getClassList().add("full-width");
+
+        dataEdit.getElement().getClassList().add("full-width");
 
         emailEdit.setClearButtonVisible(true);
         emailEdit.getElement().getClassList().add("full-width");
@@ -292,6 +296,8 @@ public class DocentiView extends Div {
         sessoAdd.setItems('M','F');
         sessoAdd.getElement().getClassList().add("full-width");
 
+        dataAdd.getElement().getClassList().add("full-width");
+
         emailAdd.setClearButtonVisible(true);
         emailAdd.getElement().getClassList().add("full-width");
 
@@ -351,7 +357,7 @@ public class DocentiView extends Div {
         binderEdit.forField(emailEdit)
                 .withValidator(new EmailValidator(
                         "Inserire la e-mail"))
-                .bind(Docente::getEmail, Docente::setEmail);
+                .bind(Docente::getUsername, Docente::setUsername);
         binderEdit.forField(telefonoEdit)
                 .withValidator(new StringLengthValidator(
                         "Inserire il numero di telefono", 1, null))
@@ -382,7 +388,7 @@ public class DocentiView extends Div {
         binderAdd.forField(emailAdd)
                 .withValidator(new EmailValidator(
                         "Inserire una e-mail valida"))
-                .bind(Docente::getEmail, Docente::setEmail);
+                .bind(Docente::getUsername, Docente::setUsername);
         binderAdd.forField(telefonoAdd)
                 .withValidator(new StringLengthValidator(
                         "Inserire il numero di telefono", 1, null))

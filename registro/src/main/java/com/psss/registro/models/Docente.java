@@ -3,6 +3,7 @@ package com.psss.registro.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.psss.registro.security.User;
+import com.psss.registro.security.UserAuthority;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -27,7 +28,7 @@ public class Docente extends User {
     private String codiceFiscale;
     private Character sesso;
     private LocalDate data;
-    private String email;
+//    private String email;
     private String telefono;
 
 //    @ManyToMany
@@ -49,7 +50,7 @@ public class Docente extends User {
 
     public Docente(String nome, String cognome, String codiceFiscale, Character sesso, LocalDate data, String email, String telefono) {
 
-        super(email, "", "DOCENTE");
+        super(email, "");
 
         String password = nome+"."+cognome;
         password = password.replaceAll("[^a-zA-Z0-9]", "");
@@ -60,7 +61,7 @@ public class Docente extends User {
         this.codiceFiscale = codiceFiscale;
         this.sesso = sesso;
         this.data = data;
-        this.email = email;
+//        this.email = email;
         this.telefono = telefono;
     }
 
