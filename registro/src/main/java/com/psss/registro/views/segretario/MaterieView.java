@@ -1,11 +1,14 @@
 package com.psss.registro.views.segretario;
 
+import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
 import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -23,6 +26,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,6 +51,8 @@ public class MaterieView extends Div {
     private final TextField codiceAdd = new TextField();
     private final TextField nomemateriaAdd = new TextField();
 
+    private final Details docentiDetails = new Details();
+
     private final TextField filtro = new TextField();
 
     private final Button aggiungi = new Button("Aggiungi");
@@ -58,7 +64,7 @@ public class MaterieView extends Div {
     private final Button chiudiDel = new Button("Chiudi");
 
     private final Binder<Materia> binderEdit = new Binder<>(Materia.class);
-    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);;
+    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);
 
     private MateriaService materiaService;
     private List<Materia> materie;
@@ -90,8 +96,18 @@ public class MaterieView extends Div {
         grid.setHeightFull();
 
         grid.asSingleSelect().addValueChangeListener(event -> {
-            populateForm(event.getValue());
+            Materia materia = event.getValue();
+
+            populateForm(materia);
             splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
+
+            docentiDetails.setOpened(false);
+            docentiDetails.setContent(new Text(""));
+
+            for (Docente docente : materia.getDocenti()) {
+                Text testo = new Text(docente.getNome() + " " + docente.getCognome());
+                docentiDetails.addContent(testo);
+            }
         });
 
         Div wrapper = new Div();
@@ -147,6 +163,7 @@ public class MaterieView extends Div {
         editorLayoutDiv.add(editorDiv);
 
         createFormEditLayout(editorDiv);
+        createDetails(editorDiv);
         createButtonEditLayout(editorLayoutDiv);
 
         splitLayout.addToSecondary(editorLayoutDiv);
@@ -155,8 +172,10 @@ public class MaterieView extends Div {
     private void createFormEditLayout(Div editorDiv) {
         codiceEdit.setClearButtonVisible(true);
         codiceEdit.getElement().getClassList().add("full-width");
+
         nomemateriaEdit.setClearButtonVisible(true);
         nomemateriaEdit.getElement().getClassList().add("full-width");
+
         formEdit.addFormItem(codiceEdit, "Codice");
         formEdit.addFormItem(nomemateriaEdit, "Nome");
 
@@ -193,7 +212,6 @@ public class MaterieView extends Div {
         confermaLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        confermaDel.addClickShortcut(Key.ENTER).listenOn(confermaLayout); //bugga
         confermaDel.addClickListener(e -> {
             deleteMateria();
             updateGrid();
@@ -207,6 +225,21 @@ public class MaterieView extends Div {
 
         confermaLayout.add(confermaDel, chiudiDel);
         dialogDel.add(confermaLayout);
+    }
+
+    private void createDetails(Div editorLayoutDiv) {
+        docentiDetails.setSummaryText("Docenti");
+
+//        docentiDetails.addOpenedChangeListener(e -> {
+//            if(e.isOpened()) {
+//                Materia materia = grid.getSelectedItems().iterator().next();
+//                for (Docente docente : materia.getDocenti()) {
+//                    docentiDetails.addContent(new Text(docente.getNome()), new Text(docente.getCognome()));
+//                }
+//            }
+//        });
+
+        editorLayoutDiv.add(docentiDetails);
     }
 
     private void createButtonEditLayout(Div editorLayoutDiv) {

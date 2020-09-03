@@ -11,11 +11,4 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface MateriaRepository extends JpaRepository<Materia, Long> {
-
-    List<Materia> findByCodiceContainingIgnoreCaseOrNomeContainingIgnoreCase(String codice, String nome);
-
-    //TODO: è necessaria l'annotation?
-    @Transactional
-    Long deleteByCodice(String codice);
-
 }

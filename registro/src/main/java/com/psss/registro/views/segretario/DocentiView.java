@@ -1,7 +1,9 @@
 package com.psss.registro.views.segretario;
 
+import com.psss.registro.models.Classe;
 import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
+import com.psss.registro.services.ClasseService;
 import com.psss.registro.services.DocenteService;
 import com.psss.registro.services.MateriaService;
 import com.vaadin.flow.component.Key;
@@ -32,7 +34,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,6 +59,7 @@ public class DocentiView extends Div {
     private final EmailField emailEdit = new EmailField();
     private final TextField telefonoEdit = new TextField();
     private final MultiselectComboBox<Materia> materieEdit = new MultiselectComboBox<>();
+    private final MultiselectComboBox<Classe> classiEdit = new MultiselectComboBox<>();
 
     private final TextField nomeAdd = new TextField();
     private final TextField cognomeAdd = new TextField();
@@ -67,6 +69,7 @@ public class DocentiView extends Div {
     private final EmailField emailAdd = new EmailField();
     private final TextField telefonoAdd = new TextField();
     private final MultiselectComboBox<Materia> materieAdd = new MultiselectComboBox<>();
+    private final MultiselectComboBox<Classe> classiAdd = new MultiselectComboBox<>();
 
     private final TextField filtro = new TextField();
 
@@ -83,11 +86,20 @@ public class DocentiView extends Div {
 
     private DocenteService docenteService;
     private MateriaService materiaService;
-    private List<Docente> docenti;
+    private ClasseService classeService;
 
-    public DocentiView(DocenteService docenteService, MateriaService materiaService) {
-        this.materiaService = materiaService;
+    private List<Docente> docenti;
+    private List<Materia> materie;
+    private List<Classe> classi;
+
+    public DocentiView(DocenteService docenteService, MateriaService materiaService, ClasseService classeService) {
         this.docenteService = docenteService;
+        this.materiaService = materiaService;
+        this.classeService = classeService;
+
+        materie = this.materiaService.findAll();
+        classi = this.classeService.findAll();
+
         setId("docenti-view");
 
         SplitLayout splitLayout = new SplitLayout();
@@ -195,9 +207,14 @@ public class DocentiView extends Div {
         telefonoEdit.setClearButtonVisible(true);
         telefonoEdit.getElement().getClassList().add("full-width");
 
-        materieEdit.setItems(materiaService.findAll());
+        // TODO: aggiungere il caricamento in un listener sulla multicombobox
+        materieEdit.setItems(materie);
         materieEdit.setItemLabelGenerator(Materia::getNome);
         materieEdit.getElement().getClassList().add("full-width");
+
+        classiEdit.setItems(classi);
+        classiEdit.setItemLabelGenerator(Classe::getClasse);
+        classiEdit.getElement().getClassList().add("full-width");
 
         formEdit.addFormItem(nomeEdit, "Nome");
         formEdit.addFormItem(cognomeEdit, "Cognome");
@@ -207,6 +224,7 @@ public class DocentiView extends Div {
         formEdit.addFormItem(emailEdit, "E-mail");
         formEdit.addFormItem(telefonoEdit, "Telefono");
         formEdit.addFormItem(materieEdit, "Materie");
+        formEdit.addFormItem(classiEdit, "Classi");
 
         editorDiv.add(formEdit);
 
@@ -237,7 +255,6 @@ public class DocentiView extends Div {
         confermaLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        confermaDel.addClickShortcut(Key.ENTER).listenOn(confermaLayout); //bugga
         confermaDel.addClickListener(e -> {
             deleteDocente();
             updateGrid();
@@ -316,10 +333,13 @@ public class DocentiView extends Div {
         telefonoAdd.setClearButtonVisible(true);
         telefonoAdd.getElement().getClassList().add("full-width");
 
-        materieAdd.setItems(materiaService.findAll());
+        materieAdd.setItems(materie);
         materieAdd.setItemLabelGenerator(Materia::getNome);
         materieAdd.getElement().getClassList().add("full-width");
 
+        classiAdd.setItems(classi);
+        classiAdd.setItemLabelGenerator(Classe::getClasse);
+        classiAdd.getElement().getClassList().add("full-width");
 
         formAdd.addFormItem(nomeAdd, "Nome");
         formAdd.addFormItem(cognomeAdd, "Cognome");
@@ -329,6 +349,7 @@ public class DocentiView extends Div {
         formAdd.addFormItem(emailAdd, "E-mail");
         formAdd.addFormItem(telefonoAdd, "Telefono");
         formAdd.addFormItem(materieAdd, "Materie");
+        formAdd.addFormItem(classiAdd, "Classi");
 
         formAdd.setSizeFull();
 
@@ -409,7 +430,10 @@ public class DocentiView extends Div {
                 }))
                 .bind(Docente::getTelefono, Docente::setTelefono);
         binderEdit.forField(materieEdit)
-                .bind(Docente::getMaterie, Docente::setMaterie);
+                .bind(Docente::getMaterie,
+                        Docente::setMaterie);
+        binderEdit.forField(classiEdit)
+                .bind(Docente::getClassi, Docente::setClassi);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
@@ -471,6 +495,8 @@ public class DocentiView extends Div {
                 .bind(Docente::getTelefono, Docente::setTelefono);
         binderAdd.forField(materieAdd)
                 .bind(Docente::getMaterie, Docente::setMaterie);
+        binderAdd.forField(classiAdd)
+                .bind(Docente::getClassi, Docente::setClassi);
 
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
@@ -493,7 +519,7 @@ public class DocentiView extends Div {
     private void addDocente() {
         Docente docente = new Docente(nomeAdd.getValue(), cognomeAdd.getValue(), codiceFiscaleAdd.getValue(),
                 sessoAdd.getValue(), dataAdd.getValue(), emailAdd.getValue(), telefonoAdd.getValue());
-        docenteService.createDocente(docente, materieAdd.getSelectedItems());
+        docenteService.createDocente(docente, materieAdd.getSelectedItems(), classiAdd.getSelectedItems());
         // TODO: far controllare a Guido la creazione del docente
         docenti.add(docente);
         Notification.show("Docente aggiunto con successo!");
@@ -511,7 +537,8 @@ public class DocentiView extends Div {
         Docente docenteTemp = new Docente(nomeEdit.getValue(), cognomeEdit.getValue(), codiceFiscaleEdit.getValue(),
                 sessoEdit.getValue(), dataEdit.getValue(), emailEdit.getValue(), telefonoEdit.getValue());
         Docente docente = grid.getSelectedItems().iterator().next();
-        Docente docenteUpdated = docenteService.updateDocente(docente, docenteTemp, materieEdit.getSelectedItems());
+        Docente docenteUpdated = docenteService.updateDocente(docente, docenteTemp,
+                materieEdit.getSelectedItems(), classiEdit.getSelectedItems());
 
         docenti.remove(docente);
         docenti.add(docenteUpdated);

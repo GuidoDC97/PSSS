@@ -1,6 +1,8 @@
 package com.psss.registro.models;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "classi")
-@ToString(exclude = {"materie", "docenti", "studenti"})
+@ToString(exclude = {"materie", "docenti"})
 @EqualsAndHashCode(exclude = {"id", "materie", "docenti"})
 public class Classe {
 
@@ -25,6 +27,7 @@ public class Classe {
 
     @ManyToMany
     private List<Materia> materie = new ArrayList<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti = new ArrayList<>();
     //@OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
@@ -36,6 +39,7 @@ public class Classe {
         this.sezione = sezione;
         this.annoScolastico = annoScolastico;
         this.materie = materie;
+        this.docenti = new ArrayList<>();
     }
 
     public void addMateria(Materia materia){
@@ -50,8 +54,16 @@ public class Classe {
         }
     }
 
+    public String getClasse() {
+        return (this.anno + "" + this.sezione);
+    }
+
     public void addDocente(Docente docente){
         getDocenti().add(docente);
+    }
+
+    public void removeDocente(Docente docente) {
+        getDocenti().remove(docente);
     }
 
 //    public void addStudente(Studente studente){

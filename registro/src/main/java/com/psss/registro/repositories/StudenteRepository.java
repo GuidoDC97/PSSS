@@ -11,10 +11,4 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface StudenteRepository extends JpaRepository<Studente, Long> {
-
-    List<Studente> findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(String nome, String cognome);
-
-    @Transactional
-    Long deleteByNomeAndCognome(String nome, String cognome);
-
 }

@@ -389,8 +389,8 @@ public class ClassiView extends Div {
         if(!exist){
             Classe classe = grid.getSelectedItems().iterator().next();
             classeService.updateClasse(classe, classeUpdated);
-            classi.remove(classi);
-            classi.add(classeUpdated);
+//            classi.remove(classi);
+//            classi.add(classeUpdated);
             Notification.show("Materia aggiornata con successo!");
         }
 

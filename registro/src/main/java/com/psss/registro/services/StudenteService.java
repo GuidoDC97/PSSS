@@ -6,10 +6,7 @@ import com.psss.registro.security.UserAuthority;
 import com.psss.registro.security.UserAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,14 +20,6 @@ public class StudenteService {
 
     public List<Studente> findAll() {
         return studenteRepository.findAll();
-    }
-
-    public List<Studente> findAll(String filtro) {
-        if(filtro == null || filtro.isEmpty()) {
-            return studenteRepository.findAll();
-        } else {
-            return studenteRepository.findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(filtro, filtro);
-        }
     }
 
     public Optional<Studente> findById(Long id) {
@@ -53,7 +42,6 @@ public class StudenteService {
         studente.setCodiceFiscale(studenteUpdated.getCodiceFiscale());
         studente.setSesso(studenteUpdated.getSesso());
         studente.setData(studenteUpdated.getData());
-//        docente.setEmail(docenteTemp.getEmail());
         studente.setUsername(studenteUpdated.getUsername());
         studente.setTelefono(studenteUpdated.getTelefono());
 
@@ -62,13 +50,5 @@ public class StudenteService {
 
     public void deleteById(Long id) {
         studenteRepository.deleteById(id);
-    }
-
-    public Long deleteByNomeAndCognome(String nome, String cognome) {
-        return studenteRepository.deleteByNomeAndCognome(nome, cognome);
-    }
-
-    public Studente getOne(Long id){
-        return studenteRepository.getOne(id);
     }
 }

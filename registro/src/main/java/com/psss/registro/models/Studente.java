@@ -1,22 +1,17 @@
 package com.psss.registro.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.psss.registro.security.User;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "studenti")
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "note", "voti", "assegni",
-//                        "materie", "classi", "attivitadidattiche"})
 @ToString(exclude = {"note", "voti", "assegni", "materie", "classi", "attivitadidattiche"})
 public class Studente extends User {
 
@@ -45,11 +40,13 @@ public class Studente extends User {
 //    //TODO gestire l'orario del docente
 
     public Studente(String nome, String cognome, LocalDate data, String codiceFiscale, Character sesso, String email, String telefono) {
+
         super(email, "");
 
-        String password = nome+"."+cognome;
-        password = password.replaceAll("[^a-zA-Z0-9]", "");
-        this.setPassword(password);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String password = nome.replaceAll("[^a-zA-Z]", "").toLowerCase()
+                + "." + cognome.replaceAll("[^a-zA-Z]", "").toLowerCase();
+        this.setPassword(passwordEncoder.encode(password));
 
         this.nome = nome;
         this.cognome = cognome;

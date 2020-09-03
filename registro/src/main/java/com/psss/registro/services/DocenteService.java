@@ -1,7 +1,9 @@
 package com.psss.registro.services;
 
+import com.psss.registro.models.Classe;
 import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
+import com.psss.registro.repositories.ClasseRepository;
 import com.psss.registro.repositories.DocenteRepository;
 import com.psss.registro.repositories.MateriaRepository;
 import com.psss.registro.security.UserAuthority;
@@ -9,9 +11,7 @@ import com.psss.registro.security.UserAuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.swing.text.html.Option;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -26,24 +26,19 @@ public class DocenteService {
     private UserAuthorityRepository userAuthorityRepository;
     @Autowired
     private MateriaRepository materiaRepository;
+    @Autowired
+    private ClasseRepository classeRepository;
 
     public List<Docente> findAll() {
         return docenteRepository.findAll();
-    }
-
-    public List<Docente> findAll(String filtro) {
-        if(filtro == null || filtro.isEmpty()) {
-            return docenteRepository.findAll();
-        } else {
-            return docenteRepository.findByNomeContainingIgnoreCaseOrCognomeContainingIgnoreCase(filtro, filtro);
-        }
     }
 
     public Optional<Docente> findById(Long id) {
         return docenteRepository.findById(id);
     }
 
-    public Docente createDocente(Docente docente, Set<Materia> materie) {
+    @Transactional
+    public Docente createDocente(Docente docente, Set<Materia> materie, Set<Classe> classi) {
         UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
 
         docente.setUserAuthority(authority);
@@ -52,24 +47,29 @@ public class DocenteService {
         userAuthorityRepository.saveAndFlush(authority);
 
         docente.setMaterie(materie);
+        docente.setClassi(classi);
 
-        Iterator<Materia> materiaIterator = materie.iterator();
-        while(materiaIterator.hasNext()) {
-            Materia materia = materiaIterator.next();
+        // TODO: va bene collegare nel service o va gestito nel model?
+        for (Materia materia : materie) {
             materia.addDocente(docente);
             materiaRepository.saveAndFlush(materia);
+        }
+
+        for (Classe classe : classi) {
+            classe.addDocente(docente);
+            classeRepository.saveAndFlush(classe);
         }
 
         return docenteRepository.saveAndFlush(docente);
     }
 
-    public Docente updateDocente(Docente docente, Docente docenteTemp, Set<Materia> materie) {
+    @Transactional
+    public Docente updateDocente(Docente docente, Docente docenteTemp, Set<Materia> materie, Set<Classe> classi) {
         docente.setNome(docenteTemp.getNome());
         docente.setCognome(docenteTemp.getCognome());
         docente.setCodiceFiscale(docenteTemp.getCodiceFiscale());
         docente.setSesso(docenteTemp.getSesso());
         docente.setData(docenteTemp.getData());
-//        docente.setEmail(docenteTemp.getEmail());
         docente.setUsername(docenteTemp.getUsername());
         docente.setTelefono(docenteTemp.getTelefono());
 
@@ -93,18 +93,30 @@ public class DocenteService {
             }
         }
 
+        Iterator<Classe> classeIterator = classi.iterator();
+        while(classeIterator.hasNext()) {
+            Classe classe = classeIterator.next();
+            if(!docente.getClassi().contains(classe)) {
+                docente.addClasse(classe);
+                classe.addDocente(docente);
+                classeRepository.saveAndFlush(classe);
+            }
+        }
+
+        classeIterator = docente.getClassi().iterator();
+        while(classeIterator.hasNext()) {
+            Classe classe = classeIterator.next();
+            if(!classi.contains(classe)) {
+                docente.removeClasse(classe);
+                classe.removeDocente(docente);
+                classeRepository.saveAndFlush(classe);
+            }
+        }
+
         return docenteRepository.saveAndFlush(docente);
     }
 
     public void deleteById(Long id) {
         docenteRepository.deleteById(id);
-    }
-
-    public Long deleteByNomeAndCognome(String nome, String cognome) {
-        return docenteRepository.deleteByNomeAndCognome(nome, cognome);
-    }
-
-    public Docente getOne(Long id) {
-        return docenteRepository.getOne(id);
     }
 }
