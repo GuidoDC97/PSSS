@@ -20,6 +20,9 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationResult;
+import com.vaadin.flow.data.binder.Validator;
+import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -343,7 +346,23 @@ public class DocentiView extends Div {
                 .bind(Docente::getCognome, Docente::setCognome);
         binderEdit.forField(codiceFiscaleEdit)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il codice fiscale", 1, null))
+                        "Inserire un codice fiscale di 16 caratteri", 16, 16))
+                .withValidator(new Validator<String>() {
+                    @Override
+                    public ValidationResult apply(String s, ValueContext valueContext) {
+                        boolean flag = true;
+                        for(int i= 0; i<s.length() && flag;i++){
+                            if((i>=0 && i<=5) || (i==8) || (i==11) || (i==15)){
+                                flag = Character.isLetter(s.charAt(i));
+                            } else {
+                                flag = Character.isDigit(s.charAt(i));
+                            }
+                        }
+                        if (flag) {
+                            return ValidationResult.ok();
+                        } else return ValidationResult.error("Inserire un codice fiscale valido");
+                    }
+                })
                 .bind(Docente::getCodiceFiscale, Docente::setCodiceFiscale);
         binderEdit.forField(sessoEdit)
                 .asRequired("Selezionare il sesso")
@@ -357,7 +376,19 @@ public class DocentiView extends Div {
                 .bind(Docente::getUsername, Docente::setUsername);
         binderEdit.forField(telefonoEdit)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il numero di telefono", 1, null))
+                        "Inserire il numero di telefono", 10, 10))
+                .withValidator((new Validator<String>() {
+                    @Override
+                    public ValidationResult apply(String s, ValueContext valueContext) {
+                        boolean flag = true;
+                        for(int i = 0; i<s.length() && flag;i++){
+                            flag = Character.isDigit(s.charAt(i));
+                        }
+                        if (flag){
+                            return ValidationResult.ok();
+                        } else return ValidationResult.error("Inserire un numero di telefono valido");
+                    }
+                }))
                 .bind(Docente::getTelefono, Docente::setTelefono);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
@@ -374,7 +405,23 @@ public class DocentiView extends Div {
                 .bind(Docente::getCognome, Docente::setCognome);
         binderAdd.forField(codiceFiscaleAdd)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il codice fiscale", 1, null))
+                        "Inserire un codice fiscale di 16 caratteri", 16, 16))
+                .withValidator(new Validator<String>() {
+                    @Override
+                    public ValidationResult apply(String s, ValueContext valueContext) {
+                        boolean flag = true;
+                        for(int i= 0; i<s.length() && flag;i++){
+                            if((i>=0 && i<=5) || (i==8) || (i==11) || (i==15)){
+                                flag = Character.isLetter(s.charAt(i));
+                            } else {
+                                flag = Character.isDigit(s.charAt(i));
+                            }
+                        }
+                        if (flag) {
+                            return ValidationResult.ok();
+                        } else return ValidationResult.error("Inserire un codice fiscale valido");
+                    }
+                })
                 .bind(Docente::getCodiceFiscale, Docente::setCodiceFiscale);
         binderAdd.forField(sessoAdd)
                 .asRequired("Selezionare il sesso")
@@ -388,7 +435,19 @@ public class DocentiView extends Div {
                 .bind(Docente::getUsername, Docente::setUsername);
         binderAdd.forField(telefonoAdd)
                 .withValidator(new StringLengthValidator(
-                        "Inserire il numero di telefono", 1, null))
+                        "Inserire il numero di telefono", 10, 10))
+                .withValidator((new Validator<String>() {
+                    @Override
+                    public ValidationResult apply(String s, ValueContext valueContext) {
+                        boolean flag = true;
+                        for(int i = 0; i<s.length() && flag;i++){
+                            flag = Character.isDigit(s.charAt(i));
+                        }
+                        if (flag){
+                            return ValidationResult.ok();
+                        } else return ValidationResult.error("Inserire un numero di telefono valido");
+                    }
+                }))
                 .bind(Docente::getTelefono, Docente::setTelefono);
 
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
