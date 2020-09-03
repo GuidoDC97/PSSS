@@ -77,7 +77,7 @@ public class StudentiView extends Div {
     private final Binder<Studente> binderEdit = new Binder<>(Studente.class);
     private final Binder<Studente> binderAdd = new Binder<>(Studente.class);
 
-    private final StudenteService studenteService;
+    private StudenteService studenteService;
     private List<Studente> studenti;
 
     public StudentiView(StudenteService studenteService) {

@@ -29,7 +29,7 @@ public class Classe {
     private List<Docente> docenti = new ArrayList<>();
     //@OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
     //TODO: decidere se elminare o meno gli studenti all'atto dell'eliminazione della classe
-    //private List<Studente> studenti = new ArrayList<>();
+//    private List<Studente> studenti = new ArrayList<>();
 
     public Classe(int anno, Character sezione, int annoScolastico, List<Materia> materie){
         this.anno = anno;

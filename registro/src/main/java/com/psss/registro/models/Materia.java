@@ -29,7 +29,7 @@ public class Materia{
     @ManyToMany(mappedBy = "materie")
     private List<Classe> classi = new ArrayList<>();
     //@OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany(mappedBy = "materie")
+    @ManyToMany(mappedBy = "materie", fetch = FetchType.EAGER)
     private List<Docente> docenti = new ArrayList<>();
 //    @OneToMany(mappedBy = "materia")
 //    private List<Assegno> assegni = new ArrayList<>();
@@ -38,6 +38,7 @@ public class Materia{
     public Materia(String codice, String nome) {
         this.codice = codice;
         this.nome = nome;
+        this.docenti = new ArrayList<>();
     }
 
     public void addDocente(Docente docente){
@@ -46,6 +47,10 @@ public class Materia{
 
     public void addClasse(Classe classe){
         getClassi().add(classe);
+    }
+
+    public void removeDocente(Docente docente) {
+        docenti.remove(docente);
     }
 }
 

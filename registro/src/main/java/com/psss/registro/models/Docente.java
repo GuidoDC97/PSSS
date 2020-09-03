@@ -9,8 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +18,7 @@ import java.util.List;
 //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "note", "voti", "assegni",
 //                        "materie", "classi", "attivitadidattiche"})
 @ToString(exclude = {"note", "voti", "assegni", "materie", "classi", "attivitadidattiche"})
+@EqualsAndHashCode(exclude = {"id","nome","cognome","sesso","data","telefono"})
 public class Docente extends User {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class Docente extends User {
 //    private String email;
     private String telefono;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Materia> materie;
     @ManyToMany
     private List<Classe> classi;
@@ -62,6 +62,25 @@ public class Docente extends User {
         this.data = data;
 //        this.email = email;
         this.telefono = telefono;
+
+        this.materie = new ArrayList<>();
     }
 
+    public Set<Materia> getMaterie() {
+        Set<Materia> set = new HashSet<>(this.materie);
+        return set;
+    }
+
+    public void setMaterie(Set<Materia> materie) {
+        List<Materia> list = new ArrayList<>(materie);
+        this.materie = list;
+    }
+
+    public void addMateria(Materia materia) {
+        materie.add(materia);
+    }
+
+    public void removeMateria(Materia materia) {
+        materie.remove(materia);
+    }
 }

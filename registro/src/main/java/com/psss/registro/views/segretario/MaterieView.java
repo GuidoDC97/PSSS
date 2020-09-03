@@ -35,30 +35,30 @@ public class MaterieView extends Div {
     //TODO: sistemare bug di modifica del nome della materia
     private Grid<Materia> grid = new Grid<>(Materia.class);
 
-    FormLayout formEdit = new FormLayout();
-    FormLayout formAdd = new FormLayout();
+    private final FormLayout formEdit = new FormLayout();
+    private final FormLayout formAdd = new FormLayout();
 
-    Dialog dialogAdd = new Dialog();
-    Dialog dialogDel = new Dialog();
+    private final Dialog dialogAdd = new Dialog();
+    private final Dialog dialogDel = new Dialog();
 
-    private TextField codiceEdit = new TextField();
-    private TextField nomemateriaEdit = new TextField();
+    private final TextField codiceEdit = new TextField();
+    private final TextField nomemateriaEdit = new TextField();
 
-    private TextField codiceAdd = new TextField();
-    private TextField nomemateriaAdd = new TextField();
+    private final TextField codiceAdd = new TextField();
+    private final TextField nomemateriaAdd = new TextField();
 
-    private TextField filtro = new TextField();
+    private final TextField filtro = new TextField();
 
-    private Button aggiungi = new Button("Aggiungi");
-    private Button conferma = new Button("Conferma");
+    private final Button aggiungi = new Button("Aggiungi");
+    private final Button conferma = new Button("Conferma");
 
-    private Button aggiorna = new Button("Aggiorna");
-    private Button elimina = new Button("Elimina");
-    private Button confermaDel = new Button("Conferma");
-    private Button chiudiDel = new Button("Chiudi");
+    private final Button aggiorna = new Button("Aggiorna");
+    private final Button elimina = new Button("Elimina");
+    private final Button confermaDel = new Button("Conferma");
+    private final Button chiudiDel = new Button("Chiudi");
 
-    private Binder<Materia> binderEdit = new Binder<>(Materia.class);
-    private Binder<Materia> binderAdd = new Binder<>(Materia.class);;
+    private final Binder<Materia> binderEdit = new Binder<>(Materia.class);
+    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);;
 
     private MateriaService materiaService;
     private List<Materia> materie;
@@ -157,8 +157,8 @@ public class MaterieView extends Div {
         codiceEdit.getElement().getClassList().add("full-width");
         nomemateriaEdit.setClearButtonVisible(true);
         nomemateriaEdit.getElement().getClassList().add("full-width");
-        formEdit.addFormItem(codiceEdit, "Codice Materia");
-        formEdit.addFormItem(nomemateriaEdit, "Nome Materia");
+        formEdit.addFormItem(codiceEdit, "Codice");
+        formEdit.addFormItem(nomemateriaEdit, "Nome");
 
         codiceEdit.addValueChangeListener(e->{
             codiceEdit.setValue(codiceEdit.getValue().toUpperCase());

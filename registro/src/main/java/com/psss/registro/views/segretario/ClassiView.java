@@ -53,35 +53,35 @@ public class ClassiView extends Div {
     }
 
 
-    private Grid<Classe> grid = new Grid<>(Classe.class);
+    private final Grid<Classe> grid = new Grid<>(Classe.class);
 
-    FormLayout formEdit = new FormLayout();
-    FormLayout formAdd = new FormLayout();
+    private final FormLayout formEdit = new FormLayout();
+    private final FormLayout formAdd = new FormLayout();
 
-    Dialog dialogAdd = new Dialog();
-    Dialog dialogDel = new Dialog();
+    private final Dialog dialogAdd = new Dialog();
+    private final Dialog dialogDel = new Dialog();
 
-    private ComboBox<Integer> annoEdit = new ComboBox<Integer> ();
-    private ComboBox<Character>  sezioneEdit = new ComboBox<Character> ();
-    private IntegerField annoScolasticoEdit = new IntegerField();
+    private final ComboBox<Integer> annoEdit = new ComboBox<Integer> ();
+    private final ComboBox<Character>  sezioneEdit = new ComboBox<Character> ();
+    private final IntegerField annoScolasticoEdit = new IntegerField();
     //TODO AGGIUNGERE MATERIE CON IL DROP
 
     private final ComboBox<Integer>  annoAdd = new ComboBox<Integer> ();
-    private ComboBox<Character>  sezioneAdd = new ComboBox<Character> ();
-    private IntegerField annoScolasticoAdd = new IntegerField();
+    private final ComboBox<Character>  sezioneAdd = new ComboBox<Character> ();
+    private final IntegerField annoScolasticoAdd = new IntegerField();
 
-    private TextField filtro = new TextField();
+    private final TextField filtro = new TextField();
 
-    private Button aggiungi = new Button("Aggiungi");
-    private Button conferma = new Button("Conferma");
+    private final Button aggiungi = new Button("Aggiungi");
+    private final Button conferma = new Button("Conferma");
 
-    private Button aggiorna = new Button("Aggiorna");
-    private Button elimina = new Button("Elimina");
-    private Button confermaDel = new Button("Conferma");
-    private Button chiudiDel = new Button("Chiudi");
+    private final Button aggiorna = new Button("Aggiorna");
+    private final Button elimina = new Button("Elimina");
+    private final Button confermaDel = new Button("Conferma");
+    private final Button chiudiDel = new Button("Chiudi");
 
-    private Binder<Classe> binderEdit = new Binder<>(Classe.class);
-    private Binder<Classe> binderAdd = new Binder<>(Classe.class);
+    private final Binder<Classe> binderEdit = new Binder<>(Classe.class);
+    private final Binder<Classe> binderAdd = new Binder<>(Classe.class);
 
     private ClasseService classeService;
     private List<Classe> classi;
@@ -368,8 +368,6 @@ public class ClassiView extends Div {
 //        classi.remove(classe);
 //        classi.add(classeUpdated);
 //        Notification.show("Classe aggiornata con successo!");
-
-
 
         Classe classeUpdated = new Classe(annoEdit.getValue(),
                 sezioneEdit.getValue(),
