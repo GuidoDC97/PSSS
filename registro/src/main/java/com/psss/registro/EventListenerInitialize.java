@@ -26,18 +26,18 @@ public class EventListenerInitialize {
     public void initializeDatabase() {
         logger.info("Initializing database");
         // Decommentare la prima volta per popolare il database
-//        UserAuthority segretarioAuthority = new UserAuthority("SEGRETARIO");
-//        UserAuthority docenteAuthority = new UserAuthority("DOCENTE");
-//        UserAuthority studenteAuthority = new UserAuthority("STUDENTE");
+        //      UserAuthority segretarioAuthority = new UserAuthority("SEGRETARIO");
+        //      UserAuthority docenteAuthority = new UserAuthority("DOCENTE");
+        //     UserAuthority studenteAuthority = new UserAuthority("STUDENTE");
 //
-//        User segretario = new User("admin", passwordEncoder.encode("admin"));
+        //     User segretario = new User("admin", passwordEncoder.encode("admin"));
 //
-//        segretario.setUserAuthority(segretarioAuthority);
-//        segretarioAuthority.addUser(segretario);
+        //     segretario.setUserAuthority(segretarioAuthority);
+        //    segretarioAuthority.addUser(segretario);
 //
-//        userAuthorityRepository.saveAndFlush(segretarioAuthority);
-//        userAuthorityRepository.saveAndFlush(docenteAuthority);
-//        userAuthorityRepository.saveAndFlush(studenteAuthority);
+        //    userAuthorityRepository.saveAndFlush(segretarioAuthority);
+     //   userAuthorityRepository.saveAndFlush(docenteAuthority);
+  //      userAuthorityRepository.saveAndFlush(studenteAuthority);
 //        userRepository.saveAndFlush(segretario);
     }
 }

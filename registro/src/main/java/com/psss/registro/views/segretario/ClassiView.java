@@ -1,17 +1,15 @@
 package com.psss.registro.views.segretario;
 
-import com.psss.registro.models.Classe;
 import com.psss.registro.models.Docente;
-import com.psss.registro.models.Materia;
-import com.psss.registro.models.Studente;
-import com.psss.registro.services.ClasseService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.listbox.ListBox;
+import com.psss.registro.services.ClasseService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -32,6 +30,8 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.psss.registro.models.Classe;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -58,6 +58,10 @@ public class ClassiView extends Div {
         }
     }
 
+
+    private final Details docentiDetails = new Details();
+    private final ListBox<String> docentiList = new ListBox<>();
+
     private final Grid<Classe> grid = new Grid<>(Classe.class);
 
     private final FormLayout formEdit = new FormLayout();
@@ -69,15 +73,11 @@ public class ClassiView extends Div {
     private final ComboBox<Integer> annoEdit = new ComboBox<Integer> ();
     private final ComboBox<Character>  sezioneEdit = new ComboBox<Character> ();
     private final IntegerField annoScolasticoEdit = new IntegerField();
+    //TODO AGGIUNGERE MATERIE CON IL DROP
 
     private final ComboBox<Integer>  annoAdd = new ComboBox<Integer> ();
     private final ComboBox<Character>  sezioneAdd = new ComboBox<Character> ();
     private final IntegerField annoScolasticoAdd = new IntegerField();
-
-    private final Details studentiDetails = new Details();
-    private final ListBox<String> studentiList = new ListBox<>();
-    private final Details materieDetails = new Details();
-    private final ListBox<String> materieList = new ListBox<>();
 
     private final TextField filtro = new TextField();
 
@@ -123,6 +123,10 @@ public class ClassiView extends Div {
         grid.setHeightFull();
         grid.setItems(classi);
         grid.asSingleSelect().addValueChangeListener(event -> {
+            populateForm(event.getValue());
+            splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
+
+            //incollato
             Classe classe = event.getValue();
             Component editor = splitLayout.getSecondaryComponent();
 
@@ -130,29 +134,18 @@ public class ClassiView extends Div {
 
             editor.setVisible(!event.getHasValue().isEmpty());
 
-            studentiDetails.setOpened(false);
-            studentiList.setItems("");
+            docentiDetails.setOpened(false);
+            docentiList.setItems("");
 
             if(editor.isVisible()) {
-                List<String> studenti = new LinkedList<>();
-                for (Studente studente : classe.getStudenti()) {
-                    studenti.add(studente.getNome() + " " + studente.getCognome());
+                List<String> docenti = new LinkedList<>();
+                for (Docente docente : classe.getDocenti()) {
+                    docenti.add(docente.getNome() + " " + docente.getCognome());
                 }
-                studentiList.setItems(studenti);
-                studentiDetails.setContent(studentiList);
+                docentiList.setItems(docenti);
+                docentiDetails.setContent(docentiList);
             }
 
-            materieDetails.setOpened(false);
-            materieList.setItems("");
-
-            if(editor.isVisible()) {
-                List<String> materie = new LinkedList<>();
-                for (Materia materia : classe.getMaterie()) {
-                    materie.add(materia.getNome());
-                }
-                studentiList.setItems(materie);
-                studentiDetails.setContent(studentiList);
-            }
         });
 
         Div wrapper = new Div();
@@ -206,13 +199,19 @@ public class ClassiView extends Div {
         editorLayoutDiv.add(editorDiv);
 
         createFormEditLayout(editorDiv);
-        createStudentiDetails(editorDiv);
-        createMaterieDetails(editorDiv);
+        createDocentiDetails(editorDiv);
         createButtonEditLayout(editorLayoutDiv);
+
 
         splitLayout.addToSecondary(editorLayoutDiv);
     }
 
+    private void createDocentiDetails(Div editorLayoutDiv) {
+        docentiDetails.setSummaryText("Docenti");
+        docentiList.setReadOnly(true);
+
+        editorLayoutDiv.add(docentiDetails);
+    }
     private void createFormEditLayout(Div editorDiv) {
 
         annoEdit.getElement().getClassList().add("full-width");
@@ -266,18 +265,6 @@ public class ClassiView extends Div {
 
         confermaLayout.add(confermaDel, chiudiDel);
         dialogDel.add(confermaLayout);
-    }
-
-    private void createStudentiDetails(Div editorDiv) {
-        studentiDetails.setSummaryText("Studenti");
-        studentiList.setReadOnly(true);
-        editorDiv.add(studentiDetails);
-    }
-
-    private void createMaterieDetails(Div editorDiv) {
-        materieDetails.setSummaryText("Materie");
-        materieList.setReadOnly(true);
-        editorDiv.add(materieDetails);
     }
 
     private void createButtonEditLayout(Div editorLayoutDiv) {
