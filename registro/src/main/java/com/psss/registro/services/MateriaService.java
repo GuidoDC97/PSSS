@@ -2,6 +2,7 @@ package com.psss.registro.services;
 
 import com.psss.registro.models.Materia;
 import com.psss.registro.repositories.MateriaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +23,19 @@ public class MateriaService {
         return materiaRepository.findById(id);
     }
 
-    public Materia createMateria(Materia d) {
-        return materiaRepository.saveAndFlush(d);
-    }
-
-    public Materia updateMateria(Materia materia, Materia materiaUpdated) {
-        materia.setCodice(materiaUpdated.getCodice());
-        materia.setNome(materiaUpdated.getNome());
-        return materiaRepository.saveAndFlush(materia);
-    }
-
     public void deleteById(Long id) {
         materiaRepository.deleteById(id);
     }
+
+    public Materia createMateria(String codice, String nome) {
+        Materia materia = new Materia(codice, nome);
+        return materiaRepository.saveAndFlush(materia);
+    }
+
+    public Materia updateMateria(Materia materia, String codice, String nome) {
+        materia.setCodice(codice);
+        materia.setNome(nome);
+        return materiaRepository.saveAndFlush(materia);
+    }
+
 }

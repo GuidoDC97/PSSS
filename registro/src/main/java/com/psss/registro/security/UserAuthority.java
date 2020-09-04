@@ -1,17 +1,13 @@
 package com.psss.registro.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name = "authorities")
+@Data @AllArgsConstructor @NoArgsConstructor
+@Entity(name = "authorities") @ToString(exclude = {"users"}) @EqualsAndHashCode(exclude = {"users"})
 public class UserAuthority {
 
     @Id

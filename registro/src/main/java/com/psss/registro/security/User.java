@@ -1,17 +1,13 @@
 package com.psss.registro.security;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-@Entity(name = "users")
+@Data @AllArgsConstructor @NoArgsConstructor
+@Entity(name = "users") @Inheritance(strategy = InheritanceType.JOINED)
+@ToString(exclude = {"userAuthority"}) @EqualsAndHashCode(exclude = {"userAuthority"})
 public class User implements Serializable {
 
     @Id

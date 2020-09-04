@@ -8,22 +8,21 @@ import com.psss.registro.repositories.DocenteRepository;
 import com.psss.registro.repositories.MateriaRepository;
 import com.psss.registro.security.UserAuthority;
 import com.psss.registro.security.UserAuthorityRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class DocenteService {
 
     @Autowired
-    private DocenteRepository docenteRepository;
-    @Autowired
     private UserAuthorityRepository userAuthorityRepository;
+    @Autowired
+    private DocenteRepository docenteRepository;
     @Autowired
     private MateriaRepository materiaRepository;
     @Autowired
@@ -37,19 +36,22 @@ public class DocenteService {
         return docenteRepository.findById(id);
     }
 
-    @Transactional
-    public Docente createDocente(Docente docente, Set<Materia> materie, Set<Classe> classi) {
+    public void deleteById(Long id) {
+        docenteRepository.deleteById(id);
+    }
+
+    public Docente createDocente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
+                                 LocalDate data, String telefono, Set<Materia> materie, Set<Classe> classi) {
+
+        Docente docente = new Docente(username, nome, cognome, codiceFiscale, sesso, data, telefono, materie, classi);
+
         UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
-
-        docente.setUserAuthority(authority);
         authority.addUser(docente);
-
         userAuthorityRepository.saveAndFlush(authority);
 
-        docente.setMaterie(materie);
-        docente.setClassi(classi);
+        docente.setUserAuthority(authority);
 
-        // TODO: va bene collegare nel service o va gestito nel model?
+        // TODO: il docente va aggiunto alla materia qua o nel model?
         for (Materia materia : materie) {
             materia.addDocente(docente);
             materiaRepository.saveAndFlush(materia);
@@ -59,23 +61,25 @@ public class DocenteService {
             classe.addDocente(docente);
             classeRepository.saveAndFlush(classe);
         }
+        // TODO per guido: è necessario fare il save and flush della classe? (fatto)
+
 
         return docenteRepository.saveAndFlush(docente);
     }
 
-    @Transactional
-    public Docente updateDocente(Docente docente, Docente docenteTemp, Set<Materia> materie, Set<Classe> classi) {
-        docente.setNome(docenteTemp.getNome());
-        docente.setCognome(docenteTemp.getCognome());
-        docente.setCodiceFiscale(docenteTemp.getCodiceFiscale());
-        docente.setSesso(docenteTemp.getSesso());
-        docente.setData(docenteTemp.getData());
-        docente.setUsername(docenteTemp.getUsername());
-        docente.setTelefono(docenteTemp.getTelefono());
+    public Docente updateDocente(Docente docente, String username, String nome, String cognome, String codiceFiscale, Character sesso,
+                                 LocalDate data, String telefono, Set<Materia> materie, Set<Classe> classi) {
 
-        Iterator<Materia> materiaIterator = materie.iterator();
-        while(materiaIterator.hasNext()) {
-            Materia materia = materiaIterator.next();
+        docente.setUsername(username);
+        docente.setNome(nome);
+        docente.setCognome(cognome);
+        docente.setCodiceFiscale(codiceFiscale);
+        docente.setSesso(sesso);
+        docente.setData(data);
+        docente.setTelefono(telefono);
+
+        // Aggiunge le nuove materie al docente ed aggiunge il docente alla nuove materie
+        for (Materia materia : materie) {
             if(!docente.getMaterie().contains(materia)) {
                 docente.addMateria(materia);
                 materia.addDocente(docente);
@@ -83,9 +87,10 @@ public class DocenteService {
             }
         }
 
-        materiaIterator = docente.getMaterie().iterator();
-        while(materiaIterator.hasNext()) {
-            Materia materia = materiaIterator.next();
+        // TODO: risolvere un bug dovuto ad un null pointer
+        // Rimuove le vecchie materia al docente e rimuove il docente dalle vecchie materie
+        Set<Materia> materiaSet = new HashSet<>(docente.getMaterie());
+        for (Materia materia : materiaSet) {
             if(!materie.contains(materia)) {
                 docente.removeMateria(materia);
                 materia.removeDocente(docente);
@@ -93,9 +98,8 @@ public class DocenteService {
             }
         }
 
-        Iterator<Classe> classeIterator = classi.iterator();
-        while(classeIterator.hasNext()) {
-            Classe classe = classeIterator.next();
+        // Aggiunge le nuove classi al docente ed aggiunge il docente alla nuove classi
+        for (Classe classe : classi) {
             if(!docente.getClassi().contains(classe)) {
                 docente.addClasse(classe);
                 classe.addDocente(docente);
@@ -103,9 +107,9 @@ public class DocenteService {
             }
         }
 
-        classeIterator = docente.getClassi().iterator();
-        while(classeIterator.hasNext()) {
-            Classe classe = classeIterator.next();
+        // Rimuove le vecchie classi al docente e rimuove il docente dalle vecchie classi
+        Set<Classe> classeSet = new HashSet<>(docente.getClassi());
+        for (Classe classe : classeSet) {
             if(!classi.contains(classe)) {
                 docente.removeClasse(classe);
                 classe.removeDocente(docente);
@@ -116,7 +120,4 @@ public class DocenteService {
         return docenteRepository.saveAndFlush(docente);
     }
 
-    public void deleteById(Long id) {
-        docenteRepository.deleteById(id);
-    }
 }

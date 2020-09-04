@@ -89,6 +89,9 @@ public class ClassiView extends Div {
     public ClassiView(ClasseService classeService) {
 
         this.classeService = classeService;
+
+        classi = classeService.findAll();
+
         setId("classi-view");
 
         SplitLayout splitLayout = new SplitLayout();
@@ -100,8 +103,6 @@ public class ClassiView extends Div {
         splitLayout.getSecondaryComponent().setVisible(false);
         add(splitLayout);
 
-        initGrid();
-
         createAddDialog();
         createEditBinder();
         createAddBinder();
@@ -111,7 +112,7 @@ public class ClassiView extends Div {
         grid.setColumns("anno", "sezione", "annoScolastico");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
-
+        grid.setItems(classi);
         grid.asSingleSelect().addValueChangeListener(event -> {
             populateForm(event.getValue());
             splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
@@ -213,7 +214,6 @@ public class ClassiView extends Div {
         confermaLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         confermaDel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        confermaDel.addClickShortcut(Key.ENTER).listenOn(confermaLayout); //bugga
         confermaDel.addClickListener(e -> {
             deleteClasse();
             updateGrid();
@@ -325,28 +325,17 @@ public class ClassiView extends Div {
     }
 
     private void populateForm(Classe value) {
-        // Value can be null as well, that clears the form
         binderEdit.readBean(value);
     }
 
-    private void initGrid(){
-        classi = classeService.findAll();
-        grid.setItems(classi);
-    }
-
     private void updateGrid() {
-        //grid.setPageSize(2);
         grid.setItems(classi);
     }
 
     //TODO: gestire correttamente le liste che costituiscono la griglia come ha fatto Fabio.
     //TODO: gestire bene il costruttore
     private void addClasse() {
-        Classe classe = new Classe(annoAdd.getValue(),
-                        sezioneAdd.getValue(),
-                        annoScolasticoAdd.getValue(),
-                        new ArrayList<Materia>());
-        classeService.createClasse(classe);
+        Classe classe = classeService.createClasse(annoAdd.getValue(), sezioneAdd.getValue(), annoScolasticoAdd.getValue());
         classi.add(classe);
         Notification.show("Classe aggiunta con successo!");
     }
@@ -359,38 +348,21 @@ public class ClassiView extends Div {
     }
 
     private void updateClasse() {
-//        Classe classeUpdated = new Classe(annoEdit.getValue(),
-//                                sezioneEdit.getValue(),
-//                                annoScolasticoEdit.getValue(),
-//                                new ArrayList<Materia>());
-//        Classe classe = grid.getSelectedItems().iterator().next();
-//        classeService.updateClasse(classe, classeUpdated);
-//        classi.remove(classe);
-//        classi.add(classeUpdated);
-//        Notification.show("Classe aggiornata con successo!");
-
-        Classe classeUpdated = new Classe(annoEdit.getValue(),
-                sezioneEdit.getValue(),
-                annoScolasticoEdit.getValue(),
-                new ArrayList<Materia>());
-
         boolean exist = false;
-        System.out.println(classeUpdated);
+//        System.out.println(classeUpdated);
         for(Classe classeInList : classi){
             //System.out.println(classeInList.equals(classeUpdated));
-            System.out.println(classeInList);
-
-            if(classeInList.equals(classeUpdated)) {
-                Notification.show("Materia già esistente!");
-                exist = true;
-                break;
-            }
+//            System.out.println(classeInList);
+//
+//            if(classeInList.equals(classeUpdated)) {
+//                Notification.show("Materia già esistente!");
+//                exist = true;
+//                break;
+//            }
         }
-        if(!exist){
+        if(true){
             Classe classe = grid.getSelectedItems().iterator().next();
-            classeService.updateClasse(classe, classeUpdated);
-//            classi.remove(classi);
-//            classi.add(classeUpdated);
+            classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(), annoScolasticoEdit.getValue());
             Notification.show("Materia aggiornata con successo!");
         }
 

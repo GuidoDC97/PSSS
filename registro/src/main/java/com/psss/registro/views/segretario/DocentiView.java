@@ -99,6 +99,7 @@ public class DocentiView extends Div {
 
         materie = this.materiaService.findAll();
         classi = this.classeService.findAll();
+        docenti = this.docenteService.findAll();
 
         setId("docenti-view");
 
@@ -109,9 +110,8 @@ public class DocentiView extends Div {
         createEditorLayout(splitLayout);    // secondary: editor
 
         splitLayout.getSecondaryComponent().setVisible(false);
-        add(splitLayout);
 
-        initGrid();
+        add(splitLayout);
 
         createAddDialog();
         createEditBinder();
@@ -123,6 +123,7 @@ public class DocentiView extends Div {
         grid.getColumnByKey("username").setHeader("E-mail");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
+        grid.setItems(docenti);
         grid.asSingleSelect().addValueChangeListener(event -> {
             populateForm(event.getValue());
             splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
@@ -187,44 +188,8 @@ public class DocentiView extends Div {
     }
 
     private void createFormEditLayout(Div editorDiv) {
-        nomeEdit.setClearButtonVisible(true);
-        nomeEdit.getElement().getClassList().add("full-width");
-
-        cognomeEdit.setClearButtonVisible(true);
-        cognomeEdit.getElement().getClassList().add("full-width");
-
-        codiceFiscaleEdit.setClearButtonVisible(true);
-        codiceFiscaleEdit.getElement().getClassList().add("full-width");
-
-        sessoEdit.setItems('M','F');
-        sessoEdit.getElement().getClassList().add("full-width");
-
-        dataEdit.getElement().getClassList().add("full-width");
-
-        emailEdit.setClearButtonVisible(true);
-        emailEdit.getElement().getClassList().add("full-width");
-
-        telefonoEdit.setClearButtonVisible(true);
-        telefonoEdit.getElement().getClassList().add("full-width");
-
-        // TODO: aggiungere il caricamento in un listener sulla multicombobox
-        materieEdit.setItems(materie);
-        materieEdit.setItemLabelGenerator(Materia::getNome);
-        materieEdit.getElement().getClassList().add("full-width");
-
-        classiEdit.setItems(classi);
-        classiEdit.setItemLabelGenerator(Classe::getClasse);
-        classiEdit.getElement().getClassList().add("full-width");
-
-        formEdit.addFormItem(nomeEdit, "Nome");
-        formEdit.addFormItem(cognomeEdit, "Cognome");
-        formEdit.addFormItem(codiceFiscaleEdit, "Codice Fiscale");
-        formEdit.addFormItem(sessoEdit, "Sesso");
-        formEdit.addFormItem(dataEdit, "Data");
-        formEdit.addFormItem(emailEdit, "E-mail");
-        formEdit.addFormItem(telefonoEdit, "Telefono");
-        formEdit.addFormItem(materieEdit, "Materie");
-        formEdit.addFormItem(classiEdit, "Classi");
+        createForm(nomeEdit, cognomeEdit, codiceFiscaleEdit, sessoEdit, dataEdit, emailEdit,
+                telefonoEdit, materieEdit, classiEdit, formEdit);
 
         editorDiv.add(formEdit);
 
@@ -312,48 +277,59 @@ public class DocentiView extends Div {
     }
 
     private void createFormAddLayout(Div addDiv) {
-        nomeAdd.setClearButtonVisible(true);
         nomeAdd.setAutofocus(true);
-        nomeAdd.getElement().getClassList().add("full-width");
 
-        cognomeAdd.setClearButtonVisible(true);
-        cognomeAdd.getElement().getClassList().add("full-width");
-
-        codiceFiscaleAdd.setClearButtonVisible(true);
-        codiceFiscaleAdd.getElement().getClassList().add("full-width");
-
-        sessoAdd.setItems('M','F');
-        sessoAdd.getElement().getClassList().add("full-width");
-
-        dataAdd.getElement().getClassList().add("full-width");
-
-        emailAdd.setClearButtonVisible(true);
-        emailAdd.getElement().getClassList().add("full-width");
-
-        telefonoAdd.setClearButtonVisible(true);
-        telefonoAdd.getElement().getClassList().add("full-width");
-
-        materieAdd.setItems(materie);
-        materieAdd.setItemLabelGenerator(Materia::getNome);
-        materieAdd.getElement().getClassList().add("full-width");
-
-        classiAdd.setItems(classi);
-        classiAdd.setItemLabelGenerator(Classe::getClasse);
-        classiAdd.getElement().getClassList().add("full-width");
-
-        formAdd.addFormItem(nomeAdd, "Nome");
-        formAdd.addFormItem(cognomeAdd, "Cognome");
-        formAdd.addFormItem(codiceFiscaleAdd, "Codice Fiscale");
-        formAdd.addFormItem(sessoAdd, "Sesso");
-        formAdd.addFormItem(dataAdd, "Data");
-        formAdd.addFormItem(emailAdd, "E-mail");
-        formAdd.addFormItem(telefonoAdd, "Telefono");
-        formAdd.addFormItem(materieAdd, "Materie");
-        formAdd.addFormItem(classiAdd, "Classi");
+        createForm(nomeAdd, cognomeAdd, codiceFiscaleAdd, sessoAdd, dataAdd, emailAdd,
+                telefonoAdd, materieAdd, classiAdd, formAdd);
 
         formAdd.setSizeFull();
 
         addDiv.add(formAdd);
+    }
+
+    private void createForm(TextField nome, TextField cognome, TextField codiceFiscale, ComboBox<Character> sesso,
+                            DatePicker data, EmailField email, TextField telefono,
+                            MultiselectComboBox<Materia> materie, MultiselectComboBox<Classe> classi, FormLayout form) {
+        nome.setClearButtonVisible(true);
+        nome.getElement().getClassList().add("full-width");
+
+        cognome.setClearButtonVisible(true);
+        cognome.getElement().getClassList().add("full-width");
+
+        codiceFiscale.setClearButtonVisible(true);
+        codiceFiscale.getElement().getClassList().add("full-width");
+        codiceFiscale.addValueChangeListener(e->{
+            codiceFiscale.setValue(codiceFiscale.getValue().toUpperCase());
+        });
+
+        sesso.setItems('M','F');
+        sesso.getElement().getClassList().add("full-width");
+
+        data.getElement().getClassList().add("full-width");
+
+        email.setClearButtonVisible(true);
+        email.getElement().getClassList().add("full-width");
+
+        telefono.setClearButtonVisible(true);
+        telefono.getElement().getClassList().add("full-width");
+
+        materie.setItems(this.materie);
+        materie.setItemLabelGenerator(Materia::getNome);
+        materie.getElement().getClassList().add("full-width");
+
+        classi.setItems(this.classi);
+        classi.setItemLabelGenerator(Classe::getClasse);
+        classi.getElement().getClassList().add("full-width");
+
+        form.addFormItem(nome, "Nome");
+        form.addFormItem(cognome, "Cognome");
+        form.addFormItem(codiceFiscale, "Codice Fiscale");
+        form.addFormItem(email, "E-mail");
+        form.addFormItem(data, "Data");
+        form.addFormItem(sesso, "Sesso");
+        form.addFormItem(telefono, "Telefono");
+        form.addFormItem(materie, "Materie");
+        form.addFormItem(classi, "Classi");
     }
 
     private void createButtonAddLayout(Dialog dialogAdd, Div addDiv) {
@@ -375,79 +351,30 @@ public class DocentiView extends Div {
     }
 
     private void createEditBinder() {
-        binderEdit.forField(nomeEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il nome", 1, null))
-                .bind(Docente::getNome, Docente::setNome);
-        binderEdit.forField(cognomeEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il cognome", 1, null))
-                .bind(Docente::getCognome, Docente::setCognome);
-        binderEdit.forField(codiceFiscaleEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire un codice fiscale di 16 caratteri", 16, 16))
-                .withValidator(new Validator<String>() {
-                    @Override
-                    public ValidationResult apply(String s, ValueContext valueContext) {
-                        boolean flag = true;
-                        for(int i= 0; i<s.length() && flag;i++){
-                            if((i>=0 && i<=5) || (i==8) || (i==11) || (i==15)){
-                                flag = Character.isLetter(s.charAt(i));
-                            } else {
-                                flag = Character.isDigit(s.charAt(i));
-                            }
-                        }
-                        if (flag) {
-                            return ValidationResult.ok();
-                        } else return ValidationResult.error("Inserire un codice fiscale valido");
-                    }
-                })
-                .bind(Docente::getCodiceFiscale, Docente::setCodiceFiscale);
-        binderEdit.forField(sessoEdit)
-                .asRequired("Selezionare il sesso")
-                .bind(Docente::getSesso, Docente::setSesso);
-        binderEdit.forField(dataEdit)
-                .asRequired("Selezionare la data di nascita")
-                .bind(Docente::getData, Docente::setData);
-        binderEdit.forField(emailEdit)
-                .withValidator(new EmailValidator(
-                        "Inserire la e-mail"))
-                .bind(Docente::getUsername, Docente::setUsername);
-        binderEdit.forField(telefonoEdit)
-                .withValidator(new StringLengthValidator(
-                        "Inserire il numero di telefono", 10, 10))
-                .withValidator((new Validator<String>() {
-                    @Override
-                    public ValidationResult apply(String s, ValueContext valueContext) {
-                        boolean flag = true;
-                        for(int i = 0; i<s.length() && flag;i++){
-                            flag = Character.isDigit(s.charAt(i));
-                        }
-                        if (flag){
-                            return ValidationResult.ok();
-                        } else return ValidationResult.error("Inserire un numero di telefono valido");
-                    }
-                }))
-                .bind(Docente::getTelefono, Docente::setTelefono);
-        binderEdit.forField(materieEdit)
-                .bind(Docente::getMaterie,
-                        Docente::setMaterie);
-        binderEdit.forField(classiEdit)
-                .bind(Docente::getClassi, Docente::setClassi);
+        createBinder(binderEdit, nomeEdit, cognomeEdit, codiceFiscaleEdit, sessoEdit, dataEdit, emailEdit, telefonoEdit,
+                materieEdit, classiEdit);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
 
     private void createAddBinder() {
-        binderAdd.forField(nomeAdd)
+        createBinder(binderAdd, nomeAdd, cognomeAdd, codiceFiscaleAdd, sessoAdd, dataAdd, emailAdd, telefonoAdd,
+                materieAdd, classiAdd);
+        binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
+    }
+
+    private void createBinder(Binder<Docente> binder, TextField nome, TextField cognome, TextField codiceFiscale,
+                              ComboBox<Character> sesso, DatePicker data, EmailField email, TextField telefono,
+                              MultiselectComboBox<Materia> materie, MultiselectComboBox<Classe> classi) {
+        binder.forField(nome)
                 .withValidator(new StringLengthValidator(
                         "Inserire il nome", 1, null))
                 .bind(Docente::getNome, Docente::setNome);
-        binderAdd.forField(cognomeAdd)
+        binder.forField(cognome)
                 .withValidator(new StringLengthValidator(
                         "Inserire il cognome", 1, null))
                 .bind(Docente::getCognome, Docente::setCognome);
-        binderAdd.forField(codiceFiscaleAdd)
+        binder.forField(codiceFiscale)
                 .withValidator(new StringLengthValidator(
                         "Inserire un codice fiscale di 16 caratteri", 16, 16))
                 .withValidator(new Validator<String>() {
@@ -467,17 +394,17 @@ public class DocentiView extends Div {
                     }
                 })
                 .bind(Docente::getCodiceFiscale, Docente::setCodiceFiscale);
-        binderAdd.forField(sessoAdd)
+        binder.forField(sesso)
                 .asRequired("Selezionare il sesso")
                 .bind(Docente::getSesso, Docente::setSesso);
-        binderAdd.forField(dataAdd)
+        binder.forField(data)
                 .asRequired("Selezionare la data di nascita")
                 .bind(Docente::getData, Docente::setData);
-        binderAdd.forField(emailAdd)
+        binder.forField(email)
                 .withValidator(new EmailValidator(
                         "Inserire una e-mail valida"))
                 .bind(Docente::getUsername, Docente::setUsername);
-        binderAdd.forField(telefonoAdd)
+        binder.forField(telefono)
                 .withValidator(new StringLengthValidator(
                         "Inserire il numero di telefono", 10, 10))
                 .withValidator((new Validator<String>() {
@@ -493,22 +420,14 @@ public class DocentiView extends Div {
                     }
                 }))
                 .bind(Docente::getTelefono, Docente::setTelefono);
-        binderAdd.forField(materieAdd)
+        binder.forField(materie)
                 .bind(Docente::getMaterie, Docente::setMaterie);
-        binderAdd.forField(classiAdd)
+        binder.forField(classi)
                 .bind(Docente::getClassi, Docente::setClassi);
-
-        binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
 
     private void populateForm(Docente value) {
-        // Value can be null as well, that clears the form
         binderEdit.readBean(value);
-    }
-
-    private void initGrid(){
-        docenti = docenteService.findAll();
-        grid.setItems(docenti);
     }
 
     private void updateGrid() {
@@ -517,10 +436,9 @@ public class DocentiView extends Div {
     }
 
     private void addDocente() {
-        Docente docente = new Docente(nomeAdd.getValue(), cognomeAdd.getValue(), codiceFiscaleAdd.getValue(),
-                sessoAdd.getValue(), dataAdd.getValue(), emailAdd.getValue(), telefonoAdd.getValue());
-        docenteService.createDocente(docente, materieAdd.getSelectedItems(), classiAdd.getSelectedItems());
-        // TODO: far controllare a Guido la creazione del docente
+        Docente docente = docenteService.createDocente(emailAdd.getValue(), nomeAdd.getValue(), cognomeAdd.getValue(),
+                codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataAdd.getValue(), telefonoAdd.getValue() ,
+                materieAdd.getSelectedItems(), classiAdd.getSelectedItems());
         docenti.add(docente);
         Notification.show("Docente aggiunto con successo!");
     }
@@ -532,16 +450,11 @@ public class DocentiView extends Div {
         Notification.show("Docente eliminato con successo!");
     }
 
-//  TODO: update di docenti gestito diversamente, decidere quale dei due modi lasciare
     private void updateDocente() {
-        Docente docenteTemp = new Docente(nomeEdit.getValue(), cognomeEdit.getValue(), codiceFiscaleEdit.getValue(),
-                sessoEdit.getValue(), dataEdit.getValue(), emailEdit.getValue(), telefonoEdit.getValue());
         Docente docente = grid.getSelectedItems().iterator().next();
-        Docente docenteUpdated = docenteService.updateDocente(docente, docenteTemp,
+        docenteService.updateDocente(docente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
+                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataEdit.getValue(), telefonoEdit.getValue(),
                 materieEdit.getSelectedItems(), classiEdit.getSelectedItems());
-
-        docenti.remove(docente);
-        docenti.add(docenteUpdated);
         Notification.show("Docente aggiornato con successo!");
     }
 }

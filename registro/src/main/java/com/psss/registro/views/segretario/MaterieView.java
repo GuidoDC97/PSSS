@@ -68,11 +68,15 @@ public class MaterieView extends Div {
     private final Binder<Materia> binderAdd = new Binder<>(Materia.class);
 
     private MateriaService materiaService;
+
     private List<Materia> materie;
 
     public MaterieView(MateriaService materiaService) {
 
         this.materiaService = materiaService;
+
+        materie = materiaService.findAll();
+
         setId("materie-view");
 
         SplitLayout splitLayout = new SplitLayout();
@@ -84,8 +88,6 @@ public class MaterieView extends Div {
         splitLayout.getSecondaryComponent().setVisible(false);
         add(splitLayout);
 
-        initGrid();
-
         createAddDialog();
         createEditBinder();
         createAddBinder();
@@ -95,7 +97,7 @@ public class MaterieView extends Div {
         grid.setColumns("codice", "nome");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
-
+        grid.setItems(materie);
         grid.asSingleSelect().addValueChangeListener(event -> {
             Materia materia = event.getValue();
             Component editor = splitLayout.getSecondaryComponent();
@@ -111,9 +113,6 @@ public class MaterieView extends Div {
                 List<String> docenti = new LinkedList<>();
                 for (Docente docente : materia.getDocenti()) {
                     docenti.add(docente.getNome() + " " + docente.getCognome());
-//                docentiList.setItems(docente.getNome() + " " + docente.getCognome());
-//                Text testo = new Text(docente.getNome() + " " + docente.getCognome());
-//                docentiDetails.addContent(testo);
                 }
                 docentiList.setItems(docenti);
                 docentiDetails.setContent(docentiList);
@@ -239,16 +238,6 @@ public class MaterieView extends Div {
 
     private void createDetails(Div editorLayoutDiv) {
         docentiDetails.setSummaryText("Docenti");
-
-//        docentiDetails.addOpenedChangeListener(e -> {
-//            if(e.isOpened()) {
-//                Materia materia = grid.getSelectedItems().iterator().next();
-//                for (Docente docente : materia.getDocenti()) {
-//                    docentiDetails.addContent(new Text(docente.getNome()), new Text(docente.getCognome()));
-//                }
-//            }
-//        });
-
         docentiList.setReadOnly(true);
 
         editorLayoutDiv.add(docentiDetails);
@@ -301,23 +290,16 @@ public class MaterieView extends Div {
         codiceAdd.setClearButtonVisible(true);
         codiceAdd.setAutofocus(true);
         codiceAdd.getElement().getClassList().add("full-width");
-        nomemateriaAdd.setClearButtonVisible(true);
-        nomemateriaAdd.getElement().getClassList().add("full-width");
-        formAdd.addFormItem(codiceAdd, "Codice");
-        formAdd.addFormItem(nomemateriaAdd, "Nome Materia");
-        formAdd.setSizeFull();
-
         codiceAdd.addValueChangeListener(e->{
             codiceAdd.setValue(codiceAdd.getValue().toUpperCase());
         });
-//        codiceAdd.addKeyDownListener(e->{
-//            System.out.println(e.getCode());
-//            System.out.println(Key.ALPHANUMERIC);
-//            if(e.getCode().equals(Key.ALPHANUMERIC)){
-//                codiceAdd.setValue(codiceAdd.getValue() + e.getKey().getKeys().get(0).toUpperCase());
-//            }
-//
-//        });
+
+        nomemateriaAdd.setClearButtonVisible(true);
+        nomemateriaAdd.getElement().getClassList().add("full-width");
+
+        formAdd.addFormItem(codiceAdd, "Codice");
+        formAdd.addFormItem(nomemateriaAdd, "Nome Materia");
+        formAdd.setSizeFull();
 
         addDiv.add(formAdd);
     }
@@ -367,35 +349,25 @@ public class MaterieView extends Div {
     }
 
     private void populateForm(Materia value) {
-        // Value can be null as well, that clears the form
         binderEdit.readBean(value);
     }
 
-    private void initGrid(){
-        //System.out.println("DEBUG: " + "InitGrid() eseguita");
-        materie = materiaService.findAll();
-        grid.setItems(materie);
-    }
-
     private void updateGrid() {
-        //System.out.println("DEBUG: " + "UpdateGrid() eseguita");
-        //grid.setPageSize(2);
         grid.setItems(materie);
     }
 
 
     private void addMateria() {
-        Materia materia = new Materia(codiceAdd.getValue(), nomemateriaAdd.getValue());
         boolean exist = false;
         for(Materia materiaInList : materie){
-            if(materiaInList.getCodice().equals(materia.getCodice())) {
+            if(materiaInList.getCodice().equals(codiceAdd.getValue())) {
                 Notification.show("Materia già esistente!");
                 exist = true;
                 break;
             }
         }
         if(!exist){
-            materiaService.createMateria(materia);
+            Materia materia = materiaService.createMateria(codiceAdd.getValue(), nomemateriaAdd.getValue());
             materie.add(materia);
             Notification.show("Materia aggiunta con successo!");
         }
@@ -417,15 +389,12 @@ public class MaterieView extends Div {
         if(!exist){
             Notification.show("Materia inesistente!");
         }
-
     }
 
     private void updateMateria() {
-        Materia materiaUpdated = new Materia(codiceEdit.getValue(), nomemateriaEdit.getValue());
-
         boolean exist = false;
         for(Materia materiaInList : materie){
-            if(materiaInList.getCodice().equals(materiaUpdated.getCodice())) {
+            if(materiaInList.getCodice().equals(codiceEdit.getValue())) {
                 Notification.show("Materia già esistente!");
                 exist = true;
                 break;
@@ -433,9 +402,7 @@ public class MaterieView extends Div {
         }
         if(!exist){
             Materia materia = grid.getSelectedItems().iterator().next();
-            materiaService.updateMateria(materia, materiaUpdated);
-            //materie.remove(materia);
-            //materie.add(materiaUpdated);
+            materiaService.updateMateria(materia, codiceEdit.getValue(), nomemateriaEdit.getValue());
             Notification.show("Materia aggiornata con successo!");
         }
     }

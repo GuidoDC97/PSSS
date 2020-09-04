@@ -24,18 +24,19 @@ public class ClasseService {
         return classeRepository.findById(id);
     }
 
-    public Classe createClasse(Classe c) {
-        return classeRepository.saveAndFlush(c);
+    public void deleteById(Long id) {
+        classeRepository.deleteById(id);
     }
 
-    public Classe updateClasse(Classe classe, Classe classeUpdated) {
-        classe.setAnno(classeUpdated.getAnno());
-        classe.setSezione(classeUpdated.getSezione());
-        classe.setAnnoScolastico(classeUpdated.getAnnoScolastico());
+    public Classe createClasse(int anno, Character sezione, int annoScolastico) {
+        Classe classe = new Classe(anno, sezione, annoScolastico);
         return classeRepository.saveAndFlush(classe);
     }
 
-    public void deleteById(Long id) {
-        classeRepository.deleteById(id);
+    public Classe updateClasse(Classe classe, int anno, Character sezione, int annoScolastico) {
+        classe.setAnno(anno);
+        classe.setSezione(sezione);
+        classe.setAnnoScolastico(annoScolastico);
+        return classeRepository.saveAndFlush(classe);
     }
 }
