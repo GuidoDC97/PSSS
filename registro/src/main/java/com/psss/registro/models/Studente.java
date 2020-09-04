@@ -2,17 +2,17 @@ package com.psss.registro.models;
 
 import com.psss.registro.security.User;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import javax.persistence.*;
 import java.time.LocalDate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "studenti")
 @ToString(exclude = {"note", "voti", "assegni", "materie", "classi", "attivitadidattiche"})
+@EqualsAndHashCode(exclude = {"id","nome","cognome","sesso","data","telefono"})
 public class Studente extends User {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
@@ -23,6 +23,9 @@ public class Studente extends User {
     private String codiceFiscale;
     private Character sesso;
     private String telefono;
+
+    @ManyToOne
+    private Classe classe;
 
 //    @OneToMany(mappedBy = "docente")
 //    //@JsonBackReference
@@ -39,8 +42,7 @@ public class Studente extends User {
 //    private List<AttivitaDidattica> attivitadidattiche;
 //    //TODO gestire l'orario del docente
 
-    public Studente(String nome, String cognome, LocalDate data, String codiceFiscale, Character sesso, String email, String telefono) {
-
+    public Studente(String nome, String cognome, LocalDate data, String codiceFiscale, Character sesso, String email, String telefono, Classe classe) {
         super(email, "");
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -54,6 +56,8 @@ public class Studente extends User {
         this.sesso = sesso;
         this.data = data;
         this.telefono = telefono;
+        this.classe = classe;
     }
+
 
 }

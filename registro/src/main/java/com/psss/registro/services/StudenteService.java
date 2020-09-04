@@ -1,6 +1,9 @@
 package com.psss.registro.services;
 
+import com.psss.registro.models.Classe;
 import com.psss.registro.models.Studente;
+import com.psss.registro.repositories.ClasseRepository;
+import com.psss.registro.repositories.MateriaRepository;
 import com.psss.registro.repositories.StudenteRepository;
 import com.psss.registro.security.UserAuthority;
 import com.psss.registro.security.UserAuthorityRepository;
@@ -17,6 +20,8 @@ public class StudenteService {
     private StudenteRepository studenteRepository;
     @Autowired
     private UserAuthorityRepository userAuthorityRepository;
+    @Autowired
+    private ClasseRepository classeRepository;
 
     public List<Studente> findAll() {
         return studenteRepository.findAll();
@@ -32,7 +37,12 @@ public class StudenteService {
         s.setUserAuthority(authority);
         authority.addUser(s);
 
+
         userAuthorityRepository.saveAndFlush(authority);
+
+        Classe classe = s.getClasse();
+        classe.addStudente(s);
+
         return studenteRepository.saveAndFlush(s);
     }
 
@@ -44,6 +54,10 @@ public class StudenteService {
         studente.setData(studenteUpdated.getData());
         studente.setUsername(studenteUpdated.getUsername());
         studente.setTelefono(studenteUpdated.getTelefono());
+        studente.setClasse(studenteUpdated.getClasse());
+
+        Classe classe = studenteUpdated.getClasse();
+        classe.addStudente(studenteUpdated);
 
         return studenteRepository.saveAndFlush(studente);
     }

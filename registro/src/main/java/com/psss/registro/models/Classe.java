@@ -30,9 +30,9 @@ public class Classe {
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "classi")
     private List<Docente> docenti = new ArrayList<>();
-    //@OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
-    //TODO: decidere se elminare o meno gli studenti all'atto dell'eliminazione della classe
-//    private List<Studente> studenti = new ArrayList<>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe")
+    private List<Studente> studenti = new ArrayList<>();
 
     public Classe(int anno, Character sezione, int annoScolastico, List<Materia> materie){
         this.anno = anno;
@@ -66,7 +66,7 @@ public class Classe {
         getDocenti().remove(docente);
     }
 
-//    public void addStudente(Studente studente){
-//        getStudenti().add(studente);
-//    }
+    public void addStudente(Studente studente){
+        getStudenti().add(studente);
+    }
 }

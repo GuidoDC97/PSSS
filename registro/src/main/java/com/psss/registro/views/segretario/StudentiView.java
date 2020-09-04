@@ -1,6 +1,10 @@
 package com.psss.registro.views.segretario;
 
+import com.psss.registro.models.Classe;
+import com.psss.registro.models.Docente;
+import com.psss.registro.models.Materia;
 import com.psss.registro.models.Studente;
+import com.psss.registro.services.ClasseService;
 import com.psss.registro.services.StudenteService;
 import com.psss.registro.views.segretario.SegretarioMainView;
 import com.vaadin.flow.component.Key;
@@ -53,7 +57,7 @@ public class StudentiView extends Div {
     private final DatePicker dataNascitaEdit = new DatePicker();
     private final ComboBox<Character> sessoEdit = new ComboBox<>();
     private final TextField numeroTelefonoEdit = new TextField();
-    private final ComboBox<String> classeEdit = new ComboBox<>();
+    private final ComboBox<Classe> classeEdit = new ComboBox<>();
 
     private final TextField nomeAdd = new TextField();
     private final TextField cognomeAdd = new TextField();
@@ -62,7 +66,7 @@ public class StudentiView extends Div {
     private final DatePicker dataNascitaAdd = new DatePicker();
     private final ComboBox<Character> sessoAdd = new ComboBox<>();
     private final TextField numeroTelefonoAdd = new TextField();
-    private final ComboBox<String> classeAdd = new ComboBox<>();
+    private final ComboBox<Classe> classeAdd = new ComboBox<>();
 
     private final TextField filtro = new TextField();
 
@@ -78,12 +82,14 @@ public class StudentiView extends Div {
     private final Binder<Studente> binderAdd = new Binder<>(Studente.class);
 
     private StudenteService studenteService;
+    private ClasseService classeService;
     private List<Studente> studenti;
 
-    public StudentiView(StudenteService studenteService) {
+    public StudentiView(StudenteService studenteService, ClasseService classeService) {
 
+        this.classeService = classeService;
         this.studenteService = studenteService;
-        setId("docenti-view");
+        setId("studenti-view");
 
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
@@ -173,20 +179,29 @@ public class StudentiView extends Div {
     private void createFormEditLayout(Div editorDiv) {
         nomeEdit.setClearButtonVisible(true);
         nomeEdit.getElement().getClassList().add("full-width");
+
         cognomeEdit.setClearButtonVisible(true);
         cognomeEdit.getElement().getClassList().add("full-width");
+
         codiceFiscaleEdit.setClearButtonVisible(true);
         codiceFiscaleEdit.addValueChangeListener(e->{
             codiceFiscaleEdit.setValue(codiceFiscaleEdit.getValue().toUpperCase());
         });
         codiceFiscaleEdit.getElement().getClassList().add("full-width");
+
         emailEdit.setClearButtonVisible(true);
         emailEdit.getElement().getClassList().add("full-width");
+
         dataNascitaEdit.getElement().getClassList().add("full-width");
+
         sessoEdit.getElement().getClassList().add("full-width");
         sessoEdit.setItems('M','F');
+
         numeroTelefonoEdit.setClearButtonVisible(true);
         numeroTelefonoEdit.getElement().getClassList().add("full-width");
+
+        classeEdit.setItems(classeService.findAll());
+        classeEdit.setItemLabelGenerator(Classe::getClasse);
         classeEdit.getElement().getClassList().add("full-width");
 
         formEdit.addFormItem(nomeEdit, "Nome");
@@ -196,6 +211,7 @@ public class StudentiView extends Div {
         formEdit.addFormItem(dataNascitaEdit, "Data di nascita");
         formEdit.addFormItem(sessoEdit, "Sesso");
         formEdit.addFormItem(numeroTelefonoEdit,"Telefono");
+        formEdit.addFormItem(classeEdit, "Classe");
 
         editorDiv.add(formEdit);
 
@@ -289,23 +305,30 @@ public class StudentiView extends Div {
         nomeAdd.setClearButtonVisible(true);
         nomeAdd.setAutofocus(true);
         nomeAdd.getElement().getClassList().add("full-width");
+
         cognomeAdd.setClearButtonVisible(true);
         cognomeAdd.getElement().getClassList().add("full-width");
+
         codiceFiscaleAdd.setClearButtonVisible(true);
         codiceFiscaleAdd.addValueChangeListener(e->{
             codiceFiscaleAdd.setValue(codiceFiscaleAdd.getValue().toUpperCase());
         });
         codiceFiscaleAdd.getElement().getClassList().add("full-width");
+
         emailAdd.setClearButtonVisible(true);
         emailAdd.getElement().getClassList().add("full-width");
+
         dataNascitaAdd.getElement().getClassList().add("full-width");
+
         sessoAdd.getElement().getClassList().add("full-width");
         sessoAdd.setItems('M','F');
+
         numeroTelefonoAdd.setClearButtonVisible(true);
         numeroTelefonoAdd.getElement().getClassList().add("full-width");
+
+        classeAdd.setItems(classeService.findAll());
+        classeAdd.setItemLabelGenerator(Classe::getClasse);
         classeAdd.getElement().getClassList().add("full-width");
-        //classeAdd.setItems(Classe);
-        classeAdd.setLabel("Classe");
 
         formAdd.addFormItem(nomeAdd, "Nome");
         formAdd.addFormItem(cognomeAdd, "Cognome");
@@ -314,6 +337,8 @@ public class StudentiView extends Div {
         formAdd.addFormItem(dataNascitaAdd, "Data di nascita");
         formAdd.addFormItem(sessoAdd, "Sesso");
         formAdd.addFormItem(numeroTelefonoAdd,"Telefono");
+        formAdd.addFormItem(classeAdd, "Classe");
+
         formAdd.setSizeFull();
         addDiv.add(formAdd);
     }
@@ -392,6 +417,9 @@ public class StudentiView extends Div {
                 }))
                 .bind(Studente::getTelefono, Studente::setTelefono);
 
+        binderEdit.forField(classeEdit)
+                .bind(Studente::getClasse, Studente::setClasse);
+
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
 
@@ -451,6 +479,9 @@ public class StudentiView extends Div {
                 }))
                 .bind(Studente::getTelefono, Studente::setTelefono);
 
+        binderAdd.forField(classeAdd)
+                .bind(Studente::getClasse, Studente::setClasse);
+
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
 
@@ -471,7 +502,7 @@ public class StudentiView extends Div {
 
     private void addStudente() {
         Studente studente = new Studente(nomeAdd.getValue(), cognomeAdd.getValue(), dataNascitaAdd.getValue(),
-                codiceFiscaleAdd.getValue(), sessoAdd.getValue(), emailAdd.getValue(), numeroTelefonoAdd.getValue());
+                codiceFiscaleAdd.getValue(), sessoAdd.getValue(), emailAdd.getValue(), numeroTelefonoAdd.getValue(),classeAdd.getValue());
         studenteService.createStudente(studente);
         studenti.add(studente);
         Notification.show("Studente aggiunto con successo!");
@@ -486,7 +517,7 @@ public class StudentiView extends Div {
 
     private void updateStudente() {
         Studente studenteUpdated = new Studente(nomeEdit.getValue(), cognomeEdit.getValue(), dataNascitaEdit.getValue(),
-                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), emailEdit.getValue(), numeroTelefonoEdit.getValue());
+                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), emailEdit.getValue(), numeroTelefonoEdit.getValue(), classeEdit.getValue());
         Studente studente = grid.getSelectedItems().iterator().next();
         studenteService.updateStudente(studente, studenteUpdated);
         // studenti.remove(studente);

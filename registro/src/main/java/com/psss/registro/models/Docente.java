@@ -15,7 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "docenti")
-@ToString(exclude = {"materie", "classi"})
+@ToString(exclude = {"id", "codiceFiscale", "sesso", "data", "telefono", "materie", "classi"})
 @EqualsAndHashCode(exclude = {"id","nome","cognome","sesso","data","telefono", "materie", "classi"}, callSuper = true)
 public class Docente extends User {
 

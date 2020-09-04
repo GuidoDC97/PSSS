@@ -3,6 +3,7 @@ package com.psss.registro.views.segretario;
 import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -26,9 +28,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +52,7 @@ public class MaterieView extends Div {
     private final TextField nomemateriaAdd = new TextField();
 
     private final Details docentiDetails = new Details();
+    private final ListBox<String> docentiList = new ListBox<>();
 
     private final TextField filtro = new TextField();
 
@@ -97,16 +98,25 @@ public class MaterieView extends Div {
 
         grid.asSingleSelect().addValueChangeListener(event -> {
             Materia materia = event.getValue();
+            Component editor = splitLayout.getSecondaryComponent();
 
             populateForm(materia);
-            splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
+
+            editor.setVisible(!event.getHasValue().isEmpty());
 
             docentiDetails.setOpened(false);
-            docentiDetails.setContent(new Text(""));
+            docentiList.setItems("");
 
-            for (Docente docente : materia.getDocenti()) {
-                Text testo = new Text(docente.getNome() + " " + docente.getCognome());
-                docentiDetails.addContent(testo);
+            if(editor.isVisible()) {
+                List<String> docenti = new LinkedList<>();
+                for (Docente docente : materia.getDocenti()) {
+                    docenti.add(docente.getNome() + " " + docente.getCognome());
+//                docentiList.setItems(docente.getNome() + " " + docente.getCognome());
+//                Text testo = new Text(docente.getNome() + " " + docente.getCognome());
+//                docentiDetails.addContent(testo);
+                }
+                docentiList.setItems(docenti);
+                docentiDetails.setContent(docentiList);
             }
         });
 
@@ -238,6 +248,8 @@ public class MaterieView extends Div {
 //                }
 //            }
 //        });
+
+        docentiList.setReadOnly(true);
 
         editorLayoutDiv.add(docentiDetails);
     }
