@@ -59,10 +59,14 @@ public class DocenteService {
 
         for (Classe classe : classi) {
             classe.addDocente(docente);
+            // TODO per guido: è necessario fare il save and flush della classe? (fatto)
             classeRepository.saveAndFlush(classe);
         }
-        // TODO per guido: è necessario fare il save and flush della classe? (fatto)
 
+        for (Classe classe : classi) {
+            classe.addDocente(docente);
+            classeRepository.saveAndFlush(classe);
+        }
 
         return docenteRepository.saveAndFlush(docente);
     }

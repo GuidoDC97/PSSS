@@ -5,7 +5,6 @@ import com.psss.registro.models.Materia;
 import com.psss.registro.services.MateriaService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -236,11 +235,11 @@ public class MaterieView extends Div {
         dialogDel.add(confermaLayout);
     }
 
-    private void createDetails(Div editorLayoutDiv) {
+    private void createDetails(Div editorDiv) {
         docentiDetails.setSummaryText("Docenti");
         docentiList.setReadOnly(true);
 
-        editorLayoutDiv.add(docentiDetails);
+        editorDiv.add(docentiDetails);
     }
 
     private void createButtonEditLayout(Div editorLayoutDiv) {

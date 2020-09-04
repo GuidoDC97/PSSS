@@ -39,7 +39,7 @@ public class Classe {
     }
 
     public String getClasse() {
-        return (this.anno + this.sezione.toString());
+        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
     }
 
     public void addMateria(Materia materia) {
