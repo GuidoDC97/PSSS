@@ -356,7 +356,6 @@ public class MaterieView extends Div {
         grid.setItems(materie);
     }
 
-
     private void addMateria() {
         boolean exist = false;
         for(Materia materiaInList : materie){

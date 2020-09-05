@@ -31,9 +31,7 @@ public class Studente extends User {
     private Classe classe;
     @ManyToMany
     private Set<Classe> storicoClassi;
-
-
-
+    
     public Studente(String username, String nome, String cognome, String codiceFiscale, Character sesso, LocalDate data,
                     String telefono, Classe classe) {
 
