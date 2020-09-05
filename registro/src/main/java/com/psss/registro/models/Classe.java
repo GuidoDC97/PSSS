@@ -27,7 +27,7 @@ public class Classe {
 //    private Set<Docente> docenti;
     @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
-    @OneToMany(mappedBy = "classe") @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 
     public Classe(int anno, Character sezione, int annoScolastico) {

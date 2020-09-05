@@ -318,8 +318,10 @@ public class ClassiView extends Div {
     private void createDocentiDetails(Div editorLayoutDiv) {
         docentiDetails.setSummaryText("Docenti");
         docentiDetails.setContent(insegnamentiCombo);
-        insegnamentiCombo.setItemLabelGenerator(Insegnamento::getDocenteMateria);
 
+        insegnamentiCombo.setItemLabelGenerator(Insegnamento::getDocenteMateria);
+        insegnamentiCombo.setCompactMode(false);
+//        insegnamentiCombo.setReadOnly(true);
 
         editorLayoutDiv.add(docentiDetails);
     }
@@ -529,7 +531,8 @@ public class ClassiView extends Div {
         }
         if(true){
             Classe classe = grid.getSelectedItems().iterator().next();
-            classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(), annoScolasticoEdit.getValue());
+            classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(),
+                    annoScolasticoEdit.getValue(), insegnamentiCombo.getSelectedItems());
             Notification.show("Classe aggiornata con successo!");
         }
     }
