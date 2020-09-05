@@ -27,12 +27,14 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.apache.tomcat.jni.Local;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.time.Year;
 
 @Route(value = "segretario/studenti", layout = SegretarioMainView.class)
 @PageTitle("Studenti")
@@ -85,11 +87,11 @@ public class StudentiView extends Div {
     private List<Classe> classi;
 
     public StudentiView(StudenteService studenteService, ClasseService classeService) {
-
         this.classeService = classeService;
         this.studenteService = studenteService;
 
-        classi = this.classeService.findAll();
+
+        classi = this.classeService.findByAnnoScolastico(Year.now().getValue());
         studenti = this.studenteService.findAll();
 
         setId("studenti-view");
@@ -315,7 +317,7 @@ public class StudentiView extends Div {
         form.addFormItem(dataNascita, "Data di nascita");
         form.addFormItem(sesso, "Sesso");
         form.addFormItem(numeroTelefono,"Telefono");
-        form.addFormItem(classe, "Classe");
+        form.addFormItem(classe, "Classe corrente");
     }
 
     private void createButtonAddLayout(Dialog dialogAdd, Div addDiv) {
