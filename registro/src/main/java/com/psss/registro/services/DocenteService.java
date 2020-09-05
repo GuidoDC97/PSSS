@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@Transactional
 public class DocenteService {
 
     @Autowired

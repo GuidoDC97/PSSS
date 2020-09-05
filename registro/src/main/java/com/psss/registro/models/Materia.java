@@ -31,7 +31,6 @@ public class Materia{
 //        this.classi = new HashSet<>();
         this.docenti = new HashSet<>();
     }
-
 //    public void addClasse(Classe classe){
 //        classi.add(classe);
 //    }

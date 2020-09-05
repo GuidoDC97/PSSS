@@ -422,6 +422,8 @@ public class StudentiView extends Div {
         grid.setItems(studenti);
     }
 
+
+    //TODO: bugga un po il tasto conferma, non sempre si abilita nel modo corretto
     private void addStudente() {
         Studente studente = studenteService.createStudente(emailAdd.getValue(), nomeAdd.getValue(),
                 cognomeAdd.getValue(), codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataNascitaAdd.getValue(),
