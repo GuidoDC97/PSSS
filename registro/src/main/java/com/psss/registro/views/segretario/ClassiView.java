@@ -1,6 +1,7 @@
 package com.psss.registro.views.segretario;
 
 import com.psss.registro.models.Docente;
+import com.psss.registro.models.Studente;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.listbox.ListBox;
@@ -61,6 +62,9 @@ public class ClassiView extends Div {
 
     private final Details docentiDetails = new Details();
     private final ListBox<String> docentiList = new ListBox<>();
+
+    private final Details studentiDetails = new Details();
+    private final ListBox<String> studentiList = new ListBox<>();
 
     private final Grid<Classe> grid = new Grid<>(Classe.class);
 
@@ -126,11 +130,11 @@ public class ClassiView extends Div {
             populateForm(event.getValue());
             splitLayout.getSecondaryComponent().setVisible(!event.getHasValue().isEmpty());
 
-            //incollato
+            //docenti details
             Classe classe = event.getValue();
             Component editor = splitLayout.getSecondaryComponent();
 
-            populateForm(classe);
+            //populateForm(classe);
 
             editor.setVisible(!event.getHasValue().isEmpty());
 
@@ -144,6 +148,23 @@ public class ClassiView extends Div {
                 }
                 docentiList.setItems(docenti);
                 docentiDetails.setContent(docentiList);
+            }
+
+            //populateForm(event.getValue());
+           // populateForm(classe);
+           // editor.setVisible(!event.getHasValue().isEmpty());
+
+
+            studentiDetails.setOpened(false);
+            studentiList.setItems("");
+
+            if(editor.isVisible()) {
+                List<String> studenti = new LinkedList<>();
+                for (Studente studente : classe.getStudenti()) {
+                    studenti.add(studente.getNome() + " " + studente.getCognome());
+                }
+                studentiList.setItems(studenti);
+                studentiDetails.setContent(studentiList);
             }
 
         });
@@ -199,7 +220,10 @@ public class ClassiView extends Div {
         editorLayoutDiv.add(editorDiv);
 
         createFormEditLayout(editorDiv);
+       createStudentiDetails(editorDiv);
         createDocentiDetails(editorDiv);
+
+
         createButtonEditLayout(editorLayoutDiv);
 
 
@@ -212,6 +236,14 @@ public class ClassiView extends Div {
 
         editorLayoutDiv.add(docentiDetails);
     }
+
+    private void createStudentiDetails(Div editorLayoutDiv) {
+        studentiDetails.setSummaryText("Studenti");
+        studentiList.setReadOnly(true);
+
+        editorLayoutDiv.add(studentiDetails);
+    }
+
     private void createFormEditLayout(Div editorDiv) {
 
         annoEdit.getElement().getClassList().add("full-width");

@@ -345,7 +345,7 @@ public class StudentiView extends Div {
 
     private void createAddBinder() {
         createBinder(binderAdd, nomeAdd, cognomeAdd, codiceFiscaleAdd, emailAdd, dataNascitaAdd,
-                sessoAdd, numeroTelefonoEdit, classeAdd);
+                sessoAdd, numeroTelefonoAdd, classeAdd);
 
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
