@@ -20,25 +20,25 @@ public class Materia{
     private Long id;
     private String codice;
     private String nome;
-    @ManyToMany(mappedBy = "materie")
-    private Set<Classe> classi;
+//    @ManyToMany(mappedBy = "materie")
+//    private Set<Classe> classi;
     @ManyToMany(mappedBy = "materie") @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Docente> docenti;
 
     public Materia(String codice, String nome) {
         this.codice = codice;
         this.nome = nome;
-        this.classi = new HashSet<>();
+//        this.classi = new HashSet<>();
         this.docenti = new HashSet<>();
     }
 
-    public void addClasse(Classe classe){
-        classi.add(classe);
-    }
-
-    public void removeClasse(Classe classe) {
-        classi.remove(classe);
-    }
+//    public void addClasse(Classe classe){
+//        classi.add(classe);
+//    }
+//
+//    public void removeClasse(Classe classe) {
+//        classi.remove(classe);
+//    }
 
     public void addDocente(Docente docente){
         docenti.add(docente);
