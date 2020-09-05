@@ -51,4 +51,9 @@ public class Studente extends User {
         this.telefono = telefono;
         this.classe = classe;
     }
+
+    public void setClasse(Classe classe){
+        this.classe = classe;
+        classe.addStudente(this);
+    }
 }

@@ -28,9 +28,9 @@ public class Docente extends User {
     private Character sesso;
     private LocalDate data;
     private String telefono;
-    @ManyToMany @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     private Set<Materia> materie;
-    @ManyToMany @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     private Set<Classe> classi;
 
     public Docente(String username, String nome, String cognome, String codiceFiscale, Character sesso,

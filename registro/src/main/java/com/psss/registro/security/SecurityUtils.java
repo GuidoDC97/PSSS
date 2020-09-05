@@ -1,7 +1,6 @@
 package com.psss.registro.security;
 
 import com.vaadin.flow.server.HandlerHelper;
-import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
