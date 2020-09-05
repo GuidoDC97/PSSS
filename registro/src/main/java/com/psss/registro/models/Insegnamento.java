@@ -7,8 +7,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "materie") @ToString(exclude = {"classi","docenti"})
-@EqualsAndHashCode(exclude = {"id","nome","classi", "docenti"})
+@Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
+@EqualsAndHashCode()
 public class Insegnamento {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)

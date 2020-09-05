@@ -59,7 +59,7 @@ public class DocentiView extends Div {
     private final EmailField emailEdit = new EmailField();
     private final TextField telefonoEdit = new TextField();
     private final MultiselectComboBox<Materia> materieEdit = new MultiselectComboBox<>();
-    private final MultiselectComboBox<Classe> classiEdit = new MultiselectComboBox<>();
+//    private final MultiselectComboBox<Classe> classiEdit = new MultiselectComboBox<>();
 
     private final TextField nomeAdd = new TextField();
     private final TextField cognomeAdd = new TextField();
@@ -69,7 +69,7 @@ public class DocentiView extends Div {
     private final EmailField emailAdd = new EmailField();
     private final TextField telefonoAdd = new TextField();
     private final MultiselectComboBox<Materia> materieAdd = new MultiselectComboBox<>();
-    private final MultiselectComboBox<Classe> classiAdd = new MultiselectComboBox<>();
+//    private final MultiselectComboBox<Classe> classiAdd = new MultiselectComboBox<>();
 
     private final TextField filtro = new TextField();
 
@@ -86,19 +86,19 @@ public class DocentiView extends Div {
 
     private DocenteService docenteService;
     private MateriaService materiaService;
-    private ClasseService classeService;
+//    private ClasseService classeService;
 
     private List<Docente> docenti;
     private List<Materia> materie;
-    private List<Classe> classi;
+//    private List<Classe> classi;
 
     public DocentiView(DocenteService docenteService, MateriaService materiaService, ClasseService classeService) {
         this.docenteService = docenteService;
         this.materiaService = materiaService;
-        this.classeService = classeService;
+//        this.classeService = classeService;
 
         materie = this.materiaService.findAll();
-        classi = this.classeService.findAll();
+//        classi = this.classeService.findAll();
         docenti = this.docenteService.findAll();
 
         setId("docenti-view");
@@ -189,7 +189,7 @@ public class DocentiView extends Div {
 
     private void createFormEditLayout(Div editorDiv) {
         createForm(nomeEdit, cognomeEdit, codiceFiscaleEdit, sessoEdit, dataEdit, emailEdit,
-                telefonoEdit, materieEdit, classiEdit, formEdit);
+                telefonoEdit, materieEdit, formEdit);
 
         editorDiv.add(formEdit);
 
@@ -280,7 +280,7 @@ public class DocentiView extends Div {
         nomeAdd.setAutofocus(true);
 
         createForm(nomeAdd, cognomeAdd, codiceFiscaleAdd, sessoAdd, dataAdd, emailAdd,
-                telefonoAdd, materieAdd, classiAdd, formAdd);
+                telefonoAdd, materieAdd, formAdd);
 
         formAdd.setSizeFull();
 
@@ -289,7 +289,7 @@ public class DocentiView extends Div {
 
     private void createForm(TextField nome, TextField cognome, TextField codiceFiscale, ComboBox<Character> sesso,
                             DatePicker data, EmailField email, TextField telefono,
-                            MultiselectComboBox<Materia> materie, MultiselectComboBox<Classe> classi, FormLayout form) {
+                            MultiselectComboBox<Materia> materie, FormLayout form) {
         nome.setClearButtonVisible(true);
         nome.getElement().getClassList().add("full-width");
 
@@ -317,9 +317,9 @@ public class DocentiView extends Div {
         materie.setItemLabelGenerator(Materia::getNome);
         materie.getElement().getClassList().add("full-width");
 
-        classi.setItems(this.classi);
-        classi.setItemLabelGenerator(Classe::getClasse);
-        classi.getElement().getClassList().add("full-width");
+//        classi.setItems(this.classi);
+//        classi.setItemLabelGenerator(Classe::getClasse);
+//        classi.getElement().getClassList().add("full-width");
 
         form.addFormItem(nome, "Nome");
         form.addFormItem(cognome, "Cognome");
@@ -329,7 +329,7 @@ public class DocentiView extends Div {
         form.addFormItem(sesso, "Sesso");
         form.addFormItem(telefono, "Telefono");
         form.addFormItem(materie, "Materie");
-        form.addFormItem(classi, "Classi");
+//        form.addFormItem(classi, "Classi");
     }
 
     private void createButtonAddLayout(Dialog dialogAdd, Div addDiv) {
@@ -352,20 +352,20 @@ public class DocentiView extends Div {
 
     private void createEditBinder() {
         createBinder(binderEdit, nomeEdit, cognomeEdit, codiceFiscaleEdit, sessoEdit, dataEdit, emailEdit, telefonoEdit,
-                materieEdit, classiEdit);
+                materieEdit);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
 
     private void createAddBinder() {
         createBinder(binderAdd, nomeAdd, cognomeAdd, codiceFiscaleAdd, sessoAdd, dataAdd, emailAdd, telefonoAdd,
-                materieAdd, classiAdd);
+                materieAdd);
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
 
     private void createBinder(Binder<Docente> binder, TextField nome, TextField cognome, TextField codiceFiscale,
                               ComboBox<Character> sesso, DatePicker data, EmailField email, TextField telefono,
-                              MultiselectComboBox<Materia> materie, MultiselectComboBox<Classe> classi) {
+                              MultiselectComboBox<Materia> materie) {
         binder.forField(nome)
                 .withValidator(new StringLengthValidator(
                         "Inserire il nome", 1, null))
@@ -422,8 +422,8 @@ public class DocentiView extends Div {
                 .bind(Docente::getTelefono, Docente::setTelefono);
         binder.forField(materie)
                 .bind(Docente::getMaterie, Docente::setMaterie);
-        binder.forField(classi)
-                .bind(Docente::getClassi, Docente::setClassi);
+//        binder.forField(classi)
+//                .bind(Docente::getClassi, Docente::setClassi);
     }
 
     private void populateForm(Docente value) {
@@ -438,7 +438,7 @@ public class DocentiView extends Div {
     private void addDocente() {
         Docente docente = docenteService.createDocente(emailAdd.getValue(), nomeAdd.getValue(), cognomeAdd.getValue(),
                 codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataAdd.getValue(), telefonoAdd.getValue() ,
-                materieAdd.getSelectedItems(), classiAdd.getSelectedItems());
+                materieAdd.getSelectedItems());
         docenti.add(docente);
         Notification.show("Docente aggiunto con successo!");
     }
@@ -454,7 +454,7 @@ public class DocentiView extends Div {
         Docente docente = grid.getSelectedItems().iterator().next();
         docenteService.updateDocente(docente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
                 codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataEdit.getValue(), telefonoEdit.getValue(),
-                materieEdit.getSelectedItems(), classiEdit.getSelectedItems());
+                materieEdit.getSelectedItems());
         Notification.show("Docente aggiornato con successo!");
     }
 }

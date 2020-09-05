@@ -42,9 +42,9 @@ public class DocenteService {
     }
 
     public Docente createDocente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                                 LocalDate data, String telefono, Set<Materia> materie, Set<Classe> classi) {
+                                 LocalDate data, String telefono, Set<Materia> materie) {
 
-        Docente docente = new Docente(username, nome, cognome, codiceFiscale, sesso, data, telefono, materie, classi);
+        Docente docente = new Docente(username, nome, cognome, codiceFiscale, sesso, data, telefono, materie);
 
         UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
         authority.addUser(docente);
@@ -56,20 +56,19 @@ public class DocenteService {
         for (Materia materia : materie) {
             materia.addDocente(docente);
             materiaRepository.saveAndFlush(materia);
+            // TODO per guido: è necessario fare il save and flush della classe? (fatto)
         }
 
-        for (Classe classe : classi) {
-            classe.addDocente(docente);
-            classeRepository.saveAndFlush(classe);
-        }
-        // TODO per guido: è necessario fare il save and flush della classe? (fatto)
-
+//        for (Classe classe : classi) {
+//            classe.addDocente(docente);
+//            classeRepository.saveAndFlush(classe);
+//        }
 
         return docenteRepository.saveAndFlush(docente);
     }
 
     public Docente updateDocente(Docente docente, String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                                 LocalDate data, String telefono, Set<Materia> materie, Set<Classe> classi) {
+                                 LocalDate data, String telefono, Set<Materia> materie) {
 
         docente.setUsername(username);
         docente.setNome(nome);
@@ -100,23 +99,23 @@ public class DocenteService {
         }
 
         // Aggiunge le nuove classi al docente ed aggiunge il docente alla nuove classi
-        for (Classe classe : classi) {
-            if(!docente.getClassi().contains(classe)) {
-                docente.addClasse(classe);
-                classe.addDocente(docente);
-                classeRepository.saveAndFlush(classe);
-            }
-        }
-
-        // Rimuove le vecchie classi al docente e rimuove il docente dalle vecchie classi
-        Set<Classe> classeSet = new HashSet<>(docente.getClassi());
-        for (Classe classe : classeSet) {
-            if(!classi.contains(classe)) {
-                docente.removeClasse(classe);
-                classe.removeDocente(docente);
-                classeRepository.saveAndFlush(classe);
-            }
-        }
+//        for (Classe classe : classi) {
+//            if(!docente.getClassi().contains(classe)) {
+//                docente.addClasse(classe);
+//                classe.addDocente(docente);
+//                classeRepository.saveAndFlush(classe);
+//            }
+//        }
+//
+//        // Rimuove le vecchie classi al docente e rimuove il docente dalle vecchie classi
+//        Set<Classe> classeSet = new HashSet<>(docente.getClassi());
+//        for (Classe classe : classeSet) {
+//            if(!classi.contains(classe)) {
+//                docente.removeClasse(classe);
+//                classe.removeDocente(docente);
+//                classeRepository.saveAndFlush(classe);
+//            }
+//        }
 
         return docenteRepository.saveAndFlush(docente);
     }

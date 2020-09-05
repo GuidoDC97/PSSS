@@ -1,7 +1,9 @@
 package com.psss.registro.views.segretario;
 
-import com.psss.registro.models.Docente;
-import com.psss.registro.models.Studente;
+import com.psss.registro.models.*;
+import com.psss.registro.services.DocenteService;
+import com.psss.registro.services.InsegnamentoService;
+import com.psss.registro.services.MateriaService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.listbox.ListBox;
@@ -31,7 +33,6 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.psss.registro.models.Classe;
 
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 //TODO: definire final i campi inizializzati fuori dal costruttore.
-@Route(value = "docenti", layout = SegretarioMainView.class)
+@Route(value = "segretario/classi", layout = SegretarioMainView.class)
 @PageTitle("Classi")
 @CssImport("./styles/views/classi/classi-view.css")
 public class ClassiView extends Div {
@@ -59,7 +60,6 @@ public class ClassiView extends Div {
         }
     }
 
-
     private final Details docentiDetails = new Details();
     private final ListBox<String> docentiList = new ListBox<>();
 
@@ -70,18 +70,22 @@ public class ClassiView extends Div {
 
     private final FormLayout formEdit = new FormLayout();
     private final FormLayout formAdd = new FormLayout();
+    private final FormLayout formInsegnamento = new FormLayout();
 
     private final Dialog dialogAdd = new Dialog();
     private final Dialog dialogDel = new Dialog();
+    private final Dialog dialogInsegnamento = new Dialog();
 
     private final ComboBox<Integer> annoEdit = new ComboBox<Integer> ();
     private final ComboBox<Character>  sezioneEdit = new ComboBox<Character> ();
     private final IntegerField annoScolasticoEdit = new IntegerField();
-    //TODO AGGIUNGERE MATERIE CON IL DROP
 
     private final ComboBox<Integer>  annoAdd = new ComboBox<Integer> ();
     private final ComboBox<Character>  sezioneAdd = new ComboBox<Character> ();
     private final IntegerField annoScolasticoAdd = new IntegerField();
+
+    private final ComboBox<Docente> docenteInsegnamento = new ComboBox<> ();
+    private final ComboBox<Materia>  materiaInsegnamento = new ComboBox<> ();
 
     private final TextField filtro = new TextField();
 
@@ -93,17 +97,27 @@ public class ClassiView extends Div {
     private final Button confermaDel = new Button("Conferma");
     private final Button chiudiDel = new Button("Chiudi");
 
+    private final Button confermaInsegnamento = new Button("Conferma");
+
     private final Binder<Classe> binderEdit = new Binder<>(Classe.class);
     private final Binder<Classe> binderAdd = new Binder<>(Classe.class);
+    private final Binder<Insegnamento> binderInsegnamento = new Binder<>(Insegnamento.class);
 
     private ClasseService classeService;
-    private List<Classe> classi;
+    private DocenteService docenteService;
+    private InsegnamentoService insegnamentoService;
 
-    public ClassiView(ClasseService classeService) {
+    private List<Classe> classi;
+    private List<Docente> docenti;
+
+    public ClassiView(ClasseService classeService, DocenteService docenteService, MateriaService materiaService) {
 
         this.classeService = classeService;
+        this.docenteService = docenteService;
 
-        classi = classeService.findAll();
+        classi = this.classeService.findAll();
+        docenti = this.docenteService.findAll();
+        //TODO: vedere se fare lo stesso per docenti e materie
 
         setId("classi-view");
 
@@ -119,10 +133,25 @@ public class ClassiView extends Div {
         createAddDialog();
         createEditBinder();
         createAddBinder();
+        createInsegnamentoBinder();
     }
 
     private void createGridLayout(SplitLayout splitLayout) {
         grid.setColumns("anno", "sezione", "annoScolastico");
+        grid.addComponentColumn(classe -> {
+            Button insegnamento = new Button("Aggiungi insegnamento");
+            insegnamento.addClickListener(buttonClickEvent -> dialogInsegnamento.open());
+            insegnamento.setEnabled(false);
+//            grid.addSelectionListener(selectionEvent -> {
+//                grid.getColumnByKey("Insegnamento").getElement().setEnabled(true);
+//                if(selectionEvent.)) {
+//                    insegnamento.setEnabled(true);
+//                } else {
+//                    insegnamento.setEnabled(false);
+//                }
+//            });
+            return insegnamento;
+        }).setKey("Insegnamento").setHeader("");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
         grid.setItems(classi);
@@ -137,15 +166,16 @@ public class ClassiView extends Div {
             //populateForm(classe);
 
             editor.setVisible(!event.getHasValue().isEmpty());
+            grid.getColumnByKey("Insegnamento").getElement().setEnabled(!event.getHasValue().isEmpty());
 
             docentiDetails.setOpened(false);
             docentiList.setItems("");
 
             if(editor.isVisible()) {
                 List<String> docenti = new LinkedList<>();
-                for (Docente docente : classe.getDocenti()) {
-                    docenti.add(docente.getNome() + " " + docente.getCognome());
-                }
+//                for (Docente docente : classe.getDocenti()) {
+//                    docenti.add(docente.getNome() + " " + docente.getCognome());
+//                }
                 docentiList.setItems(docenti);
                 docentiDetails.setContent(docentiList);
             }
@@ -174,6 +204,7 @@ public class ClassiView extends Div {
         wrapper.setWidthFull();
 
         createToolbarLayout(wrapper);
+        createInsegnamentoDialog();
 
         wrapper.add(grid);
 
@@ -206,6 +237,65 @@ public class ClassiView extends Div {
         wrapper.add(toolBarLayout);
     }
 
+    private void createInsegnamentoDialog() {
+        dialogInsegnamento.setId("editor-layout");
+
+        Label titolo = new Label("Nuova Insegnamento");
+        titolo.setClassName("bold-text-layout");
+        dialogInsegnamento.add(titolo);
+        Div insegnamentoDiv = new Div();
+        insegnamentoDiv.setId("editor");
+        dialogInsegnamento.add(insegnamentoDiv);
+
+        createFormInsegnamentoLayout(insegnamentoDiv);
+        createButtonInsegnamentoLayout(dialogInsegnamento, insegnamentoDiv);
+
+        dialogInsegnamento.setCloseOnEsc(true);
+        dialogInsegnamento.addOpenedChangeListener(e -> {
+            if(!e.isOpened()) {
+                binderInsegnamento.readBean(null);
+            }
+        });
+    }
+
+    private void createButtonInsegnamentoLayout(Dialog dialogInsegnamento, Div insegnamentoDiv) {
+        HorizontalLayout confermaLayout = new HorizontalLayout();
+        confermaLayout.setId("button-layout");
+        confermaLayout.setWidthFull();
+        confermaLayout.setSpacing(true);
+        confermaInsegnamento.setEnabled(false);
+        confermaInsegnamento.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        confermaInsegnamento.addClickShortcut(Key.ENTER).listenOn(insegnamentoDiv);
+        confermaInsegnamento.addClickListener(e -> {
+            addInsegnamento();
+            updateGrid();
+            dialogInsegnamento.close();
+        });
+
+        confermaLayout.add(confermaInsegnamento);
+        dialogInsegnamento.add(confermaLayout);
+    }
+
+    private void createFormInsegnamentoLayout(Div insegnamentoDiv) {
+        getElement().getClassList().add("full-width");
+        docenteInsegnamento.setItems(docenti);
+        docenteInsegnamento.setItemLabelGenerator(Docente::getDocente);
+        docenteInsegnamento.addValueChangeListener(event -> {
+            materiaInsegnamento.setEnabled(true);
+            materiaInsegnamento.setItems(event.getValue().getMaterie());
+        });
+
+        materiaInsegnamento.getElement().getClassList().add("full-width");
+        materiaInsegnamento.setEnabled(false);
+        materiaInsegnamento.setItemLabelGenerator(Materia::getNome);
+//        materiaInsegnamento.addValueChangeListener(event -> docenteInsegnamento.setItems(event.getValue().getDocenti()));
+
+        formInsegnamento.addFormItem(docenteInsegnamento, "Docente");
+        formInsegnamento.addFormItem(materiaInsegnamento, "Materia");
+        formInsegnamento.setSizeFull();
+        insegnamentoDiv.add(formInsegnamento);
+    }
+
     private void createEditorLayout(SplitLayout splitLayout) {
         Div editorLayoutDiv = new Div();
         editorLayoutDiv.setId("editor-layout");
@@ -220,12 +310,10 @@ public class ClassiView extends Div {
         editorLayoutDiv.add(editorDiv);
 
         createFormEditLayout(editorDiv);
-       createStudentiDetails(editorDiv);
+        createStudentiDetails(editorDiv);
         createDocentiDetails(editorDiv);
 
-
         createButtonEditLayout(editorLayoutDiv);
-
 
         splitLayout.addToSecondary(editorLayoutDiv);
     }
@@ -394,6 +482,15 @@ public class ClassiView extends Div {
         binderAdd.addStatusChangeListener(e -> conferma.setEnabled(binderAdd.isValid()));
     }
 
+    private void createInsegnamentoBinder() {
+        binderInsegnamento.forField(docenteInsegnamento)
+                .asRequired("Selezionare il docente").bind(Insegnamento::getDocente, Insegnamento::setDocente);
+        binderInsegnamento.forField(materiaInsegnamento)
+                .asRequired("Selezionare la materia").bind(Insegnamento::getMateria, Insegnamento::setMateria);
+
+        binderInsegnamento.addStatusChangeListener(e -> confermaInsegnamento.setEnabled(binderInsegnamento.isValid()));
+    }
+
     private void populateForm(Classe value) {
         binderEdit.readBean(value);
     }
@@ -435,7 +532,10 @@ public class ClassiView extends Div {
             classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(), annoScolasticoEdit.getValue());
             Notification.show("Materia aggiornata con successo!");
         }
-
     }
 
+    private void addInsegnamento() {
+//        insegnamentoService.createInsegnamento(docenteInsegnamento, materiaInsegnamento, );
+
+    }
 }

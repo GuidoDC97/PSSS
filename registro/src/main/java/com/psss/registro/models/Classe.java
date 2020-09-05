@@ -23,9 +23,9 @@ public class Classe {
     private int annoScolastico;
 //    @ManyToMany
 //    private Set<Materia> materie;
-    @ManyToMany(mappedBy = "classi") @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<Docente> docenti;
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE)
+//    @ManyToMany(mappedBy = "classi") @LazyCollection(LazyCollectionOption.FALSE)
+//    private Set<Docente> docenti;
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
     @OneToMany(mappedBy = "classe") @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
@@ -35,12 +35,13 @@ public class Classe {
         this.sezione = sezione;
         this.annoScolastico = annoScolastico;
 //        this.materie = new HashSet<>();
-        this.docenti = new HashSet<>();
+//        this.docenti = new HashSet<>();
         this.studenti = new HashSet<>();
+        this.insegnamenti = new HashSet<>();
     }
 
     public String getClasse() {
-        return (this.anno + this.sezione.toString() + " - " + this.anno);
+        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
     }
 
 //    public void addMateria(Materia materia) {
@@ -51,13 +52,13 @@ public class Classe {
 //        materie.remove(materia);
 //    }
 
-    public void addDocente(Docente docente) {
-        docenti.add(docente);
-    }
-
-    public void removeDocente(Docente docente) {
-        docenti.remove(docente);
-    }
+//    public void addDocente(Docente docente) {
+//        docenti.add(docente);
+//    }
+//
+//    public void removeDocente(Docente docente) {
+//        docenti.remove(docente);
+//    }
 
     public void addStudente(Studente studente) {
         studenti.add(studente);
@@ -65,5 +66,13 @@ public class Classe {
 
     public void removeStudente(Studente studente) {
         studenti.remove(studente);
+    }
+
+    public void addInsegnamento(Insegnamento insegnamento) {
+        insegnamenti.add(insegnamento);
+    }
+
+    public void removeInsegnamento(Insegnamento insegnamento) {
+        insegnamenti.remove(insegnamento);
     }
 }

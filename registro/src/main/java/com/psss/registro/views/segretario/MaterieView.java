@@ -32,7 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-@Route(value = "materia", layout = SegretarioMainView.class)
+@Route(value = "segretario/materie", layout = SegretarioMainView.class)
 @PageTitle("Materie")
 @CssImport("./styles/views/materie/materie-view.css")
 public class MaterieView extends Div {

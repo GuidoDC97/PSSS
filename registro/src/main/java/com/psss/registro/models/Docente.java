@@ -28,13 +28,15 @@ public class Docente extends User {
     private Character sesso;
     private LocalDate data;
     private String telefono;
-    @ManyToMany
+    @ManyToMany @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Materia> materie;
-    @ManyToMany
-    private Set<Classe> classi;
+//    @ManyToMany
+//    private Set<Classe> classi;
+    @OneToMany(mappedBy = "docente") @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Insegnamento> insegnamenti;
 
     public Docente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                   LocalDate data, String telefono, Set<Materia> materie, Set<Classe> classi) {
+                   LocalDate data, String telefono, Set<Materia> materie) {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = nome.replaceAll("[^a-zA-Z]", "").toLowerCase()
@@ -49,28 +51,13 @@ public class Docente extends User {
         this.data = data;
         this.telefono = telefono;
         this.materie = materie;
-        this.classi = classi;
+//        this.classi = classi;
+        this.insegnamenti = new HashSet<Insegnamento>();
     }
 
-//    public Set<Materia> getMaterie() {
-//        Set<Materia> set = new HashSet<>(this.materie);
-//        return set;
-//    }
-//
-//    public void setMaterie(Set<Materia> materie) {
-//        List<Materia> list = new ArrayList<>(materie);
-//        this.materie = list;
-//    }
-//
-//    public Set<Classe> getClassi() {
-//        Set<Classe> set = new HashSet<>(this.classi);
-//        return set;
-//    }
-//
-//    public void setClassi(Set<Classe> classe) {
-//        List<Classe> list = new ArrayList<>(classe);
-//        this.classi = list;
-//    }
+    public String getDocente() {
+        return (this.nome + " " + this.cognome);
+    }
 
     public void addMateria(Materia materia) {
         materie.add(materia);
@@ -80,11 +67,18 @@ public class Docente extends User {
         materie.remove(materia);
     }
 
-    public void addClasse(Classe classe) {
-        classi.add(classe);
+//    public void addClasse(Classe classe) {
+//        classi.add(classe);
+//    }
+//
+//    public void removeClasse(Classe classe) {
+//        classi.remove(classe);
+//    }
+
+    public void addInsegnamento(Insegnamento insegnamento) {
+        insegnamenti.add(insegnamento);
     }
 
-    public void removeClasse(Classe classe) {
-        classi.remove(classe);
-    }
-}
+    public void removeInsegnamento(Insegnamento insegnamento) {
+        insegnamenti.remove(insegnamento);
+    }}
