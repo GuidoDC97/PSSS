@@ -20,6 +20,7 @@ import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -33,6 +34,7 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 
 import java.util.ArrayList;
@@ -61,7 +63,8 @@ public class ClassiView extends Div {
     }
 
     private final Details docentiDetails = new Details();
-    private final ListBox<String> docentiList = new ListBox<>();
+//    private final MultiSelectListBox<String> insegnamentiList = new MultiSelectListBox<>();
+    private final MultiselectComboBox<Insegnamento> insegnamentiCombo = new MultiselectComboBox<>();
 
     private final Details studentiDetails = new Details();
     private final ListBox<String> studentiList = new ListBox<>();
@@ -110,10 +113,11 @@ public class ClassiView extends Div {
     private List<Classe> classi;
     private List<Docente> docenti;
 
-    public ClassiView(ClasseService classeService, DocenteService docenteService, MateriaService materiaService) {
+    public ClassiView(ClasseService classeService, DocenteService docenteService, InsegnamentoService insegnamentoService) {
 
         this.classeService = classeService;
         this.docenteService = docenteService;
+        this.insegnamentoService = insegnamentoService;
 
         classi = this.classeService.findAll();
         docenti = this.docenteService.findAll();
@@ -142,14 +146,9 @@ public class ClassiView extends Div {
             Button insegnamento = new Button("Aggiungi insegnamento");
             insegnamento.addClickListener(buttonClickEvent -> dialogInsegnamento.open());
             insegnamento.setEnabled(false);
-//            grid.addSelectionListener(selectionEvent -> {
-//                grid.getColumnByKey("Insegnamento").getElement().setEnabled(true);
-//                if(selectionEvent.)) {
-//                    insegnamento.setEnabled(true);
-//                } else {
-//                    insegnamento.setEnabled(false);
-//                }
-//            });
+            grid.addSelectionListener(selectionEvent -> {
+                insegnamento.setEnabled(selectionEvent.getAllSelectedItems().contains(classe));
+            });
             return insegnamento;
         }).setKey("Insegnamento").setHeader("");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -166,24 +165,20 @@ public class ClassiView extends Div {
             //populateForm(classe);
 
             editor.setVisible(!event.getHasValue().isEmpty());
-            grid.getColumnByKey("Insegnamento").getElement().setEnabled(!event.getHasValue().isEmpty());
 
             docentiDetails.setOpened(false);
-            docentiList.setItems("");
+//            insegnamentiCombo.setItems();
 
-            if(editor.isVisible()) {
-                List<String> docenti = new LinkedList<>();
-//                for (Docente docente : classe.getDocenti()) {
-//                    docenti.add(docente.getNome() + " " + docente.getCognome());
+//            if(editor.isVisible()) {
+//                List<String> insegnamenti = new LinkedList<>();
+//                for (Insegnamento insegnamento : classe.getInsegnamenti()) {
+//                    insegnamenti.add(insegnamento.getDocente().getDocente() + "("
+//                            + insegnamento.getMateria().getNome() + ")");
 //                }
-                docentiList.setItems(docenti);
-                docentiDetails.setContent(docentiList);
-            }
-
-            //populateForm(event.getValue());
-           // populateForm(classe);
-           // editor.setVisible(!event.getHasValue().isEmpty());
-
+//                insegnamentiCombo.setItems(classe.getInsegnamenti());
+////
+//                docentiDetails.setContent(insegnamentiCombo);
+//            }
 
             studentiDetails.setOpened(false);
             studentiList.setItems("");
@@ -281,8 +276,10 @@ public class ClassiView extends Div {
         docenteInsegnamento.setItems(docenti);
         docenteInsegnamento.setItemLabelGenerator(Docente::getDocente);
         docenteInsegnamento.addValueChangeListener(event -> {
-            materiaInsegnamento.setEnabled(true);
-            materiaInsegnamento.setItems(event.getValue().getMaterie());
+            if(event.getValue()!= null) {
+                materiaInsegnamento.setEnabled(true);
+                materiaInsegnamento.setItems(event.getValue().getMaterie());
+            }
         });
 
         materiaInsegnamento.getElement().getClassList().add("full-width");
@@ -320,7 +317,9 @@ public class ClassiView extends Div {
 
     private void createDocentiDetails(Div editorLayoutDiv) {
         docentiDetails.setSummaryText("Docenti");
-        docentiList.setReadOnly(true);
+        docentiDetails.setContent(insegnamentiCombo);
+        insegnamentiCombo.setItemLabelGenerator(Insegnamento::getDocenteMateria);
+
 
         editorLayoutDiv.add(docentiDetails);
     }
@@ -469,6 +468,7 @@ public class ClassiView extends Div {
         binderEdit.forField(sezioneEdit).asRequired("Selezionare la sezione").bind(Classe::getSezione, Classe::setSezione);
         binderEdit.forField(annoScolasticoEdit).asRequired("Inserire l'anno scolastico")
                 .bind(Classe::getAnnoScolastico, Classe::setAnnoScolastico);
+        binderEdit.forField(insegnamentiCombo).bind(Classe::getInsegnamenti, Classe::setInsegnamenti);
 
         binderEdit.addStatusChangeListener(e -> aggiorna.setEnabled(binderEdit.isValid()));
     }
@@ -530,12 +530,13 @@ public class ClassiView extends Div {
         if(true){
             Classe classe = grid.getSelectedItems().iterator().next();
             classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(), annoScolasticoEdit.getValue());
-            Notification.show("Materia aggiornata con successo!");
+            Notification.show("Classe aggiornata con successo!");
         }
     }
 
     private void addInsegnamento() {
-//        insegnamentoService.createInsegnamento(docenteInsegnamento, materiaInsegnamento, );
-
+        insegnamentoService.createInsegnamento(docenteInsegnamento.getValue(), materiaInsegnamento.getValue(),
+                grid.getSelectedItems().iterator().next());
+        Notification.show("Insegnamento inserito con successo!");
     }
 }

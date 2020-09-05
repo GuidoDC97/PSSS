@@ -16,7 +16,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Data @NoArgsConstructor @AllArgsConstructor
-@Entity(name = "docenti") @ToString(exclude = {"materie", "classi"}) @EqualsAndHashCode(exclude = {"materie", "classi"})
+@Entity(name = "docenti") @ToString(exclude = {"materie", "classi"})
+@EqualsAndHashCode(exclude = {"materie", "classi", "insegnamenti"})
 public class Docente extends User {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
-@EqualsAndHashCode()
+@EqualsAndHashCode(exclude = {"docente", "materia", "classe"})
 public class Insegnamento {
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
@@ -19,4 +19,14 @@ public class Insegnamento {
     private Materia materia;
     @ManyToOne
     private Classe classe;
+
+    public Insegnamento(Docente docente, Materia materia, Classe classe) {
+        this.docente = docente;
+        this.materia = materia;
+        this.classe = classe;
+    }
+
+    public String getDocenteMateria() {
+        return docente.getDocente() + " (" + materia.getNome() + ")";
+    }
 }

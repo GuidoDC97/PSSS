@@ -110,7 +110,7 @@ public class MaterieView extends Div {
             docentiList.setItems("");
 
             if(editor.isVisible()) {
-                List<String> docenti = new LinkedList<>();
+                List<String> docenti = new ArrayList<>();
                 for (Docente docente : materia.getDocenti()) {
                     docenti.add(docente.getNome() + " " + docente.getCognome());
                 }
