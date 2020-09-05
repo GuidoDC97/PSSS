@@ -7,7 +7,10 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -26,6 +29,10 @@ public class Studente extends User {
     private String telefono;
     @ManyToOne
     private Classe classe;
+    @ManyToMany
+    private Set<Classe> storicoClassi;
+
+
 
     public Studente(String username, String nome, String cognome, String codiceFiscale, Character sesso, LocalDate data,
                     String telefono, Classe classe) {
