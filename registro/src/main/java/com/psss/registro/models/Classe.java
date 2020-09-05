@@ -23,9 +23,9 @@ public class Classe {
     private int annoScolastico;
     @ManyToMany
     private Set<Materia> materie;
-    @ManyToMany(mappedBy = "classi") @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "classi")
     private Set<Docente> docenti;
-    @OneToMany(mappedBy = "classe") @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE)
     private Set<Studente> studenti;
     // TODO: levata istanziazione fuori dal costruttore
 

@@ -11,6 +11,7 @@ import com.psss.registro.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class StudenteService {
 
     @Autowired
@@ -35,6 +37,7 @@ public class StudenteService {
         return studenteRepository.findById(id);
     }
 
+    //TODO: non credo si debba fare altro nella delete
     public void deleteById(Long id) {
         studenteRepository.deleteById(id);
     }
@@ -42,7 +45,8 @@ public class StudenteService {
     public Studente createStudente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
                                    LocalDate data, String telefono, Classe classe) {
 
-        Studente studente = new Studente(username, nome, cognome, codiceFiscale, sesso, data, telefono, classe);
+        Classe classeSync = classeRepository.findById(classe.getId()).get();
+        Studente studente = new Studente(username, nome, cognome, codiceFiscale, sesso, data, telefono, classeSync);
 
         UserAuthority authority = userAuthorityRepository.findByAuthority("STUDENTE").get();
         authority.addUser(studente);
@@ -50,7 +54,7 @@ public class StudenteService {
 
         studente.setUserAuthority(authority);
 
-        studente.getClasse().addStudente(studente);
+        //studente.setClasse(classeSync);
         // TODO per guido: è necessario fare il save and flush della classe? (non fatto)
 
         return studenteRepository.saveAndFlush(studente);
@@ -59,6 +63,8 @@ public class StudenteService {
     public Studente updateStudente(Studente studente, String username, String nome, String cognome, String codiceFiscale,
                                    Character sesso, LocalDate data, String telefono, Classe classe) {
 
+        Classe classeSync = classeRepository.findById(classe.getId()).get();
+
         studente.setNome(nome);
         studente.setCognome(cognome);
         studente.setCodiceFiscale(codiceFiscale);
@@ -66,9 +72,9 @@ public class StudenteService {
         studente.setData(data);
         studente.setUsername(username);
         studente.setTelefono(telefono);
-        studente.setClasse(classe);
+        studente.setClasse(classeSync);
 
-        studente.getClasse().addStudente(studente);
+        //studente.getClasse().addStudente(studente);
         // TODO: problema: devo rimuovere lo studente dalla vecchia classe oppure no?????
 
         return studenteRepository.saveAndFlush(studente);
