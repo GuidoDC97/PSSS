@@ -33,6 +33,9 @@ public class ClasseService {
     public List<Classe> findByAnnoScolastico(int annoScolastico) {return classeRepository.findByAnnoScolastico(annoScolastico); }
 
     public void deleteById(Long id) {
+
+
+
         classeRepository.deleteById(id);
     }
 

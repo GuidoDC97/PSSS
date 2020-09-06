@@ -33,7 +33,7 @@ public class Docente extends User {
     private Set<Materia> materie;
 //    @ManyToMany
 //    private Set<Classe> classi;
-    @OneToMany(mappedBy = "docente") @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 
     public Docente(String username, String nome, String cognome, String codiceFiscale, Character sesso,

@@ -4,6 +4,8 @@ import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -25,9 +27,10 @@ public class Classe {
 //    private Set<Materia> materie;
 //    @ManyToMany(mappedBy = "classi") @LazyCollection(LazyCollectionOption.FALSE)
 //    private Set<Docente> docenti;
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE) @LazyCollection(LazyCollectionOption.FALSE)
+
+    @OneToMany(mappedBy = "classe") @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL) @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 
     public Classe(int anno, Character sezione, int annoScolastico) {
@@ -74,5 +77,10 @@ public class Classe {
 
     public void removeInsegnamento(Insegnamento insegnamento) {
         insegnamenti.remove(insegnamento);
+    }
+
+    @PreRemove
+    public void preRemove(){
+        studenti.forEach(studente -> studente.setClasse(null));
     }
 }

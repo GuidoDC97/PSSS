@@ -55,7 +55,7 @@ public class StudenteService {
 
         studente.setUserAuthority(authority);
 
-        //studente.setClasse(classeSync);
+        classeSync.addStudente(studente);
         // TODO per guido: è necessario fare il save and flush della classe? (non fatto)
 
         return studenteRepository.saveAndFlush(studente);
@@ -75,7 +75,7 @@ public class StudenteService {
         studente.setTelefono(telefono);
         studente.setClasse(classeSync);
 
-        //studente.getClasse().addStudente(studente);
+        classeSync.addStudente(studente);
         // TODO: problema: devo rimuovere lo studente dalla vecchia classe oppure no?????
 
         return studenteRepository.saveAndFlush(studente);

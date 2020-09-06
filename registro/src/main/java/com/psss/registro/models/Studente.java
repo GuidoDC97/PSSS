@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -27,11 +29,13 @@ public class Studente extends User {
     private LocalDate data;
     private Character sesso;
     private String telefono;
+    
     @ManyToOne
     private Classe classe;
     @ManyToMany
     private Set<Classe> storicoClassi;
-    
+    //TODO: non si riesce a tenere traccia delle classi di uno studente così come lo abbiamo gestito.
+
     public Studente(String username, String nome, String cognome, String codiceFiscale, Character sesso, LocalDate data,
                     String telefono, Classe classe) {
 
@@ -50,8 +54,8 @@ public class Studente extends User {
         this.classe = classe;
     }
 
-    public void setClasse(Classe classe){
-        this.classe = classe;
-        classe.addStudente(this);
-    }
+//    public void setClasse(Classe classe){
+//        this.classe = classe;
+//        classe.addStudente(this);
+//    }
 }

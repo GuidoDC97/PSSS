@@ -1,9 +1,11 @@
 package com.psss.registro.models;
 
+import com.psss.registro.repositories.DocenteRepository;
 import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -13,7 +15,7 @@ import java.util.Set;
 
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity(name = "materie") @ToString(exclude = {"classi","docenti"})
-@EqualsAndHashCode(exclude = {"id","nome","classi", "docenti"})
+@EqualsAndHashCode(exclude = {"id","nome", "docenti"})
 public class Materia{
 
     @Id @GeneratedValue(strategy= GenerationType.AUTO)
@@ -45,6 +47,38 @@ public class Materia{
 
     public void removeDocente(Docente docente) {
         docenti.remove(docente);
+    }
+
+    @PreRemove
+    public void preRemove(){
+
+        //TODO: GESTIRE ELIMINAZIONE MATERIA E RELATIVI INSEGNAMENTI
+
+//        for(Docente docente : docenti){
+//            Set<Insegnamento> insegnamenti = docente.getInsegnamenti();
+//            for(Insegnamento insegnamento : insegnamenti){
+//                if(insegnamento.getMateria().equals(this)){
+//                    insegnamento.getClasse().removeInsegnamento(insegnamento);
+//                    docente.removeInsegnamento(insegnamento);
+//                }
+//            }
+//        }
+//Con lambda
+//        docenti.forEach(docente -> {
+//            docente.getInsegnamenti().forEach(insegnamento -> {
+//                if(insegnamento.getMateria().equals(this))
+//                        docente.removeInsegnamento(insegnamento);
+//            });
+//        });
+
+
+        //Gestione relazione materia-docente
+        for(Docente docente : docenti){
+            docente.removeMateria(this);
+        }
+
+
+
     }
 }
 
