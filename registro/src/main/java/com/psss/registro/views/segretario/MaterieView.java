@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 @PageTitle("Materie")
 @CssImport("./styles/views/materie/materie-view.css")
 public class MaterieView extends Div {
+
     //TODO: sistemare bug di modifica del nome della materia
     private Grid<Materia> grid = new Grid<>(Materia.class);
 
@@ -142,8 +143,8 @@ public class MaterieView extends Div {
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
         filtro.addValueChangeListener(event -> {
             Set<Materia> foundMateria = materie.stream()
-                    .filter(materia -> materia.getCodice().toLowerCase()
-                            .startsWith(event.getValue().toLowerCase()) ||
+                    .filter(materia -> materia.getCodice()
+                            .startsWith(event.getValue().toUpperCase()) ||
                             materia.getNome().toLowerCase()
                                     .startsWith(event.getValue().toLowerCase()))
                     .collect(Collectors.toSet());
