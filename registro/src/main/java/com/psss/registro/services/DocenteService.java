@@ -1,6 +1,5 @@
 package com.psss.registro.services;
 
-import com.psss.registro.models.Classe;
 import com.psss.registro.models.Docente;
 import com.psss.registro.models.Materia;
 import com.psss.registro.repositories.ClasseRepository;

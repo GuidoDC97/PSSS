@@ -38,6 +38,10 @@ public class StudenteService {
         return studenteRepository.findById(id);
     }
 
+    public List<Studente> findByClasse(Classe classe){
+        return studenteRepository.findByClasse(classe);
+    }
+
     //TODO: non credo si debba fare altro nella delete
     public void deleteById(Long id) {
         studenteRepository.deleteById(id);
@@ -64,7 +68,9 @@ public class StudenteService {
     public Studente updateStudente(Studente studente, String username, String nome, String cognome, String codiceFiscale,
                                    Character sesso, LocalDate data, String telefono, Classe classe) {
 
-        Classe classeSync = classeRepository.findById(classe.getId()).get();
+        //Studente studenteSync = studenteRepository.findById(studente.getId()).get();
+        Classe classeOld = classeRepository.findByStudenti(studente);
+        classeOld.removeStudente(studente); //Forse da problemi
 
         studente.setNome(nome);
         studente.setCognome(cognome);
@@ -73,10 +79,10 @@ public class StudenteService {
         studente.setData(data);
         studente.setUsername(username);
         studente.setTelefono(telefono);
-        studente.setClasse(classeSync);
 
-        classeSync.addStudente(studente);
-        // TODO: problema: devo rimuovere lo studente dalla vecchia classe oppure no?????
+        studente.setClasse(classe);
+
+        classe.addStudente(studente);
 
         return studenteRepository.saveAndFlush(studente);
     }

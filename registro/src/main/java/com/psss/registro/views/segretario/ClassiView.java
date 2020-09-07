@@ -1,13 +1,10 @@
 package com.psss.registro.views.segretario;
 
 import com.psss.registro.models.*;
-import com.psss.registro.services.DocenteService;
-import com.psss.registro.services.InsegnamentoService;
-import com.psss.registro.services.MateriaService;
+import com.psss.registro.services.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.listbox.ListBox;
-import com.psss.registro.services.ClasseService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -34,6 +31,7 @@ import com.vaadin.flow.data.binder.ValueContext;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.transaction.annotation.Transactional;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 
@@ -109,15 +107,17 @@ public class ClassiView extends Div {
     private ClasseService classeService;
     private DocenteService docenteService;
     private InsegnamentoService insegnamentoService;
+    private StudenteService studenteService;
 
     private List<Classe> classi;
     private List<Docente> docenti;
 
-    public ClassiView(ClasseService classeService, DocenteService docenteService, InsegnamentoService insegnamentoService) {
+    public ClassiView(ClasseService classeService, DocenteService docenteService, InsegnamentoService insegnamentoService, StudenteService studenteService) {
 
         this.classeService = classeService;
         this.docenteService = docenteService;
         this.insegnamentoService = insegnamentoService;
+        this.studenteService = studenteService;
 
         classi = this.classeService.findAll();
         docenti = this.docenteService.findAll();
@@ -183,12 +183,20 @@ public class ClassiView extends Div {
             studentiDetails.setOpened(false);
             studentiList.setItems("");
 
+
             if(editor.isVisible()) {
-                List<String> studenti = new LinkedList<>();
-                for (Studente studente : classe.getStudenti()) {
-                    studenti.add(studente.getNome() + " " + studente.getCognome());
+                //TODO: Nota: con questa strategia ogni selezione della classe implica il caricamento degli studenti ad
+                // essa associati dal database
+                //Classe classeSync = classeService.findById(classe.getId()).get();
+                List<String> studentiLabel = new LinkedList<>();
+                List<Studente> studenti = studenteService.findByClasse(classe);
+                for(Studente studente : studenti){
+                    studentiLabel.add(studente.getNome() + " " + studente.getCognome());
                 }
-                studentiList.setItems(studenti);
+//                for (Studente studente : classe.getStudenti()) {
+//                    studentiLabel.add(studente.getNome() + " " + studente.getCognome());
+//                }
+                studentiList.setItems(studentiLabel);
                 studentiDetails.setContent(studentiList);
             }
 

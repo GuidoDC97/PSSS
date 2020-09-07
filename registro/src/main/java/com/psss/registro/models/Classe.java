@@ -28,7 +28,7 @@ public class Classe {
 //    @ManyToMany(mappedBy = "classi") @LazyCollection(LazyCollectionOption.FALSE)
 //    private Set<Docente> docenti;
 
-    @OneToMany(mappedBy = "classe") @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) //@LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
     @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;

@@ -10,5 +10,7 @@ import java.util.List;
 public interface ClasseRepository extends JpaRepository<Classe, Long> {
     public List<Classe> findByAnnoScolastico(int annoScolastico);
 
+    Classe findByStudenti(Studente studente);
+
 }
 
