@@ -68,7 +68,7 @@ public class DocenteEditor extends Div {
             form.getBinder().writeBeanIfValid(docente);
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(docenteService.update(docente)) {
+            if(docenteService.updateDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia aggiunta con successo!");
                 notification.open();

@@ -34,7 +34,7 @@ public class StudenteDialog extends Dialog{
         //this.classeService = classeService;
 
         //form = new ClasseForm(this.classeService);
-
+        //TODO: DARIO DEVE AGGIUSTARLO
         Label titolo = new Label("Nuovo Studente");
         titolo.setClassName("bold-text-layout");
 
@@ -67,7 +67,7 @@ public class StudenteDialog extends Dialog{
                         form.getBinder().writeBeanIfValid(studente);
                         Notification notification = new Notification();
                         notification.setDuration(3000);
-                        if (studenteService.update(studente)) {
+                        if (studenteService.saveStudente(studente)) {
                             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                             notification.setText("Studente inserito con successo!");
                             notification.open();

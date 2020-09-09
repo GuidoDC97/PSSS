@@ -67,7 +67,7 @@ public class DocenteDialog extends Dialog {
             form.getBinder().writeBeanIfValid(docente);
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(docenteService.update(docente)) {
+            if(docenteService.saveDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia inserita con successo!");
                 notification.open();

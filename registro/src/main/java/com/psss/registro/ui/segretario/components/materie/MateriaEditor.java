@@ -80,7 +80,7 @@ public class MateriaEditor extends Div {
 
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(materiaService.update(materia)) {
+            if(materiaService.updateMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia aggiunta con successo!");
                 notification.open();

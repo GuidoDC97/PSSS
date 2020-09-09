@@ -63,7 +63,7 @@ public class MateriaDialog extends Dialog {
 
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(materiaService.update(materia)) {
+            if(materiaService.saveMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia inserita con successo!");
                 notification.open();

@@ -55,7 +55,7 @@ public class ClasseDialog extends Dialog{
         conferma.addClickListener(e -> {
             Classe classe = new Classe();
             form.getBinder().writeBeanIfValid(classe);
-            classeService.update(classe);
+            classeService.saveClasse(classe);
             Notification.show("Classe aggiornata con successo!");
             System.out.println("Classe aggiunta: " + classe.toString());
             grid.getClassi().add(classe);
