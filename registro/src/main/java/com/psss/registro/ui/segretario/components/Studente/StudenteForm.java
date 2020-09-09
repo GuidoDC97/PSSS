@@ -27,10 +27,16 @@ public class StudenteForm extends FormLayout {
     private final ComboBox<Character> sesso = new ComboBox<>("Sesso");
     private final TextField numeroTelefono = new TextField("Telefono");
     private final ComboBox<Classe> classe = new ComboBox<>("Classe");
+
     private final Binder<Studente> binder = new BeanValidationBinder<>(Studente.class);
 
 
     public StudenteForm() {
+        nome.setClearButtonVisible(true);
+        nome.addValueChangeListener(e->{
+            nome.setValue(nome.getValue().toUpperCase());
+        });
+
         sesso.setItems('M','F');
        // classe.setItems(classi);
        // classe.setItemLabelGenerator(Classe::getClasse);
@@ -40,5 +46,9 @@ public class StudenteForm extends FormLayout {
 
     public Binder<Studente> getBinder() {
         return binder;
+    }
+
+    public TextField getNome() {
+        return nome;
     }
 }

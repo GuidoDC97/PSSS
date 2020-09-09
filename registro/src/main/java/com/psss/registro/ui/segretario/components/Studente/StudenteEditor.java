@@ -13,6 +13,7 @@ package com.psss.registro.ui.segretario.components.Studente;
         import com.vaadin.flow.component.html.Label;
         import com.vaadin.flow.component.listbox.ListBox;
         import com.vaadin.flow.component.notification.Notification;
+        import com.vaadin.flow.component.notification.NotificationVariant;
         import com.vaadin.flow.component.orderedlayout.FlexComponent;
         import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -69,20 +70,26 @@ public class StudenteEditor extends Div{
         aggiorna.addClickListener(event -> {
             Studente studente = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(studente);
-           // studenteService.update(studente);
-            Notification.show("Studente aggiunto con successo!");
-            System.out.println("Studente aggiornato: " + studente.toString());
-            grid.getGrid().setItems(grid.getStudenti());
-        });
-//        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
-
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+           if(studenteService.update(studente)){
+               notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+               notification.setText("Studente aggiunto con successo!");
+               notification.open();
+               grid.getGrid().setItems(grid.getStudenti());
+        }else {
+               notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+               notification.setText("Attenzione: non è possibile aggiungere lo studente!");
+               notification.open();
+           }});
+        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(aggiorna, elimina);
 
         return buttonLayout;
     }
 
-    private void createDialog() {
+    private void createDialog(){
         dialog = new Dialog();
         dialog.setCloseOnEsc(false);
         dialog.setCloseOnOutsideClick(false);
@@ -105,9 +112,12 @@ public class StudenteEditor extends Div{
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Studente studente = grid.getGrid().getSelectedItems().iterator().next();
-            //studenteService.deleteById(studente.getId());
-            Notification.show("Studente rimosso con successo!");
-            System.out.println("Studente eliminato: " + studente.toString());
+            studenteService.deleteById(studente.getId());
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            notification.setText("Studente rimosso con successo!");
+            notification.open();
             grid.getStudenti().remove(studente);
             grid.getGrid().setItems(grid.getStudenti());
             dialog.close();

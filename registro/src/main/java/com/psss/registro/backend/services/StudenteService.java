@@ -1,8 +1,6 @@
 package com.psss.registro.backend.services;
 
 import com.psss.registro.backend.models.Classe;
-import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.repositories.ClasseRepository;
 import com.psss.registro.backend.repositories.StudenteRepository;
@@ -14,11 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -56,7 +50,7 @@ public class StudenteService implements CrudService<Studente>{
         return getRepository().saveAndFlush(studente);
     }
 
-    public Studente update(Studente studente) {
+    public boolean update(Studente studente) {
 
         //Controlli + Lazy initialization
 
@@ -76,7 +70,8 @@ public class StudenteService implements CrudService<Studente>{
 //
 //        studenteNew.getClasse().addStudente(studenteOld);
 
-        return save(studente);
+       // return save(studente);
+        return true;
     }
 
 }

@@ -71,7 +71,7 @@ public class MateriaDialog extends Dialog {
                 close();
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setText("Attenzione: non è possibile inserita la materia!");
+                notification.setText("Attenzione: non è possibile inserire la materia!");
                 notification.open();
             }
         });
