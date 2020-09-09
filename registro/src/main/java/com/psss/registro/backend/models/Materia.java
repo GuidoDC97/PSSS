@@ -8,17 +8,22 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @AllArgsConstructor
 @Entity(name = "materie") @ToString(exclude = {"classi","docenti"})
 @EqualsAndHashCode(exclude = {"id","nome", "docenti"})
 public class Materia extends AbstractEntity{
 
+//    https://stackoverflow.com/questions/17137307/in-hibernate-validator-4-1-what-is-the-difference-between-notnull-notempty
+    @NotBlank(message = "Inserire il codice")
     private String codice;
+    @NotBlank(message = "Inserire il nome")
     private String nome;
 
     @ManyToMany(mappedBy = "materie") @LazyCollection(LazyCollectionOption.FALSE)
@@ -28,6 +33,10 @@ public class Materia extends AbstractEntity{
         this.codice = codice;
         this.nome = nome;
 //        this.classi = new HashSet<>();
+        this.docenti = new HashSet<>();
+    }
+
+    public Materia() {
         this.docenti = new HashSet<>();
     }
 

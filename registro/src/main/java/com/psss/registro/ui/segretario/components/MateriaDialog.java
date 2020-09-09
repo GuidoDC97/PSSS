@@ -1,12 +1,14 @@
 package com.psss.registro.ui.segretario.components;
 
 import com.psss.registro.backend.models.Materia;
+import com.psss.registro.backend.services.MateriaService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -18,8 +20,12 @@ public class MateriaDialog extends Dialog {
 
     private MateriaGrid grid;
 
-    public MateriaDialog() {
+    private MateriaService materiaService;
+
+    public MateriaDialog(MateriaService materiaService) {
         setId("editor-layout");
+
+        this.materiaService = materiaService;
 
         Label titolo = new Label("Nuova materia");
         titolo.setClassName("bold-text-layout");
@@ -49,7 +55,8 @@ public class MateriaDialog extends Dialog {
         conferma.addClickListener(e -> {
             Materia materia = new Materia();
             form.getBinder().writeBeanIfValid(materia);
-//            materiaService.update(materia);
+            materiaService.update(materia);
+            Notification.show("Materia aggiornata con successo!");
             System.out.println("Materia aggiunta: " + materia.toString());
             grid.getMaterie().add(materia);
             grid.getGrid().setItems(grid.getMaterie());

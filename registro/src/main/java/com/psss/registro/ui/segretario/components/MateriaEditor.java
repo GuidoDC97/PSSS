@@ -11,6 +11,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -25,7 +26,7 @@ public class MateriaEditor extends Div {
 
     private final ListBox<Docente> listBox = new ListBox<>();
 
-    private final Dialog dialog = new Dialog();
+    private Dialog dialog;
 
     private MateriaGrid grid;
 
@@ -41,13 +42,11 @@ public class MateriaEditor extends Div {
 
         Div formDiv = new Div();
         formDiv.setId("editor");
-        formDiv.add(titolo, form);
+        formDiv.add(titolo, form, details);
 
-        add(formDiv, details, createButtonLayout());
+        add(formDiv, createButtonLayout());
 
         createDetails();
-
-        createDialog();
     }
 
     private void createDetails() {
@@ -65,17 +64,23 @@ public class MateriaEditor extends Div {
         buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
 
         elimina.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        elimina.addClickListener(event -> dialog.open());
+        elimina.addClickListener(event -> {
+            createDialog();
+            dialog.open();
+        });
 
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiorna.addClickShortcut(Key.ENTER).listenOn(this);
         aggiorna.addClickListener(event -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(materia);
-//            materiaService.update(materia);
+            materiaService.update(materia);
+            Notification.show("Materia aggiunta con successo!");
             System.out.println("Materia aggiornata: " + materia.toString());
             grid.getGrid().setItems(grid.getMaterie());
         });
+//        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
+
 
         buttonLayout.add(aggiorna, elimina);
 
@@ -83,6 +88,7 @@ public class MateriaEditor extends Div {
     }
 
     private void createDialog() {
+        dialog = new Dialog();
         dialog.setCloseOnEsc(false);
         dialog.setCloseOnOutsideClick(false);
 
@@ -104,7 +110,8 @@ public class MateriaEditor extends Div {
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
-//            materiaService.delete(materia);
+            materiaService.deleteById(materia.getId());
+            Notification.show("Materia rimossa con successo!");
             System.out.println("Materia eliminata: " + materia.toString());
             grid.getMaterie().remove(materia);
             grid.getGrid().setItems(grid.getMaterie());

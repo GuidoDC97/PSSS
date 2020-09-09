@@ -22,13 +22,17 @@ import java.util.stream.Collectors;
 public class MateriaGrid extends Div {
 
     private final Grid<Materia> grid = new Grid<>(Materia.class);
+
     private final TextField filtro = new TextField();
+
     private final Button aggiungi = new Button("Aggiungi");
-    private final MateriaDialog dialog = new MateriaDialog();
+
+    private MateriaDialog dialog;
 
     private MateriaEditor editor;
 
     private MateriaService materiaService;
+
 
     private List<Materia> materie;
 
@@ -38,8 +42,6 @@ public class MateriaGrid extends Div {
 
         this.materiaService = materiaService;
         materie = this.materiaService.findAll();
-
-        dialog.setGrid(this);
 
         grid.setColumns("codice", "nome");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -81,7 +83,11 @@ public class MateriaGrid extends Div {
         });
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        aggiungi.addClickListener(event -> dialog.open());
+        aggiungi.addClickListener(event -> {
+            dialog = new MateriaDialog(this.materiaService);
+            dialog.setGrid(this);
+            dialog.open();
+        });
 
         toolBarLayout.add(filtro, aggiungi);
 

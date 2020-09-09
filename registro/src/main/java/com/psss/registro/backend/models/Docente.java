@@ -16,7 +16,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Data @NoArgsConstructor @AllArgsConstructor
-@Entity(name = "docenti") @ToString(exclude = {"materie", "classi"})
+@Entity(name = "docenti")
+@ToString(exclude = {"codiceFiscale","sesso","data","telefono","materie", "insegnamenti"})
 @EqualsAndHashCode(exclude = {"materie", "classi", "insegnamenti"})
 public class Docente extends User {
 
@@ -75,5 +76,9 @@ public class Docente extends User {
 
     public void removeMateria(Materia materia) {
         materie.remove(materia);
+    }
+
+    public String toString() {
+        return nome + " " + cognome;
     }
 }
