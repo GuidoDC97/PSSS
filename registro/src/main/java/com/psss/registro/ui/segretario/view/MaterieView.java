@@ -1,37 +1,13 @@
 package com.psss.registro.ui.segretario.view;
 
-import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.MateriaService;
-import com.psss.registro.ui.segretario.components.MateriaEditor;
-import com.psss.registro.ui.segretario.components.MateriaGrid;
-import com.psss.registro.ui.segretario.view.MainView;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
+import com.psss.registro.ui.segretario.components.materie.MateriaEditor;
+import com.psss.registro.ui.segretario.components.materie.MateriaGrid;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.listbox.ListBox;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Route(value = "segretario/materie", layout = MainView.class)
