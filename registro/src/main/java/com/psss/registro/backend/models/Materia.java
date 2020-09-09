@@ -1,6 +1,6 @@
-package com.psss.registro.models;
+package com.psss.registro.backend.models;
 
-import com.psss.registro.repositories.DocenteRepository;
+import com.psss.registro.backend.repositories.DocenteRepository;
 import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
@@ -16,10 +16,10 @@ import java.util.Set;
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity(name = "materie") @ToString(exclude = {"classi","docenti"})
 @EqualsAndHashCode(exclude = {"id","nome", "docenti"})
-public class Materia{
+public class Materia extends AbstractEntity{
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+//    private Long id;
     private String codice;
     private String nome;
 //    @ManyToMany(mappedBy = "materie")

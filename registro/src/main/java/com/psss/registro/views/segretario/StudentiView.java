@@ -1,9 +1,9 @@
 package com.psss.registro.views.segretario;
 
-import com.psss.registro.models.Classe;
-import com.psss.registro.models.Studente;
-import com.psss.registro.services.ClasseService;
-import com.psss.registro.services.StudenteService;
+import com.psss.registro.backend.models.Classe;
+import com.psss.registro.backend.models.Studente;
+import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.StudenteService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

@@ -1,4 +1,4 @@
-package com.psss.registro.models;
+package com.psss.registro.backend.models;
 
 import lombok.*;
 
@@ -9,10 +9,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
 @EqualsAndHashCode(exclude = {"docente", "materia", "classe"})
-public class Insegnamento {
+public class Insegnamento extends AbstractEntity{
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+//    private Long id;
     @ManyToOne
     private Docente docente;
     @ManyToOne

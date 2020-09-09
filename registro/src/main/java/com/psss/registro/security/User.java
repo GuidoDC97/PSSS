@@ -1,5 +1,6 @@
 package com.psss.registro.security;
 
+import com.psss.registro.backend.models.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,10 +9,10 @@ import java.io.Serializable;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity(name = "users") @Inheritance(strategy = InheritanceType.JOINED)
 @ToString(exclude = {"userAuthority"}) @EqualsAndHashCode(exclude = {"userAuthority"})
-public class User implements Serializable {
+public class User extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+//    @Id
+//    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     @Column(unique=true)
     private String username;

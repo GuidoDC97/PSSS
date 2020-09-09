@@ -1,4 +1,4 @@
-package com.psss.registro.models;
+package com.psss.registro.backend.models;
 
 import com.psss.registro.security.User;
 
@@ -20,8 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity(name = "studenti") @ToString(exclude = {"classe"}) @EqualsAndHashCode(exclude = {"classe", "storicoClassi"})
 public class Studente extends User {
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+//    private Long id;
     private String nome;
     private String cognome;
     @Column(unique=true)

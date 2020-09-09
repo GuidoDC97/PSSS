@@ -1,4 +1,4 @@
-package com.psss.registro.models;
+package com.psss.registro.backend.models;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import com.psss.registro.backend.models.Classe;
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -16,10 +16,9 @@ import java.util.Set;
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti"})
 @EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti"})
-public class Classe {
+public class Classe extends AbstractEntity{
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+
     private int anno;
     private Character sezione;
     private int annoScolastico;

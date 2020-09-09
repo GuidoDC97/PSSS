@@ -1,6 +1,6 @@
-package com.psss.registro.repositories;
+package com.psss.registro.backend.repositories;
 
-import com.psss.registro.models.Materia;
+import com.psss.registro.backend.models.Materia;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

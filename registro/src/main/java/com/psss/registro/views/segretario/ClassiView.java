@@ -1,7 +1,7 @@
 package com.psss.registro.views.segretario;
 
-import com.psss.registro.models.*;
-import com.psss.registro.services.*;
+import com.psss.registro.backend.models.*;
+import com.psss.registro.backend.services.*;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.listbox.ListBox;
