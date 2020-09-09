@@ -1,7 +1,8 @@
-package com.psss.registro.ui.segretario.components;
+package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.MateriaService;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -9,6 +10,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -34,6 +36,8 @@ public class MateriaDialog extends Dialog {
         formDiv.setId("editor");
         formDiv.add(titolo, form);
 
+        form.getCodice().setAutofocus(true);
+
         add(formDiv, createButtonLayout(formDiv));
 
         addOpenedChangeListener(e -> {
@@ -52,16 +56,27 @@ public class MateriaDialog extends Dialog {
 
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
+        conferma.setEnabled(false);
         conferma.addClickListener(e -> {
             Materia materia = new Materia();
             form.getBinder().writeBeanIfValid(materia);
-            materiaService.update(materia);
-            Notification.show("Materia aggiornata con successo!");
-            System.out.println("Materia aggiunta: " + materia.toString());
-            grid.getMaterie().add(materia);
-            grid.getGrid().setItems(grid.getMaterie());
-            close();
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            if(materiaService.update(materia)) {
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.setText("Materia inserita con successo!");
+                notification.open();
+                grid.getMaterie().add(materia);
+                grid.getGrid().setItems(grid.getMaterie());
+                close();
+            } else {
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setText("Attenzione: non è possibile inserita la materia!");
+                notification.open();
+            }
         });
+
+        form.getBinder().addStatusChangeListener(e -> conferma.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(conferma);
 

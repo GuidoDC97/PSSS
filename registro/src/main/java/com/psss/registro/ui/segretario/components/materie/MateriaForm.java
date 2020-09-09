@@ -1,11 +1,11 @@
-package com.psss.registro.ui.segretario.components;
+package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Materia;
+
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.validator.StringLengthValidator;
 
 public class MateriaForm extends FormLayout {
 
@@ -15,11 +15,22 @@ public class MateriaForm extends FormLayout {
     private final Binder<Materia> binder = new BeanValidationBinder<>(Materia.class);
 
     public MateriaForm() {
+        codice.setClearButtonVisible(true);
+        codice.addValueChangeListener(e->{
+            codice.setValue(codice.getValue().toUpperCase());
+        });
+
+        nome.setClearButtonVisible(true);
+
         add(codice, nome);
         binder.bindInstanceFields(this);
     }
 
     public Binder<Materia> getBinder() {
         return binder;
+    }
+
+    public TextField getCodice() {
+        return codice;
     }
 }

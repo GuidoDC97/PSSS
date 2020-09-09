@@ -23,8 +23,9 @@ public class MateriaService implements CrudService<Materia> {
         return materiaRepository;
     }
 
-    public Materia update(Materia materia) {
-        return save(materia);
+    public boolean update(Materia materia) {
+        save(materia);
+        return true;
     }
 
 }

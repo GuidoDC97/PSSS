@@ -1,12 +1,11 @@
-package com.psss.registro.ui.segretario.components;
+package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.MateriaService;
-import com.vaadin.flow.component.Component;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;

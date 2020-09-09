@@ -1,8 +1,9 @@
-package com.psss.registro.ui.segretario.components;
+package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.MateriaService;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -74,13 +76,21 @@ public class MateriaEditor extends Div {
         aggiorna.addClickListener(event -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(materia);
-            materiaService.update(materia);
-            Notification.show("Materia aggiunta con successo!");
-            System.out.println("Materia aggiornata: " + materia.toString());
-            grid.getGrid().setItems(grid.getMaterie());
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            if(materiaService.update(materia)) {
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.setText("Materia aggiunta con successo!");
+                notification.open();
+                grid.getGrid().setItems(grid.getMaterie());
+            } else {
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setText("Attenzione: non è possibile aggiungere la materia!");
+                notification.open();
+            }
         });
-//        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
+        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(aggiorna, elimina);
 
@@ -111,8 +121,11 @@ public class MateriaEditor extends Div {
         conferma.addClickListener(e -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
             materiaService.deleteById(materia.getId());
-            Notification.show("Materia rimossa con successo!");
-            System.out.println("Materia eliminata: " + materia.toString());
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            notification.setText("Materia rimossa con successo!");
+            notification.open();
             grid.getMaterie().remove(materia);
             grid.getGrid().setItems(grid.getMaterie());
             dialog.close();
