@@ -1,25 +1,25 @@
 package com.psss.registro.ui.segretario.components.studenti;
 
 
-        import com.psss.registro.backend.models.Docente;
-        import com.psss.registro.backend.models.Studente;
-        import com.psss.registro.backend.services.StudenteService;
-        import com.vaadin.flow.component.Key;
-        import com.vaadin.flow.component.button.Button;
-        import com.vaadin.flow.component.button.ButtonVariant;
-        import com.vaadin.flow.component.details.Details;
-        import com.vaadin.flow.component.dialog.Dialog;
-        import com.vaadin.flow.component.html.Div;
-        import com.vaadin.flow.component.html.Label;
-        import com.vaadin.flow.component.listbox.ListBox;
-        import com.vaadin.flow.component.notification.Notification;
-        import com.vaadin.flow.component.notification.NotificationVariant;
-        import com.vaadin.flow.component.orderedlayout.FlexComponent;
-        import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.psss.registro.backend.models.Docente;
+import com.psss.registro.backend.models.Studente;
+import com.psss.registro.backend.services.StudenteService;
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.details.Details;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 
 public class StudenteEditor extends Div{
-    
+    //TODO: DARIO DEVE COMPLETARE
     private final StudenteForm form = new StudenteForm();
 
     private final Button aggiorna = new Button("Aggiorna");
@@ -72,7 +72,7 @@ public class StudenteEditor extends Div{
             form.getBinder().writeBeanIfValid(studente);
             Notification notification = new Notification();
             notification.setDuration(3000);
-           if(studenteService.update(studente)){
+           if(studenteService.updateStudente(studente)){
                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                notification.setText("Studente aggiunto con successo!");
                notification.open();

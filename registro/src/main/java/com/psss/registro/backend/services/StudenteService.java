@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,7 +27,7 @@ public class StudenteService implements CrudService<Studente>{
     private ClasseRepository classeRepository;
 
     @Override
-    public JpaRepository<Studente, Long> getRepository() {
+    public StudenteRepository getRepository() {
         return studenteRepository;
     }
 
@@ -34,25 +35,50 @@ public class StudenteService implements CrudService<Studente>{
         return studenteRepository.findByClasse(classe);
     }
 
-    public Studente save(Studente studente) {
+    //TODO: non si dovrebbe gestire il save dello studente come il save del docente tramite le Autorità?
+    public boolean saveStudente(Studente studente) {
 
-        Classe classeSync = classeRepository.findById(studente.getClasse().getId()).get();
+        if(studente.getId() == null){
+            Classe classeSync = classeRepository.findById(studente.getClasse().getId()).get();
 
-        UserAuthority authority = userAuthorityRepository.findByAuthority("STUDENTE").get();
-        authority.addUser(studente);
-        userAuthorityRepository.saveAndFlush(authority);
+            UserAuthority authority = userAuthorityRepository.findByAuthority("STUDENTE").get();
+            authority.addUser(studente);
+            userAuthorityRepository.saveAndFlush(authority);
 
-        studente.setUserAuthority(authority);
+            studente.setUserAuthority(authority);
 
-        classeSync.addStudente(studente);
-        // TODO per guido: è necessario fare il save and flush della classe? (non fatto)
+            classeSync.addStudente(studente);
+            // TODO per guido: è necessario fare il save and flush della classe? (non fatto)
 
-        return getRepository().saveAndFlush(studente);
+            //getRepository().saveAndFlush(studente);
+            return save(studente);
+
+        }else{
+            return false;
+            //throw new EntityExistsException();
+        }
+
     }
 
-    public boolean update(Studente studente) {
+
+    public Optional<Studente> findByCodiceFiscale(String codiceFiscale){return getRepository().findByCodiceFiscale(codiceFiscale);}
+
+
+    public boolean updateStudente(Studente studente) {
 
         //Controlli + Lazy initialization
+
+
+        Optional<Studente> studenteExistent = findByCodiceFiscale(studente.getCodiceFiscale());
+
+        if (studenteExistent.isPresent() && studenteExistent.get().getId() != studente.getId()){
+            return false;
+        }
+
+        getRepository().saveAndFlush(studente);
+        return true;
+
+
 
         //Studente studenteSync = studenteRepository.findById(studente.getId()).get();
 //        Classe classeOld = classeRepository.findByStudenti(studenteOld);
@@ -70,8 +96,8 @@ public class StudenteService implements CrudService<Studente>{
 //
 //        studenteNew.getClasse().addStudente(studenteOld);
 
-       // return save(studente);
-        return true;
+        //return save(studente);
+
     }
 
 }

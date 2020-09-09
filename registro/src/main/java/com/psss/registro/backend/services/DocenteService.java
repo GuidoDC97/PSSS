@@ -9,11 +9,9 @@ import com.psss.registro.app.security.UserAuthority;
 import com.psss.registro.app.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -30,36 +28,61 @@ public class DocenteService implements CrudService<Docente> {
     private ClasseRepository classeRepository;
 
     @Override
-    public JpaRepository<Docente, Long> getRepository() {
+    public DocenteRepository getRepository() {
         return docenteRepository;
     }
 
-    public Docente save(Docente docente) {
+    public boolean saveDocente(Docente docente) {
+        if(docente.getId() == null){
 
-        UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
-        authority.addUser(docente);
-        userAuthorityRepository.saveAndFlush(authority);
+            Optional<Docente> docenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
 
-        docente.setUserAuthority(authority);
+            if (docenteExistent.isPresent() && docenteExistent.get().getId() != docente.getId()) {
+                return false;
+            }
 
-        // TODO: il docente va aggiunto alla materia qua o nel model?
-        for (Materia materia : docente.getMaterie()) {
-            materia.addDocente(docente);
-            materiaRepository.saveAndFlush(materia);
-            // TODO per guido: è necessario fare il save and flush della classe? (fatto)
+            UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
+            authority.addUser(docente);
+            userAuthorityRepository.saveAndFlush(authority);
+
+            docente.setUserAuthority(authority);
+
+            // TODO: il docente va aggiunto alla materia qua o nel model?
+            for (Materia materia : docente.getMaterie()) {
+                materia.addDocente(docente);
+                materiaRepository.saveAndFlush(materia);
+                // TODO per guido: è necessario fare il save and flush della classe? (fatto)
+            }
+
+    //        for (Classe classe : classi) {
+    //            classe.addDocente(docente);
+    //            classeRepository.saveAndFlush(classe);
+    //        }
+
+            //getRepository().saveAndFlush(docente);
+            return save(docente);
+
+        }else{
+            return false;
+            //throw new EntityExistsException();
         }
-
-//        for (Classe classe : classi) {
-//            classe.addDocente(docente);
-//            classeRepository.saveAndFlush(classe);
-//        }
-
-        return getRepository().saveAndFlush(docente);
     }
 
-    public boolean update(Docente docente) {
+
+    public Optional<Docente> findByCodiceFiscale(String codiceFiscale){return getRepository().findByCodiceFiscale(codiceFiscale);}
+
+    public boolean updateDocente(Docente docente) {
 
         //Controlli + Lazy
+        Optional<Docente> studenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
+
+        if (studenteExistent.isPresent() && studenteExistent.get().getId() != docente.getId()){
+            return false;
+        }
+
+        getRepository().saveAndFlush(docente);
+        return true;
+
 
 //        docenteOld.setUsername(docenteNew.getUsername());
 //        docenteOld.setNome(docenteNew.getNome());
@@ -107,8 +130,8 @@ public class DocenteService implements CrudService<Docente> {
 //                classeRepository.saveAndFlush(classe);
 //            }
 //        }
-        save(docente);
-        return true;
+        //return save(docente);
+
     }
 
 }

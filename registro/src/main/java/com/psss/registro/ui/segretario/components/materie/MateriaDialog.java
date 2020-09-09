@@ -60,9 +60,10 @@ public class MateriaDialog extends Dialog {
         conferma.addClickListener(e -> {
             Materia materia = new Materia();
             form.getBinder().writeBeanIfValid(materia);
+
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(materiaService.update(materia)) {
+            if(materiaService.saveMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia inserita con successo!");
                 notification.open();
