@@ -4,7 +4,6 @@ import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
-import com.psss.registro.ui.segretario.view.MainView;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

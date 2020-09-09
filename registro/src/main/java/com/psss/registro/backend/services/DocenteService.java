@@ -9,6 +9,7 @@ import com.psss.registro.app.security.UserAuthority;
 import com.psss.registro.app.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +18,7 @@ import java.util.*;
 
 @Service
 @Transactional
-public class DocenteService {
+public class DocenteService implements CrudService<Docente> {
 
     @Autowired
     private UserAuthorityRepository userAuthorityRepository;
@@ -28,22 +29,25 @@ public class DocenteService {
     @Autowired
     private ClasseRepository classeRepository;
 
-    public List<Docente> findAll() {
-        return docenteRepository.findAll();
+//    public List<Docente> findAll() {
+//        return docenteRepository.findAll();
+//    }
+//
+//    public Optional<Docente> findById(Long id) {
+//        return docenteRepository.findById(id);
+//    }
+//
+//    public void deleteById(Long id) {
+//        docenteRepository.deleteById(id);
+//    }
+
+
+    @Override
+    public JpaRepository<Docente, Long> getRepository() {
+        return docenteRepository;
     }
 
-    public Optional<Docente> findById(Long id) {
-        return docenteRepository.findById(id);
-    }
-
-    public void deleteById(Long id) {
-        docenteRepository.deleteById(id);
-    }
-
-    public Docente createDocente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                                 LocalDate data, String telefono, Set<Materia> materie) {
-
-        Docente docente = new Docente(username, nome, cognome, codiceFiscale, sesso, data, telefono, materie);
+    public Docente create(Docente docente) {
 
         UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
         authority.addUser(docente);
@@ -52,7 +56,7 @@ public class DocenteService {
         docente.setUserAuthority(authority);
 
         // TODO: il docente va aggiunto alla materia qua o nel model?
-        for (Materia materia : materie) {
+        for (Materia materia : docente.getMaterie()) {
             materia.addDocente(docente);
             materiaRepository.saveAndFlush(materia);
             // TODO per guido: è necessario fare il save and flush della classe? (fatto)
@@ -63,36 +67,35 @@ public class DocenteService {
 //            classeRepository.saveAndFlush(classe);
 //        }
 
-        return docenteRepository.saveAndFlush(docente);
+        return getRepository().saveAndFlush(docente);
     }
 
-    public Docente updateDocente(Docente docente, String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                                 LocalDate data, String telefono, Set<Materia> materie) {
+    public Docente update(Docente docenteOld, Docente docenteNew) {
 
-        docente.setUsername(username);
-        docente.setNome(nome);
-        docente.setCognome(cognome);
-        docente.setCodiceFiscale(codiceFiscale);
-        docente.setSesso(sesso);
-        docente.setData(data);
-        docente.setTelefono(telefono);
+        docenteOld.setUsername(docenteNew.getUsername());
+        docenteOld.setNome(docenteNew.getNome());
+        docenteOld.setCognome(docenteNew.getCognome());
+        docenteOld.setCodiceFiscale(docenteNew.getCodiceFiscale());
+        docenteOld.setSesso(docenteNew.getSesso());
+        docenteOld.setData(docenteNew.getData());
+        docenteOld.setTelefono(docenteNew.getTelefono());
 
         // Aggiunge le nuove materie al docente ed aggiunge il docente alla nuove materie
-        for (Materia materia : materie) {
-            if(!docente.getMaterie().contains(materia)) {
-                docente.addMateria(materia);
-                materia.addDocente(docente);
+        for (Materia materia : docenteNew.getMaterie()) {
+            if(!docenteOld.getMaterie().contains(materia)) {
+                docenteOld.addMateria(materia);
+                materia.addDocente(docenteOld);
                 materiaRepository.saveAndFlush(materia);
             }
         }
 
         // TODO: risolvere un bug dovuto ad un null pointer
         // Rimuove le vecchie materia al docente e rimuove il docente dalle vecchie materie
-        Set<Materia> materiaSet = new HashSet<>(docente.getMaterie());
+        Set<Materia> materiaSet = new HashSet<>(docenteOld.getMaterie());
         for (Materia materia : materiaSet) {
-            if(!materie.contains(materia)) {
-                docente.removeMateria(materia);
-                materia.removeDocente(docente);
+            if(!docenteNew.getMaterie().contains(materia)) {
+                docenteOld.removeMateria(materia);
+                materia.removeDocente(docenteOld);
                 materiaRepository.saveAndFlush(materia);
             }
         }
@@ -116,7 +119,7 @@ public class DocenteService {
 //            }
 //        }
 
-        return docenteRepository.saveAndFlush(docente);
+        return getRepository().saveAndFlush(docenteOld);
     }
 
 }

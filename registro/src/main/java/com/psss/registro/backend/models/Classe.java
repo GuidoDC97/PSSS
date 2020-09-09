@@ -4,7 +4,6 @@ import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 
 import java.util.HashSet;
@@ -13,10 +12,9 @@ import java.util.Set;
 @Data @NoArgsConstructor @AllArgsConstructor
 @Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti"})
 @EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti"})
-public class Classe {
+public class Classe extends AbstractEntity{
 
-    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+
     private int anno;
     private Character sezione;
     private int annoScolastico;

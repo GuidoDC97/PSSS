@@ -1,5 +1,6 @@
 package com.psss.registro.ui.segretario.view;
 
+import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
@@ -437,10 +438,10 @@ public class DocentiView extends Div {
     }
 
     private void addDocente() {
-        Docente docente = docenteService.createDocente(emailAdd.getValue(), nomeAdd.getValue(), cognomeAdd.getValue(),
-                codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataAdd.getValue(), telefonoAdd.getValue() ,
-                materieAdd.getSelectedItems());
-        docenti.add(docente);
+//        Docente docente = docenteService.createDocente(emailAdd.getValue(), nomeAdd.getValue(), cognomeAdd.getValue(),
+//                codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataAdd.getValue(), telefonoAdd.getValue() ,
+//                materieAdd.getSelectedItems());
+//        docenti.add(docente);
         Notification.show("Docente aggiunto con successo!");
     }
 
@@ -453,9 +454,9 @@ public class DocentiView extends Div {
 
     private void updateDocente() {
         Docente docente = grid.getSelectedItems().iterator().next();
-        docenteService.updateDocente(docente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
-                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataEdit.getValue(), telefonoEdit.getValue(),
-                materieEdit.getSelectedItems());
+//        docenteService.updateDocente(docente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
+//                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataEdit.getValue(), telefonoEdit.getValue(),
+//                materieEdit.getSelectedItems());
         Notification.show("Docente aggiornato con successo!");
     }
 }
