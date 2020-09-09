@@ -424,10 +424,10 @@ public class StudentiView extends Div {
 
     //TODO: bugga un po il tasto conferma, non sempre si abilita nel modo corretto
     private void addStudente() {
-        Studente studente = studenteService.createStudente(emailAdd.getValue(), nomeAdd.getValue(),
-                cognomeAdd.getValue(), codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataNascitaAdd.getValue(),
-                numeroTelefonoAdd.getValue(),classeAdd.getValue());
-        studenti.add(studente);
+//        Studente studente = studenteService.createStudente(emailAdd.getValue(), nomeAdd.getValue(),
+//                cognomeAdd.getValue(), codiceFiscaleAdd.getValue(), sessoAdd.getValue(), dataNascitaAdd.getValue(),
+//                numeroTelefonoAdd.getValue(),classeAdd.getValue());
+//        studenti.add(studente);
         Notification.show("Studente aggiunto con successo!");
     }
 
@@ -440,9 +440,9 @@ public class StudentiView extends Div {
 
     private void updateStudente() {
         Studente studente = grid.getSelectedItems().iterator().next();
-        studenteService.updateStudente(studente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
-                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataNascitaEdit.getValue(),
-                numeroTelefonoEdit.getValue(), classeEdit.getValue());
+//        studenteService.updateStudente(studente, emailEdit.getValue(), nomeEdit.getValue(), cognomeEdit.getValue(),
+//                codiceFiscaleEdit.getValue(), sessoEdit.getValue(), dataNascitaEdit.getValue(),
+//                numeroTelefonoEdit.getValue(), classeEdit.getValue());
         Notification.show("Studente aggiornato con successo!");
     }
 }

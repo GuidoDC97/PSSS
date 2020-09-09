@@ -5,8 +5,8 @@ import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.repositories.ClasseRepository;
 import com.psss.registro.backend.repositories.DocenteRepository;
 import com.psss.registro.backend.repositories.MateriaRepository;
-import com.psss.registro.security.UserAuthority;
-import com.psss.registro.security.UserAuthorityRepository;
+import com.psss.registro.app.security.UserAuthority;
+import com.psss.registro.app.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;

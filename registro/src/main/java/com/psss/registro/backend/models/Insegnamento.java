@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
 @EqualsAndHashCode(exclude = {"docente", "materia", "classe"})
 public class Insegnamento extends AbstractEntity{

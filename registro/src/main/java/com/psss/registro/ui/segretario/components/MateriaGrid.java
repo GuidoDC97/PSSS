@@ -15,8 +15,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MateriaGrid extends Div {
 
@@ -29,33 +30,33 @@ public class MateriaGrid extends Div {
 
     private MateriaService materiaService;
 
+    private List<Materia> materie;
+
     public MateriaGrid(MateriaService materiaService) {
         setId("grid-wrapper");
         setWidthFull();
 
         this.materiaService = materiaService;
+        materie = this.materiaService.findAll();
+
+        dialog.setGrid(this);
 
         grid.setColumns("codice", "nome");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
-        grid.setItems(materiaService.findAll());
+        grid.setItems(materie);
         grid.asSingleSelect().addValueChangeListener(event -> {
             Materia materia = event.getValue();
 
             editor.getForm().getBinder().readBean(materia);
             editor.setVisible(!event.getHasValue().isEmpty());
 
-//            docentiDetails.setOpened(false);
-//            docentiList.setItems("");
-//
-//            if(editor.isVisible()) {
-//                List<String> docenti = new ArrayList<>();
-//                for (Docente docente : materia.getDocenti()) {
-//                    docenti.add(docente.getNome() + " " + docente.getCognome());
-//                }
-//                docentiList.setItems(docenti);
-//                docentiDetails.setContent(docentiList);
-//            }
+            editor.getDetails().setOpened(false);
+            editor.getListBox().setItems((Docente) null);
+
+            if(editor.isVisible()) {
+                editor.getListBox().setItems(materia.getDocenti());
+            }
         });
 
         add(createToolbarLayout(), grid);
@@ -71,6 +72,13 @@ public class MateriaGrid extends Div {
         filtro.setPlaceholder("Cerca...");
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
+        filtro.addValueChangeListener(event -> {
+            Set<Materia> foundMateria = materie.stream()
+                    .filter(materia -> materia.getCodice().startsWith(event.getValue().toUpperCase()) ||
+                            materia.getNome().toLowerCase().startsWith(event.getValue().toLowerCase()))
+                    .collect(Collectors.toSet());
+            grid.setItems(foundMateria);
+        });
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> dialog.open());
@@ -82,6 +90,10 @@ public class MateriaGrid extends Div {
 
     public Grid<Materia> getGrid() {
         return grid;
+    }
+
+    public List<Materia> getMaterie() {
+        return materie;
     }
 
     public void setEditor(MateriaEditor editor) {

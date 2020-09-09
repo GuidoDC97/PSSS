@@ -511,8 +511,8 @@ public class ClassiView extends Div {
     //TODO: gestire correttamente le liste che costituiscono la griglia come ha fatto Fabio.
     //TODO: gestire bene il costruttore
     private void addClasse() {
-        Classe classe = classeService.createClasse(annoAdd.getValue(), sezioneAdd.getValue(), annoScolasticoAdd.getValue());
-        classi.add(classe);
+//        Classe classe = classeService.createClasse(annoAdd.getValue(), sezioneAdd.getValue(), annoScolasticoAdd.getValue());
+//        classi.add(classe);
         Notification.show("Classe aggiunta con successo!");
     }
 
@@ -538,15 +538,15 @@ public class ClassiView extends Div {
         }
         if(true){
             Classe classe = grid.getSelectedItems().iterator().next();
-            classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(),
-                    annoScolasticoEdit.getValue(), insegnamentiCombo.getSelectedItems());
+//            classeService.updateClasse(classe, annoEdit.getValue(), sezioneEdit.getValue(),
+//                    annoScolasticoEdit.getValue(), insegnamentiCombo.getSelectedItems());
             Notification.show("Classe aggiornata con successo!");
         }
     }
 
     private void addInsegnamento() {
-        insegnamentoService.createInsegnamento(docenteInsegnamento.getValue(), materiaInsegnamento.getValue(),
-                grid.getSelectedItems().iterator().next());
+//        insegnamentoService.createInsegnamento(docenteInsegnamento.getValue(), materiaInsegnamento.getValue(),
+//                grid.getSelectedItems().iterator().next());
         Notification.show("Insegnamento inserito con successo!");
     }
 }

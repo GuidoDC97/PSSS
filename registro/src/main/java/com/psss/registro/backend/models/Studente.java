@@ -1,6 +1,6 @@
 package com.psss.registro.backend.models;
 
-import com.psss.registro.security.User;
+import com.psss.registro.app.security.User;
 
 import lombok.*;
 

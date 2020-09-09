@@ -39,46 +39,44 @@ import java.util.stream.Collectors;
 @CssImport("./styles/views/materie/materie-view.css")
 public class MaterieView extends Div {
 
-    //TODO: sistemare bug di modifica del nome della materia
-    private Grid<Materia> grid = new Grid<>(Materia.class);
-
-    private final FormLayout formEdit = new FormLayout();
-    private final FormLayout formAdd = new FormLayout();
-
-    private final Dialog dialogAdd = new Dialog();
-    private final Dialog dialogDel = new Dialog();
-
-    private final TextField codiceEdit = new TextField();
-    private final TextField nomemateriaEdit = new TextField();
-
-    private final TextField codiceAdd = new TextField();
-    private final TextField nomemateriaAdd = new TextField();
-
-    private final Details docentiDetails = new Details();
-    private final ListBox<String> docentiList = new ListBox<>();
-
-    private final TextField filtro = new TextField();
-
-    private final Button aggiungi = new Button("Aggiungi");
-    private final Button conferma = new Button("Conferma");
-
-    private final Button aggiorna = new Button("Aggiorna");
-    private final Button elimina = new Button("Elimina");
-    private final Button confermaDel = new Button("Conferma");
-    private final Button chiudiDel = new Button("Chiudi");
-
-    private final Binder<Materia> binderEdit = new Binder<>(Materia.class);
-    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);
+//    //TODO: sistemare bug di modifica del nome della materia
+//    private Grid<Materia> grid = new Grid<>(Materia.class);
+//
+//    private final FormLayout formEdit = new FormLayout();
+//    private final FormLayout formAdd = new FormLayout();
+//
+//    private final Dialog dialogAdd = new Dialog();
+//    private final Dialog dialogDel = new Dialog();
+//
+//    private final TextField codiceEdit = new TextField();
+//    private final TextField nomemateriaEdit = new TextField();
+//
+//    private final TextField codiceAdd = new TextField();
+//    private final TextField nomemateriaAdd = new TextField();
+//
+//    private final Details docentiDetails = new Details();
+//    private final ListBox<String> docentiList = new ListBox<>();
+//
+//    private final TextField filtro = new TextField();
+//
+//    private final Button aggiungi = new Button("Aggiungi");
+//    private final Button conferma = new Button("Conferma");
+//
+//    private final Button aggiorna = new Button("Aggiorna");
+//    private final Button elimina = new Button("Elimina");
+//    private final Button confermaDel = new Button("Conferma");
+//    private final Button chiudiDel = new Button("Chiudi");
+//
+//    private final Binder<Materia> binderEdit = new Binder<>(Materia.class);
+//    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);
 
     private MateriaService materiaService;
-
-    private List<Materia> materie;
 
     public MaterieView(MateriaService materiaService) {
 
         this.materiaService = materiaService;
 
-        materie = materiaService.findAll();
+//        materie = materiaService.findAll();
 
         setId("materie-view");
 
