@@ -1,6 +1,6 @@
 package com.psss.registro.backend.models;
 
-import com.psss.registro.app.security.User;
+import com.psss.registro.security.User;
 
 import lombok.*;
 
@@ -9,6 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
