@@ -29,25 +29,12 @@ public class DocenteService implements CrudService<Docente> {
     @Autowired
     private ClasseRepository classeRepository;
 
-//    public List<Docente> findAll() {
-//        return docenteRepository.findAll();
-//    }
-//
-//    public Optional<Docente> findById(Long id) {
-//        return docenteRepository.findById(id);
-//    }
-//
-//    public void deleteById(Long id) {
-//        docenteRepository.deleteById(id);
-//    }
-
-
     @Override
     public JpaRepository<Docente, Long> getRepository() {
         return docenteRepository;
     }
 
-    public Docente create(Docente docente) {
+    public Docente save(Docente docente) {
 
         UserAuthority authority = userAuthorityRepository.findByAuthority("DOCENTE").get();
         authority.addUser(docente);
@@ -70,35 +57,37 @@ public class DocenteService implements CrudService<Docente> {
         return getRepository().saveAndFlush(docente);
     }
 
-    public Docente update(Docente docenteOld, Docente docenteNew) {
+    public Docente update(Docente docente) {
 
-        docenteOld.setUsername(docenteNew.getUsername());
-        docenteOld.setNome(docenteNew.getNome());
-        docenteOld.setCognome(docenteNew.getCognome());
-        docenteOld.setCodiceFiscale(docenteNew.getCodiceFiscale());
-        docenteOld.setSesso(docenteNew.getSesso());
-        docenteOld.setData(docenteNew.getData());
-        docenteOld.setTelefono(docenteNew.getTelefono());
+        //Controlli + Lazy
 
-        // Aggiunge le nuove materie al docente ed aggiunge il docente alla nuove materie
-        for (Materia materia : docenteNew.getMaterie()) {
-            if(!docenteOld.getMaterie().contains(materia)) {
-                docenteOld.addMateria(materia);
-                materia.addDocente(docenteOld);
-                materiaRepository.saveAndFlush(materia);
-            }
-        }
-
-        // TODO: risolvere un bug dovuto ad un null pointer
-        // Rimuove le vecchie materia al docente e rimuove il docente dalle vecchie materie
-        Set<Materia> materiaSet = new HashSet<>(docenteOld.getMaterie());
-        for (Materia materia : materiaSet) {
-            if(!docenteNew.getMaterie().contains(materia)) {
-                docenteOld.removeMateria(materia);
-                materia.removeDocente(docenteOld);
-                materiaRepository.saveAndFlush(materia);
-            }
-        }
+//        docenteOld.setUsername(docenteNew.getUsername());
+//        docenteOld.setNome(docenteNew.getNome());
+//        docenteOld.setCognome(docenteNew.getCognome());
+//        docenteOld.setCodiceFiscale(docenteNew.getCodiceFiscale());
+//        docenteOld.setSesso(docenteNew.getSesso());
+//        docenteOld.setData(docenteNew.getData());
+//        docenteOld.setTelefono(docenteNew.getTelefono());
+//
+//        // Aggiunge le nuove materie al docente ed aggiunge il docente alla nuove materie
+//        for (Materia materia : docenteNew.getMaterie()) {
+//            if(!docenteOld.getMaterie().contains(materia)) {
+//                docenteOld.addMateria(materia);
+//                materia.addDocente(docenteOld);
+//                materiaRepository.saveAndFlush(materia);
+//            }
+//        }
+//
+//        // TODO: risolvere un bug dovuto ad un null pointer
+//        // Rimuove le vecchie materia al docente e rimuove il docente dalle vecchie materie
+//        Set<Materia> materiaSet = new HashSet<>(docenteOld.getMaterie());
+//        for (Materia materia : materiaSet) {
+//            if(!docenteNew.getMaterie().contains(materia)) {
+//                docenteOld.removeMateria(materia);
+//                materia.removeDocente(docenteOld);
+//                materiaRepository.saveAndFlush(materia);
+//            }
+//        }
 
         // Aggiunge le nuove classi al docente ed aggiunge il docente alla nuove classi
 //        for (Classe classe : classi) {
@@ -118,8 +107,7 @@ public class DocenteService implements CrudService<Docente> {
 //                classeRepository.saveAndFlush(classe);
 //            }
 //        }
-
-        return getRepository().saveAndFlush(docenteOld);
+        return save(docente);
     }
 
 }

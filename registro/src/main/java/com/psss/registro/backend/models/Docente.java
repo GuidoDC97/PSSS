@@ -20,20 +20,22 @@ import java.util.*;
 @EqualsAndHashCode(exclude = {"materie", "classi", "insegnamenti"})
 public class Docente extends User {
 
-//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
+    //    @Id @GeneratedValue(strategy= GenerationType.AUTO)
 //    private Long id;
     private String nome;
     private String cognome;
-    @Column(unique=true)
+    @Column(unique = true)
     private String codiceFiscale;
     private Character sesso;
     private LocalDate data;
     private String telefono;
-    @ManyToMany @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Materia> materie;
-//    @ManyToMany
+    //    @ManyToMany
 //    private Set<Classe> classi;
-    @OneToMany(mappedBy = "docente", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.REMOVE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 
     public Docente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
@@ -52,7 +54,6 @@ public class Docente extends User {
         this.data = data;
         this.telefono = telefono;
         this.materie = materie;
-//        this.classi = classi;
         this.insegnamenti = new HashSet<Insegnamento>();
     }
 
@@ -60,6 +61,14 @@ public class Docente extends User {
         return (this.nome + " " + this.cognome);
     }
 
+    public void setMaterie(Set<Materia> materie) {
+        this.materie = materie;
+        for (Materia materia : materie) {
+            materia.addDocente(this);
+        }
+    }
+
+    //Vengono utilizzate nella pre-remove della materia
     public void addMateria(Materia materia) {
         materie.add(materia);
     }
@@ -67,19 +76,4 @@ public class Docente extends User {
     public void removeMateria(Materia materia) {
         materie.remove(materia);
     }
-
-//    public void addClasse(Classe classe) {
-//        classi.add(classe);
-//    }
-//
-//    public void removeClasse(Classe classe) {
-//        classi.remove(classe);
-//    }
-
-    public void addInsegnamento(Insegnamento insegnamento) {
-        insegnamenti.add(insegnamento);
-    }
-
-    public void removeInsegnamento(Insegnamento insegnamento) {
-        insegnamenti.remove(insegnamento);
-    }}
+}

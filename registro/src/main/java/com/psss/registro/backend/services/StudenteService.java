@@ -36,25 +36,11 @@ public class StudenteService implements CrudService<Studente>{
         return studenteRepository;
     }
 
-//    public List<Studente> findAll() {
-//        return studenteRepository.findAll();
-//    }
-//
-//    public Optional<Studente> findById(Long id) {
-//        return studenteRepository.findById(id);
-//    }
-
     public List<Studente> findByClasse(Classe classe){
         return studenteRepository.findByClasse(classe);
     }
 
-    //TODO: non credo si debba fare altro nella delete
-//    public void deleteById(Long id) {
-//        studenteRepository.deleteById(id);
-//    }
-
-
-    public Studente create(Studente studente) {
+    public Studente save(Studente studente) {
 
         Classe classeSync = classeRepository.findById(studente.getClasse().getId()).get();
 
@@ -70,24 +56,27 @@ public class StudenteService implements CrudService<Studente>{
         return getRepository().saveAndFlush(studente);
     }
 
-    public Studente update(Studente studenteOld, Studente studenteNew) {
+    public Studente update(Studente studente) {
+
+        //Controlli + Lazy initialization
 
         //Studente studenteSync = studenteRepository.findById(studente.getId()).get();
-        Classe classeOld = classeRepository.findByStudenti(studenteOld);
-        classeOld.removeStudente(studenteOld); //Forse da problemi
+//        Classe classeOld = classeRepository.findByStudenti(studenteOld);
+//        classeOld.removeStudente(studenteOld); //Forse da problemi
+//
+//        studenteOld.setNome(studenteNew.getNome());
+//        studenteOld.setCognome(studenteNew.getCognome());
+//        studenteOld.setCodiceFiscale(studenteNew.getCodiceFiscale());
+//        studenteOld.setSesso(studenteNew.getSesso());
+//        studenteOld.setData(studenteNew.getData());
+//        studenteOld.setUsername(studenteNew.getUsername());
+//        studenteOld.setTelefono(studenteNew.getTelefono());
+//
+//        studenteOld.setClasse(studenteNew.getClasse());
+//
+//        studenteNew.getClasse().addStudente(studenteOld);
 
-        studenteOld.setNome(studenteNew.getNome());
-        studenteOld.setCognome(studenteNew.getCognome());
-        studenteOld.setCodiceFiscale(studenteNew.getCodiceFiscale());
-        studenteOld.setSesso(studenteNew.getSesso());
-        studenteOld.setData(studenteNew.getData());
-        studenteOld.setUsername(studenteNew.getUsername());
-        studenteOld.setTelefono(studenteNew.getTelefono());
-
-        studenteOld.setClasse(studenteNew.getClasse());
-
-        studenteNew.getClasse().addStudente(studenteOld);
-
-        return getRepository().saveAndFlush(studenteOld);
+        return save(studente);
     }
+
 }

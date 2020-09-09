@@ -18,12 +18,9 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"id","nome", "docenti"})
 public class Materia extends AbstractEntity{
 
-//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-//    private Long id;
     private String codice;
     private String nome;
-//    @ManyToMany(mappedBy = "materie")
-//    private Set<Classe> classi;
+
     @ManyToMany(mappedBy = "materie") @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Docente> docenti;
 
@@ -33,13 +30,6 @@ public class Materia extends AbstractEntity{
 //        this.classi = new HashSet<>();
         this.docenti = new HashSet<>();
     }
-//    public void addClasse(Classe classe){
-//        classi.add(classe);
-//    }
-//
-//    public void removeClasse(Classe classe) {
-//        classi.remove(classe);
-//    }
 
     public void addDocente(Docente docente){
         docenti.add(docente);
@@ -48,6 +38,7 @@ public class Materia extends AbstractEntity{
     public void removeDocente(Docente docente) {
         docenti.remove(docente);
     }
+
 
     @PreRemove
     public void preRemove(){

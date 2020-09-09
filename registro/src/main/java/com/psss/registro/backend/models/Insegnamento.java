@@ -6,12 +6,11 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
+//@AllArgsConstructor
 @Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
 @EqualsAndHashCode(exclude = {"docente", "materia", "classe"})
 public class Insegnamento extends AbstractEntity{
 
-//    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-//    private Long id;
     @ManyToOne
     private Docente docente;
     @ManyToOne
@@ -25,7 +24,19 @@ public class Insegnamento extends AbstractEntity{
         this.classe = classe;
     }
 
+
+    public void setDocente(Docente docente){
+        this.docente = docente;
+        docente.getInsegnamenti().add(this);
+    }
+
+    public void setClasse(Classe classe){
+        this.classe = classe;
+        classe.getInsegnamenti().add(this);
+    }
+
     public String getDocenteMateria() {
         return docente.getDocente() + " (" + materia.getNome() + ")";
     }
+
 }

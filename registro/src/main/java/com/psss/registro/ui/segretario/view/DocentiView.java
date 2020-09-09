@@ -19,6 +19,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -435,6 +436,8 @@ public class DocentiView extends Div {
     private void updateGrid() {
         //grid.setPageSize(2);
         grid.setItems(docenti);
+        ListBox<Docente> listBox = new ListBox<>();
+        
     }
 
     private void addDocente() {

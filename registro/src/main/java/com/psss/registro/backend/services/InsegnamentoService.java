@@ -20,35 +20,9 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
     @Autowired
     InsegnamentoRepository insegnamentoRepository;
 
-//    public List<Insegnamento> findAll() {
-//        return insegnamentoRepository.findAll();
-//    }
-//
-//    public Optional<Insegnamento> findById(Long id) {
-//        return insegnamentoRepository.findById(id);
-//    }
-//
-//    public void deleteById(Long id) {
-//        insegnamentoRepository.deleteById(id);
-//    }
-
     @Override
     public JpaRepository<Insegnamento, Long> getRepository() {
         return insegnamentoRepository;
     }
 
-    public Insegnamento create(Insegnamento insegnamento) {
-
-        insegnamento.getDocente().addInsegnamento(insegnamento);
-        insegnamento.getClasse().addInsegnamento(insegnamento);
-        //TODO: verificare se è necessario salvare docente e classe
-
-        return getRepository().saveAndFlush(insegnamento);
-    }
-
-    //TODO: Controllare se è opportuno implementarla in questo modo.
-    @Override
-    public Insegnamento update(Insegnamento oldEntity, Insegnamento newEntity) {
-        return null;
-    }
 }
