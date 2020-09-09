@@ -92,7 +92,9 @@ public class ClasseEditor extends Div {
             form.getBinder().writeBeanIfValid(classe);
             Notification notification = new Notification();
             notification.setDuration(3000);
+
             if(classeService.update(classe)) {
+
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Classe aggiunta con successo!");
                 notification.open();
@@ -103,6 +105,7 @@ public class ClasseEditor extends Div {
                 notification.open();
             }
         });
+
 
         form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 

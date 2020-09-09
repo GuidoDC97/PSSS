@@ -40,7 +40,8 @@ public class StudenteGrid extends Div {
         this.studenteService = studenteService;
         studenti = this.studenteService.findAll();
 
-        grid.setColumns("nome", "cognome","codiceFiscale","data", "sesso" ,"telefono","classe");
+        grid.setColumns("nome", "cognome","codiceFiscale","username","data", "sesso" ,"telefono","classe");
+        grid.getColumnByKey("username").setHeader("E-mail");
 
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
