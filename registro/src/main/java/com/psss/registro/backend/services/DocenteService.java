@@ -57,7 +57,7 @@ public class DocenteService implements CrudService<Docente> {
         return getRepository().saveAndFlush(docente);
     }
 
-    public Docente update(Docente docente) {
+    public boolean update(Docente docente) {
 
         //Controlli + Lazy
 
@@ -107,7 +107,8 @@ public class DocenteService implements CrudService<Docente> {
 //                classeRepository.saveAndFlush(classe);
 //            }
 //        }
-        return save(docente);
+        save(docente);
+        return true;
     }
 
 }

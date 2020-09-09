@@ -1,7 +1,7 @@
-package com.psss.registro.ui.segretario.components.materie;
+package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
+import com.psss.registro.backend.services.DocenteService;
 import com.psss.registro.backend.services.MateriaService;
 
 import com.vaadin.flow.component.button.Button;
@@ -17,46 +17,42 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+public class DocenteGrid extends Div {
 
-public class MateriaGrid extends Div {
-
-    private final Grid<Materia> grid = new Grid<>(Materia.class);
+    private final Grid<Docente> grid = new Grid<>(Docente.class);
 
     private final TextField filtro = new TextField();
 
     private final Button aggiungi = new Button("Aggiungi");
 
-    private MateriaDialog dialog;
+    private DocenteDialog dialog;
 
-    private MateriaEditor editor;
+    private DocenteEditor editor;
 
+    private DocenteService docenteService;
     private MateriaService materiaService;
 
-    private List<Materia> materie;
+    private List<Docente> docenti;
 
-    public MateriaGrid(MateriaService materiaService) {
+    public DocenteGrid(DocenteService docenteService, MateriaService materiaService) {
         setId("grid-wrapper");
         setWidthFull();
 
+        this.docenteService = docenteService;
         this.materiaService = materiaService;
-        materie = this.materiaService.findAll();
 
-        grid.setColumns("codice", "nome");
+        docenti = this.docenteService.findAll();
+
+        grid.setColumns("nome", "cognome", "codiceFiscale", "sesso", "data", "username", "telefono");
+        grid.getColumnByKey("username").setHeader("E-mail");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
-        grid.setItems(materie);
+        grid.setItems(docenti);
         grid.asSingleSelect().addValueChangeListener(event -> {
-            Materia materia = event.getValue();
+            Docente docente = event.getValue();
 
-            editor.getForm().getBinder().readBean(materia);
+            editor.getForm().getBinder().readBean(docente);
             editor.setVisible(!event.getHasValue().isEmpty());
-
-            editor.getDetails().setOpened(false);
-            editor.getListBox().setItems((Docente) null);
-
-            if(editor.isVisible()) {
-                editor.getListBox().setItems(materia.getDocenti());
-            }
         });
 
         add(createToolbarLayout(), grid);
@@ -73,16 +69,16 @@ public class MateriaGrid extends Div {
         filtro.setClearButtonVisible(true);
         filtro.setValueChangeMode(ValueChangeMode.LAZY);
         filtro.addValueChangeListener(event -> {
-            Set<Materia> foundMateria = materie.stream()
-                    .filter(materia -> materia.getCodice().startsWith(event.getValue().toUpperCase()) ||
-                            materia.getNome().toLowerCase().startsWith(event.getValue().toLowerCase()))
+            Set<Docente> foundDocenti = docenti.stream()
+                    .filter(docente -> docente.getNome().toLowerCase().startsWith(event.getValue().toLowerCase()) ||
+                            docente.getCognome().toLowerCase().startsWith(event.getValue().toLowerCase()))
                     .collect(Collectors.toSet());
-            grid.setItems(foundMateria);
+            grid.setItems(foundDocenti);
         });
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            dialog = new MateriaDialog(this.materiaService);
+            dialog = new DocenteDialog(this.docenteService, this.materiaService);
             dialog.setGrid(this);
             dialog.open();
         });
@@ -92,15 +88,15 @@ public class MateriaGrid extends Div {
         return toolBarLayout;
     }
 
-    public Grid<Materia> getGrid() {
+    public Grid<Docente> getGrid() {
         return grid;
     }
 
-    public List<Materia> getMaterie() {
-        return materie;
+    public List<Docente> getDocenti() {
+        return docenti;
     }
 
-    public void setEditor(MateriaEditor editor) {
+    public void setEditor(DocenteEditor editor) {
         this.editor = editor;
     }
 }

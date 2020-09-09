@@ -22,7 +22,6 @@ public class Classe extends AbstractEntity{
     private Character sezione;
     private int annoScolastico;
 
-
     @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) //@LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
     @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
