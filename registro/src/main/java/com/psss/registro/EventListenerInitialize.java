@@ -1,9 +1,9 @@
 package com.psss.registro;
 
-import com.psss.registro.security.User;
-import com.psss.registro.security.UserAuthority;
-import com.psss.registro.security.UserAuthorityRepository;
-import com.psss.registro.security.UserRepository;
+import com.psss.registro.app.security.User;
+import com.psss.registro.app.security.UserAuthority;
+import com.psss.registro.app.security.UserAuthorityRepository;
+import com.psss.registro.app.security.UserRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
