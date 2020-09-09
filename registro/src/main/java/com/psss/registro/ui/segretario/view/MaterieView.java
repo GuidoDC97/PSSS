@@ -1,82 +1,24 @@
 package com.psss.registro.ui.segretario.view;
 
-import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.MateriaService;
-import com.psss.registro.ui.segretario.components.MateriaEditor;
-import com.psss.registro.ui.segretario.components.MateriaGrid;
-import com.psss.registro.ui.segretario.view.MainView;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
+import com.psss.registro.ui.segretario.components.materie.MateriaEditor;
+import com.psss.registro.ui.segretario.components.materie.MateriaGrid;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.listbox.ListBox;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-
-import java.util.*;
-import java.util.stream.Collectors;
-
 
 @Route(value = "segretario/materie", layout = MainView.class)
 @PageTitle("Materie")
 @CssImport("./styles/views/materie/materie-view.css")
 public class MaterieView extends Div {
 
-//    //TODO: sistemare bug di modifica del nome della materia
-//    private Grid<Materia> grid = new Grid<>(Materia.class);
-//
-//    private final FormLayout formEdit = new FormLayout();
-//    private final FormLayout formAdd = new FormLayout();
-//
-//    private final Dialog dialogAdd = new Dialog();
-//    private final Dialog dialogDel = new Dialog();
-//
-//    private final TextField codiceEdit = new TextField();
-//    private final TextField nomemateriaEdit = new TextField();
-//
-//    private final TextField codiceAdd = new TextField();
-//    private final TextField nomemateriaAdd = new TextField();
-//
-//    private final Details docentiDetails = new Details();
-//    private final ListBox<String> docentiList = new ListBox<>();
-//
-//    private final TextField filtro = new TextField();
-//
-//    private final Button aggiungi = new Button("Aggiungi");
-//    private final Button conferma = new Button("Conferma");
-//
-//    private final Button aggiorna = new Button("Aggiorna");
-//    private final Button elimina = new Button("Elimina");
-//    private final Button confermaDel = new Button("Conferma");
-//    private final Button chiudiDel = new Button("Chiudi");
-//
-//    private final Binder<Materia> binderEdit = new Binder<>(Materia.class);
-//    private final Binder<Materia> binderAdd = new Binder<>(Materia.class);
-
     private MateriaService materiaService;
 
     public MaterieView(MateriaService materiaService) {
 
         this.materiaService = materiaService;
-
-//        materie = materiaService.findAll();
 
         setId("materie-view");
 
@@ -93,16 +35,6 @@ public class MaterieView extends Div {
         splitLayout.addToPrimary(materiaGrid);
         splitLayout.addToSecondary(materiaEditor);
         add(splitLayout);
-
-//        createGridLayout(splitLayout);      // primary: grid
-//        createEditorLayout(splitLayout);    // secondary: editor
-//
-//        splitLayout.getSecondaryComponent().setVisible(false);
-//        add(splitLayout);
-//
-//        createAddDialog();
-//        createEditBinder();
-//        createAddBinder();
     }
 
 //    private void createGridLayout(SplitLayout splitLayout) {

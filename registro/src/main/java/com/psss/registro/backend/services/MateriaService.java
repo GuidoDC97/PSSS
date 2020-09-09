@@ -23,6 +23,7 @@ public class MateriaService implements CrudService<Materia> {
         return materiaRepository;
     }
 
+
     public boolean saveMateria(Materia materia) {
         Optional<Materia> materiaExistent = findByCodice(materia.getCodice());
 
@@ -48,6 +49,7 @@ public class MateriaService implements CrudService<Materia> {
         }
 
         getRepository().saveAndFlush(materia);
+
         return true;
     }
 

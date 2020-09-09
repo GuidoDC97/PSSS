@@ -1,59 +1,51 @@
-package com.psss.registro.ui.segretario.components;
+package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
+import com.psss.registro.backend.services.DocenteService;
 import com.psss.registro.backend.services.MateriaService;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class MateriaEditor extends Div {
+public class DocenteEditor extends Div {
 
-    private final MateriaForm form = new MateriaForm();
+    private DocenteForm form;
 
     private final Button aggiorna = new Button("Aggiorna");
     private final Button elimina = new Button("Elimina");
 
-    private final Details details = new Details();
-
-    private final ListBox<Docente> listBox = new ListBox<>();
-
     private Dialog dialog;
 
-    private MateriaGrid grid;
+    private DocenteGrid grid;
 
+    private DocenteService docenteService;
     private MateriaService materiaService;
 
-    public MateriaEditor(MateriaService materiaService) {
+    public DocenteEditor(DocenteService docenteService, MateriaService materiaService) {
+
         setId("editor-layout");
 
+        this.docenteService = docenteService;
         this.materiaService = materiaService;
 
-        Label titolo = new Label("Scheda materia");
+        form = new DocenteForm(this.materiaService);
+
+        Label titolo = new Label("Scheda docente");
         titolo.setClassName("bold-text-layout");
 
         Div formDiv = new Div();
         formDiv.setId("editor");
-        formDiv.add(titolo, form, details);
+        formDiv.add(titolo, form);
 
         add(formDiv, createButtonLayout());
-
-        createDetails();
-    }
-
-    private void createDetails() {
-        details.setSummaryText("Docenti");
-        details.setContent(listBox);
-
-        listBox.setReadOnly(true);
     }
 
     private HorizontalLayout createButtonLayout() {
@@ -72,15 +64,23 @@ public class MateriaEditor extends Div {
         aggiorna.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiorna.addClickShortcut(Key.ENTER).listenOn(this);
         aggiorna.addClickListener(event -> {
-            Materia materia = grid.getGrid().getSelectedItems().iterator().next();
-            form.getBinder().writeBeanIfValid(materia);
-            materiaService.updateMateria(materia);
-            Notification.show("Materia aggiunta con successo!");
-            System.out.println("Materia aggiornata: " + materia.toString());
-            grid.getGrid().setItems(grid.getMaterie());
+            Docente docente = grid.getGrid().getSelectedItems().iterator().next();
+            form.getBinder().writeBeanIfValid(docente);
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            if(docenteService.update(docente)) {
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.setText("Materia aggiunta con successo!");
+                notification.open();
+                grid.getGrid().setItems(grid.getDocenti());
+            } else {
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setText("Attenzione: non è possibile aggiungere la materia!");
+                notification.open();
+            }
         });
-//        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
+        form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(aggiorna, elimina);
 
@@ -109,12 +109,15 @@ public class MateriaEditor extends Div {
         Button conferma = new Button("Conferma");
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
-            Materia materia = grid.getGrid().getSelectedItems().iterator().next();
-            materiaService.deleteById(materia.getId());
-            Notification.show("Materia rimossa con successo!");
-            System.out.println("Materia eliminata: " + materia.toString());
-            grid.getMaterie().remove(materia);
-            grid.getGrid().setItems(grid.getMaterie());
+            Docente docente = grid.getGrid().getSelectedItems().iterator().next();
+            docenteService.deleteById(docente.getId());
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+            notification.setText("Materia rimossa con successo!");
+            notification.open();
+            grid.getDocenti().remove(docente);
+            grid.getGrid().setItems(grid.getDocenti());
             dialog.close();
         });
         Button chiudi = new Button("Chiudi");
@@ -125,19 +128,11 @@ public class MateriaEditor extends Div {
         dialog.add(buttonLayout);
     }
 
-    public MateriaForm getForm() {
+    public DocenteForm getForm() {
         return form;
     }
 
-    public Details getDetails() {
-        return details;
-    }
-
-    public ListBox<Docente> getListBox() {
-        return listBox;
-    }
-
-    public void setGrid(MateriaGrid grid) {
+    public void setGrid(DocenteGrid grid) {
         this.grid = grid;
     }
 }

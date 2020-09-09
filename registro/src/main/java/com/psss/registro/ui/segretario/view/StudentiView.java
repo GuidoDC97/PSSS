@@ -4,33 +4,15 @@ import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
+import com.psss.registro.ui.segretario.components.studenti.StudenteGrid;
+import com.psss.registro.ui.segretario.components.studenti.StudenteEditor;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.*;
-import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.time.Year;
 
 @Route(value = "segretario/studenti", layout = MainView.class)
@@ -38,6 +20,7 @@ import java.time.Year;
 @CssImport("./styles/views/studenti/studenti-view.css")
 public class StudentiView extends Div {
 
+   /*
     private final Grid<Studente> grid = new Grid<>(Studente.class);
 
     FormLayout formEdit = new FormLayout();
@@ -76,7 +59,7 @@ public class StudentiView extends Div {
 
     private final Binder<Studente> binderEdit = new Binder<>(Studente.class);
     private final Binder<Studente> binderAdd = new Binder<>(Studente.class);
-
+*/
     private StudenteService studenteService;
     private ClasseService classeService;
 
@@ -89,13 +72,26 @@ public class StudentiView extends Div {
 
 
         classi = this.classeService.findByAnnoScolastico(Year.now().getValue());
-        studenti = this.studenteService.findAll();
+        //studenti = this.studenteService.findAll();
 
         setId("studenti-view");
 
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
+        StudenteGrid studenteGrid = new StudenteGrid(studenteService);
+        StudenteEditor studenteEditor = new StudenteEditor(studenteService);
+        studenteEditor.setVisible(false);
+
+        studenteGrid.setEditor(studenteEditor);
+        studenteEditor.setGrid(studenteGrid);
+
+        splitLayout.addToPrimary(studenteGrid);
+        splitLayout.addToSecondary(studenteEditor);
+        add(splitLayout);
+    }
+}
+        /*
         createGridLayout(splitLayout);      // primary: grid
         createEditorLayout(splitLayout);    // secondary: editor
 
@@ -105,8 +101,9 @@ public class StudentiView extends Div {
         createAddDialog();
         createEditBinder();
         createAddBinder();
-    }
+        */
 
+/*
     private void createGridLayout(SplitLayout splitLayout) {
         grid.setColumns("nome", "cognome", "codiceFiscale", "sesso", "data", "username", "telefono");
         grid.getColumnByKey("username").setHeader("E-mail");
@@ -128,7 +125,8 @@ public class StudentiView extends Div {
 
         splitLayout.addToPrimary(wrapper);
     }
-
+*/
+/*
     private void createToolbarLayout(Div wrapper) {
         HorizontalLayout toolBarLayout = new HorizontalLayout();
         toolBarLayout.setId("button-layout");
@@ -245,7 +243,7 @@ public class StudentiView extends Div {
         buttonLayout.add(aggiorna, elimina);
         editorLayoutDiv.add(buttonLayout);
     }
-
+/*
     private void createAddDialog() {
         dialogAdd.setId("editor-layout");
 
@@ -448,3 +446,5 @@ public class StudentiView extends Div {
 }
 
 //TODO: implementare callback per ACK operazioni su DB?
+
+*/
