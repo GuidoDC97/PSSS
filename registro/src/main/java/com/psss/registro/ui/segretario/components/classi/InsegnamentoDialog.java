@@ -1,7 +1,11 @@
 package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.Classe;
+import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.DocenteService;
+import com.psss.registro.backend.services.InsegnamentoService;
+import com.psss.registro.ui.segretario.components.docenti.DocenteForm;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,29 +16,33 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class ClasseDialog extends Dialog{
+public class InsegnamentoDialog extends Dialog {
 
-    private final ClasseForm form = new ClasseForm();
+    private final InsegnamentoForm form;
 
     private final Button conferma = new Button("Conferma");
 
     private ClasseGrid grid;
 
-    private ClasseService classeService;
+    private InsegnamentoService insegnamentoService;
+    private DocenteService docenteService;
 
-    public ClasseDialog(ClasseService classeService) {
+    public InsegnamentoDialog(InsegnamentoService insegnamentoService, DocenteService docenteService) {
         setId("editor-layout");
 
-        this.classeService = classeService;
+        this.insegnamentoService = insegnamentoService;
+        this.docenteService = docenteService;
 
-        Label titolo = new Label("Nuova classe");
+        form = new InsegnamentoForm(this.docenteService);
+
+        Label titolo = new Label("Nuovo insegnamento");
         titolo.setClassName("bold-text-layout");
 
         Div formDiv = new Div();
         formDiv.setId("editor");
         formDiv.add(titolo, form);
 
-        form.getAnno().setAutofocus(true);
+        form.getDocente().setAutofocus(true);
 
         add(formDiv, createButtonLayout(formDiv));
 
@@ -55,13 +63,12 @@ public class ClasseDialog extends Dialog{
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
         conferma.addClickListener(e -> {
-            Classe classe = new Classe();
-            form.getBinder().writeBeanIfValid(classe);
-            classeService.update(classe);
-            Notification.show("Classe aggiunta con successo!");
-            System.out.println("Classe aggiunta: " + classe.toString());
-            grid.getClassi().add(classe);
-            grid.getGrid().setItems(grid.getClassi());
+            Insegnamento insegnamento = new Insegnamento();
+//            Classe classe = grid.getGrid().getSelectedItems().iterator().next();
+            form.getBinder().writeBeanIfValid(insegnamento);
+            insegnamentoService.save(insegnamento);
+            Notification.show("Insegnamento aggiunto con successo!");
+            System.out.println("Insegnamento aggiunto: " + insegnamento.toString());
             close();
         });
 
@@ -73,6 +80,8 @@ public class ClasseDialog extends Dialog{
     public void setGrid(ClasseGrid grid) {
         this.grid = grid;
     }
+
+    public InsegnamentoForm getForm() {
+        return form;
+    }
 }
-
-

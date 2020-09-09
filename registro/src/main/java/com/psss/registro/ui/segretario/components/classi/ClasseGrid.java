@@ -1,10 +1,14 @@
 package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.Classe;
+import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.DocenteService;
+import com.psss.registro.backend.services.InsegnamentoService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -23,25 +27,61 @@ public class ClasseGrid extends Div {
 
     private final Button aggiungi = new Button("Aggiungi");
 
-    private ClasseDialog dialog;
+    private ClasseDialog classeDialog;
 
     private ClasseEditor editor;
 
     private ClasseService classeService;
+    private InsegnamentoService insegnamentoService;
+    private DocenteService docenteService;
 
     private List<Classe> classi;
 
-    public ClasseGrid(ClasseService classeService) {
+    public ClasseGrid(ClasseService classeService, InsegnamentoService insegnamentoService, DocenteService docenteService) {
         setId("grid-wrapper");
         setWidthFull();
 
         this.classeService = classeService;
+        this.insegnamentoService = insegnamentoService;
+        this.docenteService = docenteService;
+
         classi = this.classeService.findAll();
 
+        grid.setColumns("anno", "sezione", "annoScolastico");
+        grid.addComponentColumn(classe -> {
 
+            Button insegnamento = new Button("Aggiungi insegnamento");
+
+            insegnamento.addClickListener(buttonClickEvent -> {
+                InsegnamentoDialog insegnamentoDialog = new InsegnamentoDialog(insegnamentoService, docenteService);
+                insegnamentoDialog.setCloseOnEsc(true);
+
+                insegnamentoDialog.addOpenedChangeListener(e -> {
+                    if(!e.isOpened()) {
+                        insegnamentoDialog.getForm().getBinder().readBean(null);
+                    }
+                });
+            });
+            insegnamento.setEnabled(false);
+
+            grid.addSelectionListener(selectionEvent -> {
+                insegnamento.setEnabled(selectionEvent.getAllSelectedItems().contains(classe));
+            });
+
+            return insegnamento;
+        }).setKey("Insegnamento").setHeader("");
+        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.setHeightFull();
+        grid.setItems(classi);
+        grid.asSingleSelect().addValueChangeListener(event -> {
+            Classe classe = event.getValue();
+
+            editor.getForm().getBinder().readBean(classe);
+            editor.setVisible(!event.getHasValue().isEmpty());
+        });
+
+        add(createToolbarLayout(), grid);
     }
-
-
 
     private HorizontalLayout createToolbarLayout() {
         HorizontalLayout toolBarLayout = new HorizontalLayout();
@@ -63,9 +103,9 @@ public class ClasseGrid extends Div {
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            dialog = new ClasseDialog(this.classeService);
-            dialog.setGrid(this);
-            dialog.open();
+            classeDialog = new ClasseDialog(this.classeService);
+            classeDialog.setGrid(this);
+            classeDialog.open();
         });
 
         toolBarLayout.add(filtro, aggiungi);

@@ -28,11 +28,12 @@ public class ClasseService implements CrudService<Classe>{
 
     public List<Classe> findByAnnoScolastico(int annoScolastico) {return classeRepository.findByAnnoScolastico(annoScolastico); }
 
-    public Classe update(Classe classe) {
+    public boolean update(Classe classe) {
 
         //Controlli
 
-        return save(classe);
+        save(classe);
+        return true;
 //
 //
 //        classeOld.setAnno(classeNew.getAnno());

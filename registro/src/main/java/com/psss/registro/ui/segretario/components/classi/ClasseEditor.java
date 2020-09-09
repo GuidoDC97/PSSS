@@ -56,7 +56,6 @@ public class ClasseEditor extends Div {
     }
 
 
-
     private void createDocentiDetails() {
         docentiDetails.setSummaryText("Docenti");
         docentiDetails.setContent(insegnamentiCombo);
@@ -64,7 +63,6 @@ public class ClasseEditor extends Div {
         insegnamentiCombo.setItemLabelGenerator(Insegnamento::getDocenteMateria);
         insegnamentiCombo.setCompactMode(false);
         insegnamentiCombo.setReadOnly(true);
-
     }
 
     private void createStudentiDetails() {
@@ -138,7 +136,7 @@ public class ClasseEditor extends Div {
             Notification notification = new Notification();
             notification.setDuration(3000);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            notification.setText("Materia rimossa con successo!");
+            notification.setText("Classe rimossa con successo!");
             notification.open();
             grid.getClassi().remove(classe);
             grid.getGrid().setItems(grid.getClassi());
