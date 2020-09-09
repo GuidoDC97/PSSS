@@ -17,6 +17,10 @@ public class MateriaForm extends FormLayout {
     public MateriaForm() {
         add(codice, nome);
         binder.bindInstanceFields(this);
+
+         codice.addValueChangeListener(e->{
+             codice.setValue(codice.getValue().toUpperCase());
+         });
     }
 
     public Binder<Materia> getBinder() {
