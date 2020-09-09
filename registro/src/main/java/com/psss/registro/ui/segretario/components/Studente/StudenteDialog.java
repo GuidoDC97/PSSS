@@ -10,6 +10,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -34,6 +35,8 @@ public class StudenteDialog extends Dialog{
         formDiv.setId("editor");
         formDiv.add(titolo, form);
 
+        form.getNome().setAutofocus(true);
+
         add(formDiv, createButtonLayout(formDiv));
 
         addOpenedChangeListener(e -> {
@@ -53,15 +56,25 @@ public class StudenteDialog extends Dialog{
             conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
             conferma.addClickListener(e -> {
-                Studente studente = new Studente();
-                form.getBinder().writeBeanIfValid(studente);
-             //   studenteService.update(studente);
-                Notification.show("Studente aggiornato con successo!");
-                System.out.println("Studente aggiunto: " + studente.toString());
-                grid.getStudenti().add(studente);
-                grid.getGrid().setItems(grid.getStudenti());
-                close();
-            });
+                        Studente studente = new Studente();
+                        form.getBinder().writeBeanIfValid(studente);
+                        Notification notification = new Notification();
+                        notification.setDuration(3000);
+                        if (studenteService.update(studente)) {
+                            notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                            notification.setText("Studente inserito con successo!");
+                            notification.open();
+                            grid.getStudenti().add(studente);
+                            grid.getGrid().setItems(grid.getStudenti());
+                            close();
+                        } else {
+                            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                            notification.setText("Attenzione: non è possibile inserie lo studente!");
+                            notification.open();
+                        }
+                    });
+
+             form.getBinder().addStatusChangeListener(e -> conferma.setEnabled(form.getBinder().isValid()));
 
             buttonLayout.add(conferma);
 

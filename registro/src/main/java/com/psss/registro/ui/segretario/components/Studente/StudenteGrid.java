@@ -59,6 +59,8 @@ public class StudenteGrid extends Div {
             editor.getForm().getBinder().readBean(studente);
             editor.setVisible(!event.getHasValue().isEmpty());
 
+
+
         });
 
         add(createToolbarLayout(), grid);
