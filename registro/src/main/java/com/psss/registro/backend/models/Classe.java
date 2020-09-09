@@ -8,7 +8,12 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import com.psss.registro.backend.models.Classe;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,8 +22,10 @@ import java.util.Set;
 @Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti"})
 @EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti"})
 public class Classe extends AbstractEntity{
-
+    @Min(1)
+    @Max(5)
     private int anno;
+    @NotBlank(message = "Selezionare la sezione")
     private Character sezione;
     private int annoScolastico;
 

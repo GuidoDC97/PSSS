@@ -55,7 +55,7 @@ public class MateriaDialog extends Dialog {
         conferma.addClickListener(e -> {
             Materia materia = new Materia();
             form.getBinder().writeBeanIfValid(materia);
-            materiaService.update(materia);
+            materiaService.saveMateria(materia);
             Notification.show("Materia aggiornata con successo!");
             System.out.println("Materia aggiunta: " + materia.toString());
             grid.getMaterie().add(materia);

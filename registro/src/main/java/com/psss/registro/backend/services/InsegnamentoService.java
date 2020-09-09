@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,8 +20,25 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
     InsegnamentoRepository insegnamentoRepository;
 
     @Override
-    public JpaRepository<Insegnamento, Long> getRepository() {
+    public InsegnamentoRepository getRepository() {
         return insegnamentoRepository;
+    }
+
+    public Optional<Insegnamento> findByDocenteAndMateriaAndClasse(Docente docente, Materia materia, Classe classe){
+        return getRepository().findByDocenteAndMateriaAndClasse(docente, materia, classe);
+    }
+
+
+    public boolean saveInsegnamento(Insegnamento insegnamento){
+        Optional<Insegnamento> insegnamentoExistent = findByDocenteAndMateriaAndClasse(insegnamento.getDocente(),insegnamento.getMateria(), insegnamento.getClasse());
+
+        if (insegnamentoExistent.isPresent() && insegnamentoExistent.get().getId() != insegnamento.getId()){
+            return false;
+
+        }
+
+        getRepository().saveAndFlush(insegnamento);
+        return true;
     }
 
 }

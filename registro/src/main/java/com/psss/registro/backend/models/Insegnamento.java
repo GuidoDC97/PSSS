@@ -3,6 +3,7 @@ package com.psss.registro.backend.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor

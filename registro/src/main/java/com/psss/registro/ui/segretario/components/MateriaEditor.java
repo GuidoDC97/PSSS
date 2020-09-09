@@ -74,7 +74,7 @@ public class MateriaEditor extends Div {
         aggiorna.addClickListener(event -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(materia);
-            materiaService.update(materia);
+            materiaService.updateMateria(materia);
             Notification.show("Materia aggiunta con successo!");
             System.out.println("Materia aggiornata: " + materia.toString());
             grid.getGrid().setItems(grid.getMaterie());

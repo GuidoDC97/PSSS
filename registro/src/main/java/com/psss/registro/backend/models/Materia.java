@@ -5,10 +5,12 @@ import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +22,10 @@ public class Materia extends AbstractEntity{
 
 //    https://stackoverflow.com/questions/17137307/in-hibernate-validator-4-1-what-is-the-difference-between-notnull-notempty
     @NotBlank(message = "Inserire il codice")
+    @Size(min = 1, max = 10, message = "Il codice deve essere compreso fra 1 e 10 caratteri")
     private String codice;
     @NotBlank(message = "Inserire il nome")
+    @Size(min = 1, max = 50, message = "Il nome deve essere compreso fra 1 e 50 caratteri")
     private String nome;
 
     @ManyToMany(mappedBy = "materie") @LazyCollection(LazyCollectionOption.FALSE)

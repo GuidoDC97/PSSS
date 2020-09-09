@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -21,14 +22,26 @@ import java.util.*;
 @EqualsAndHashCode(exclude = {"materie", "classi", "insegnamenti"})
 public class Docente extends User {
 
-    //    @Id @GeneratedValue(strategy= GenerationType.AUTO)
-//    private Long id;
+
+    @NotBlank(message = "Inserire il nome")
+    @Size(min = 1, max = 50, message = "Il nome deve essere compreso fra 1 e 50 caratteri")
     private String nome;
+    @NotBlank(message = "Inserire il cognome")
+    @Size(min = 1, max = 50, message = "Il cognome deve essere compreso fra 1 e 50 caratteri")
     private String cognome;
-    @Column(unique = true)
+    //@Column(unique = true)
+    @NotBlank(message = "Inserire il codice Fiscale")
+    @Size(min = 1, max = 16, message = "Il codice fiscale deve essere di 16 caratteri")
+    @Pattern(regexp = "/^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$/i", message = "Inserire un codice fiscale valido")
     private String codiceFiscale;
+    @NotBlank(message = "Selezionare il sesso")
+    @Size(min = 1,max = 1, message = "Il sesso dev'essere un carattere")
     private Character sesso;
+    @Past
+    @NotEmpty(message = "Inserire la data")
     private LocalDate data;
+    @NotBlank(message = "Inserire il numero di telefono")
+    @Digits(message = "Inserire un numero di telefono valido", integer = 10, fraction = 0)
     private String telefono;
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
