@@ -1,22 +1,15 @@
-package com.psss.registro.ui.segretario.components.Studente;
+package com.psss.registro.ui.segretario.components.studenti;
 
-import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.StudenteService;
-import com.psss.registro.backend.models.Docente;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
 
 import java.util.List;
@@ -48,7 +41,6 @@ public class StudenteGrid extends Div {
         studenti = this.studenteService.findAll();
 
         grid.setColumns("nome", "cognome","codiceFiscale","data", "sesso" ,"telefono","classe");
-
 
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();

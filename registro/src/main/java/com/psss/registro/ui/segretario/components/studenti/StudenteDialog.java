@@ -1,4 +1,4 @@
-package com.psss.registro.ui.segretario.components.Studente;
+package com.psss.registro.ui.segretario.components.studenti;
 
 
 import com.psss.registro.backend.models.Studente;

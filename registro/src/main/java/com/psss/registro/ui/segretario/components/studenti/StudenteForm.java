@@ -1,4 +1,4 @@
-package com.psss.registro.ui.segretario.components.Studente;
+package com.psss.registro.ui.segretario.components.studenti;
 
 
 import com.psss.registro.backend.models.Classe;
@@ -10,12 +10,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.validator.StringLengthValidator;
-import com.vaadin.flow.component.combobox.ComboBox;
-
-
-import javax.persistence.Column;
-import java.time.LocalDate;
 
 public class StudenteForm extends FormLayout {
 
