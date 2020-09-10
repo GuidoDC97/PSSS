@@ -30,7 +30,7 @@ public class ClasseService implements CrudService<Classe>{
     public boolean saveClasse(Classe classe){
         Optional<Classe> classeExistent = findByAnnoAndAnnoScolasticoAndSezione(classe.getAnno(),classe.getAnnoScolastico(),classe.getSezione());
 
-        if (classeExistent.isPresent() && classeExistent.get().getId() != classe.getId()) {
+        if (classeExistent.isPresent() && !classeExistent.get().getId().equals(classe.getId())) {
             return false;
         }
         return save(classe);
@@ -46,7 +46,7 @@ public class ClasseService implements CrudService<Classe>{
 
         Optional<Classe> classeExistent = findByAnnoAndAnnoScolasticoAndSezione(classe.getAnno(),classe.getAnnoScolastico(),classe.getSezione());
 
-        if (classeExistent.isPresent() && classeExistent.get().getId() != classe.getId()){
+        if (classeExistent.isPresent() && !classeExistent.get().getId().equals(classe.getId())){
             return false;
 
         }

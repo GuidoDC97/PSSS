@@ -32,7 +32,7 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
     public boolean saveInsegnamento(Insegnamento insegnamento){
         Optional<Insegnamento> insegnamentoExistent = findByDocenteAndMateriaAndClasse(insegnamento.getDocente(),insegnamento.getMateria(), insegnamento.getClasse());
 
-        if (insegnamentoExistent.isPresent() && insegnamentoExistent.get().getId() != insegnamento.getId()){
+        if (insegnamentoExistent.isPresent() && !insegnamentoExistent.get().getId().equals(insegnamento.getId())){
             return false;
 
         }

@@ -93,12 +93,12 @@ public class ClasseEditor extends Div {
             if(classeService.updateClasse(classe)) {
 
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                notification.setText("Classe aggiunta con successo!");
+                notification.setText("Classe aggiornata con successo!");
                 notification.open();
                 grid.getGrid().setItems(grid.getClassi());
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setText("Attenzione: non è possibile aggiungere la classe!");
+                notification.setText("Attenzione: non è possibile aggiornare la classe!");
                 notification.open();
             }
         });

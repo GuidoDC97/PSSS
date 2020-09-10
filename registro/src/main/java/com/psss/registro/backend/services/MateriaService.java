@@ -27,7 +27,7 @@ public class MateriaService implements CrudService<Materia> {
     public boolean saveMateria(Materia materia) {
         Optional<Materia> materiaExistent = findByCodice(materia.getCodice());
 
-        if (materiaExistent.isPresent() && materiaExistent.get().getId() != materia.getId()) {
+        if (materiaExistent.isPresent() && !materiaExistent.get().getId().equals(materia.getId())) {
             return false;
         }
         return save(materia);

@@ -60,7 +60,7 @@ public class ClasseDialog extends Dialog{
             Classe classe = new Classe();
             form.getBinder().writeBeanIfValid(classe);
             classeService.saveClasse(classe);
-            Notification.show("Classe aggiornata con successo!");
+            Notification.show("Classe aggiunta con successo!");
             System.out.println("Classe aggiunta: " + classe.toString());
             grid.getClassi().add(classe);
             grid.getGrid().setItems(grid.getClassi());

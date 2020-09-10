@@ -65,7 +65,7 @@ public class InsegnamentoDialog extends Dialog {
             Insegnamento insegnamento = new Insegnamento();
 //            Classe classe = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(insegnamento);
-            insegnamentoService.save(insegnamento);
+            insegnamentoService.saveInsegnamento(insegnamento);
             Notification.show("Insegnamento aggiunto con successo!");
             System.out.println("Insegnamento aggiunto: " + insegnamento.toString());
             close();
