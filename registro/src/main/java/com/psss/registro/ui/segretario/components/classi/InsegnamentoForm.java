@@ -7,12 +7,14 @@ import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.DocenteService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
 public class InsegnamentoForm extends FormLayout {
 
-    private final ComboBox<Docente> docente = new ComboBox<>();
-    private final ComboBox<Materia> materia = new ComboBox<>();
+    private final ComboBox<Docente> docente = new ComboBox<>("Docente");
+    private final ComboBox<Materia> materia = new ComboBox<>("Materia");
+    private final ComboBox<Classe> classe = new ComboBox<>("Classe");
 
     private final Binder<Insegnamento> binder = new Binder<>(Insegnamento.class);
 
@@ -34,7 +36,9 @@ public class InsegnamentoForm extends FormLayout {
         materia.setEnabled(false);
         materia.setItemLabelGenerator(Materia::getNome);
 
-        add(docente, materia);
+        classe.setReadOnly(true);
+
+        add(docente, materia, classe);
         binder.bindInstanceFields(this);
     }
 
@@ -44,5 +48,9 @@ public class InsegnamentoForm extends FormLayout {
 
     public ComboBox<Docente> getDocente() {
         return docente;
+    }
+
+    public ComboBox<Classe> getClasse() {
+        return classe;
     }
 }

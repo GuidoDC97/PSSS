@@ -2,6 +2,7 @@ package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
+import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.MateriaService;
 
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -12,6 +13,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
+import com.vaadin.flow.data.validator.EmailValidator;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 public class DocenteForm extends FormLayout {
@@ -50,6 +52,10 @@ public class DocenteForm extends FormLayout {
         sesso.setItems('M','F');
 
         username.setClearButtonVisible(true);
+//        binder.forField(username)
+//                .asRequired()
+//                .withValidator(new EmailValidator("Inserire una e-mail valida"))
+//                .bind(Docente::getUsername, Docente::setUsername);
 
         materie.setItems(materiaService.findAll());
         materie.setItemLabelGenerator(Materia::getNome);

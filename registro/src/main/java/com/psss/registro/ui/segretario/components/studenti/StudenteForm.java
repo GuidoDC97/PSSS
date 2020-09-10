@@ -13,6 +13,9 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
+
+import java.time.Year;
 
 public class StudenteForm extends FormLayout {
 
@@ -20,29 +23,34 @@ public class StudenteForm extends FormLayout {
     private final TextField cognome= new TextField("Cognome");
     private final TextField codiceFiscale = new TextField("Codice Fiscale");
     private final EmailField username = new EmailField("Email");
-    private final DatePicker dataNascita = new DatePicker("Data di nascita");
+    private final DatePicker data = new DatePicker("Data di nascita");
     private final ComboBox<Character> sesso = new ComboBox<>("Sesso");
-    private final TextField numeroTelefono = new TextField("Telefono");
+    private final TextField telefono = new TextField("Telefono");
     private final ComboBox<Classe> classe = new ComboBox<>("Classe");
 
     private final Binder<Studente> binder = new BeanValidationBinder<>(Studente.class);
 
     private ClasseService classeService;
 
-    public StudenteForm() {
-       // this.classeService=classeService;
+    public StudenteForm(ClasseService classeService) {
+        this.classeService=classeService;
 
         nome.setClearButtonVisible(true);
-        nome.addValueChangeListener(e->{
-            nome.setValue(nome.getValue().toUpperCase());
+
+        cognome.setClearButtonVisible(true);
+
+        codiceFiscale.setClearButtonVisible(true);
+        codiceFiscale.addValueChangeListener(e-> {
+            codiceFiscale.setValue(codiceFiscale.getValue().toUpperCase());
         });
 
         sesso.setItems('M','F');
+
         username.setClearButtonVisible(true);
 
-        //classe.setItems(classeService.findAll());
-        //classe.setItemLabelGenerator(Classe::getClasse);
-        add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
+        classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
+
+        add(nome, cognome, codiceFiscale, username, data, sesso, telefono, classe);
         binder.bindInstanceFields(this);
     }
 

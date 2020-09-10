@@ -63,15 +63,15 @@ public class StudentiView extends Div {
     private StudenteService studenteService;
     private ClasseService classeService;
 
-    private List<Studente> studenti;
-    private List<Classe> classi;
+   // private List<Studente> studenti;
+    // private List<Classe> classi;
 
     public StudentiView(StudenteService studenteService, ClasseService classeService) {
         this.classeService = classeService;
         this.studenteService = studenteService;
 
 
-        classi = this.classeService.findByAnnoScolastico(Year.now().getValue());
+        //classi = this.classeService.findByAnnoScolastico(Year.now().getValue());
         //studenti = this.studenteService.findAll();
 
         setId("studenti-view");
@@ -79,8 +79,8 @@ public class StudentiView extends Div {
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        StudenteGrid studenteGrid = new StudenteGrid(studenteService);
-        StudenteEditor studenteEditor = new StudenteEditor(studenteService);
+        StudenteGrid studenteGrid = new StudenteGrid(this.studenteService,this.classeService);
+        StudenteEditor studenteEditor = new StudenteEditor(this.studenteService,this.classeService);
         studenteEditor.setVisible(false);
 
         studenteGrid.setEditor(studenteEditor);

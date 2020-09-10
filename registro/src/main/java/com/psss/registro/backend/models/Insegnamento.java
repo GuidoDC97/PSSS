@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -13,10 +14,13 @@ import javax.validation.constraints.NotEmpty;
 public class Insegnamento extends AbstractEntity{
 
     @ManyToOne
+    @NotNull(message = "Selezionare il docente")
     private Docente docente;
     @ManyToOne
+    @NotNull(message = "Selezionare la materia")
     private Materia materia;
     @ManyToOne
+    @NotNull(message = "Selezionare la classe")
     private Classe classe;
 
     public Insegnamento(Docente docente, Materia materia, Classe classe) {
@@ -24,7 +28,6 @@ public class Insegnamento extends AbstractEntity{
         this.materia = materia;
         this.classe = classe;
     }
-
 
     public void setDocente(Docente docente){
         this.docente = docente;
@@ -40,4 +43,7 @@ public class Insegnamento extends AbstractEntity{
         return docente.getDocente() + " (" + materia.getNome() + ")";
     }
 
+    public String toString() {
+        return docente.toString() + " (" + materia.getNome() + ")";
+    }
 }

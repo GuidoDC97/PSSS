@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -25,11 +26,12 @@ public class Classe extends AbstractEntity{
     @Min(1)
     @Max(5)
     private int anno;
-    @NotBlank(message = "Selezionare la sezione")
+    @NotNull(message = "Selezionare la sezione")
     private Character sezione;
+    @NotNull(message = "Inserire l'anno scolastico")
     private int annoScolastico;
 
-    @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) //@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
     @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
@@ -42,9 +44,9 @@ public class Classe extends AbstractEntity{
         this.insegnamenti = new HashSet<>();
     }
 
-    public String getClasse() {
-        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
-    }
+//    public String getClasse() {
+//        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
+//    }
 
     public void addStudente(Studente studente) {
         studenti.add(studente);
@@ -62,4 +64,8 @@ public class Classe extends AbstractEntity{
 //    public void removeDocente(Docente docente) {
 //        docenti.remove(docente);
 //    }
+
+    public String toString() {
+        return this.anno + this.sezione.toString() + " - " + this.annoScolastico;
+    }
 }
