@@ -34,7 +34,7 @@ public class DocenteDialog extends Dialog {
 
         form = new DocenteForm(this.materiaService);
 
-        Label titolo = new Label("Nuova materia");
+        Label titolo = new Label("Nuovo docente");
         titolo.setClassName("bold-text-layout");
 
         Div formDiv = new Div();

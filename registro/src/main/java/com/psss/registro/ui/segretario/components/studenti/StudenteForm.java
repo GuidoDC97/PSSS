@@ -13,6 +13,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.validator.EmailValidator;
 
 import java.time.Year;
 
@@ -34,15 +35,16 @@ public class StudenteForm extends FormLayout {
     public StudenteForm(ClasseService classeService) {
         this.classeService=classeService;
 
-        nome.setClearButtonVisible(true);
-        cognome.setClearButtonVisible(true);
-
-        nome.addValueChangeListener(e->{
-            nome.setValue(nome.getValue().toUpperCase());
-        });
+        codiceFiscale.setClearButtonVisible(true);
+        codiceFiscale.addValueChangeListener(e->{
+            codiceFiscale.setValue(codiceFiscale.getValue().toUpperCase());
 
         sesso.setItems('M','F');
         username.setClearButtonVisible(true);
+//        binder.forField(username)
+//                .asRequired()
+//                .withValidator(new EmailValidator("Inserire una e-mail valida"))
+//                .bind(Studente::getUsername, Studente::setUsername);
 
         classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
 //        classe.setItemLabelGenerator(Classe::getClasse);

@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.Year;
@@ -25,8 +26,9 @@ public class Classe extends AbstractEntity{
     @Min(1)
     @Max(5)
     private int anno;
-    @NotBlank(message = "Selezionare la sezione")
+    @NotNull(message = "Selezionare la sezione")
     private Character sezione;
+    @NotNull(message = "Inserire l'anno scolastico")
     private int annoScolastico;
 
     @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) @LazyCollection(LazyCollectionOption.FALSE)
