@@ -1,6 +1,5 @@
 package com.psss.registro.ui.segretario.components.studenti;
 
-
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
@@ -17,7 +16,8 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class StudenteDialog extends Dialog{
-    private final StudenteForm form;
+
+    private final StudenteForm form=new StudenteForm();
 
     private final Button conferma = new Button("Conferma");
 

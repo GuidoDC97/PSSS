@@ -19,7 +19,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 
 public class StudenteEditor extends Div{
-    //TODO: DARIO DEVE COMPLETARE
     private final StudenteForm form = new StudenteForm();
 
     private final Button aggiorna = new Button("Aggiorna");
@@ -70,6 +69,7 @@ public class StudenteEditor extends Div{
         aggiorna.addClickListener(event -> {
             Studente studente = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(studente);
+
             Notification notification = new Notification();
             notification.setDuration(3000);
            if(studenteService.updateStudente(studente)){
@@ -82,6 +82,7 @@ public class StudenteEditor extends Div{
                notification.setText("Attenzione: non è possibile aggiungere lo studente!");
                notification.open();
            }});
+
         form.getBinder().addStatusChangeListener(e -> aggiorna.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(aggiorna, elimina);

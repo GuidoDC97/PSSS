@@ -29,8 +29,8 @@ public class StudenteForm extends FormLayout {
 
     private ClasseService classeService;
 
-    public StudenteForm(ClasseService classeService) {
-        this.classeService=classeService;
+    public StudenteForm() {
+       // this.classeService=classeService;
 
         nome.setClearButtonVisible(true);
         nome.addValueChangeListener(e->{
@@ -40,11 +40,12 @@ public class StudenteForm extends FormLayout {
         sesso.setItems('M','F');
         username.setClearButtonVisible(true);
 
-        classe.setItems(classeService.findAll());
-        classe.setItemLabelGenerator(Classe::getClasse);
+        //classe.setItems(classeService.findAll());
+        //classe.setItemLabelGenerator(Classe::getClasse);
         add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
         binder.bindInstanceFields(this);
     }
+
 
     public Binder<Studente> getBinder() {
         return binder;
