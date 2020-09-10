@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface DocenteRepository extends JpaRepository<Docente, Long> {
     Optional<Docente> findByCodiceFiscale(String codiceFiscale);
+    Optional<Docente> findByUsername(String username);
 }
