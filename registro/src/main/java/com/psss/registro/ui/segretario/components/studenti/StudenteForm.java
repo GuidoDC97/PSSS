@@ -35,19 +35,20 @@ public class StudenteForm extends FormLayout {
     public StudenteForm(ClasseService classeService) {
         this.classeService=classeService;
 
+        nome.setClearButtonVisible(true);
+
+        cognome.setClearButtonVisible(true);
+
         codiceFiscale.setClearButtonVisible(true);
-        codiceFiscale.addValueChangeListener(e->{
+        codiceFiscale.addValueChangeListener(e-> {
             codiceFiscale.setValue(codiceFiscale.getValue().toUpperCase());
+        });
 
         sesso.setItems('M','F');
+
         username.setClearButtonVisible(true);
-//        binder.forField(username)
-//                .asRequired()
-//                .withValidator(new EmailValidator("Inserire una e-mail valida"))
-//                .bind(Studente::getUsername, Studente::setUsername);
 
         classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
-//        classe.setItemLabelGenerator(Classe::getClasse);
 
         add(nome, cognome, codiceFiscale, username, data, sesso, telefono, classe);
         binder.bindInstanceFields(this);
