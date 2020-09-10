@@ -22,7 +22,7 @@ public class InsegnamentoDialog extends Dialog {
 
     private final Button conferma = new Button("Conferma");
 
-    private ClasseGrid grid;
+//    private ClasseGrid grid;
 
     private InsegnamentoService insegnamentoService;
     private DocenteService docenteService;
@@ -77,9 +77,9 @@ public class InsegnamentoDialog extends Dialog {
         return buttonLayout;
     }
 
-    public void setGrid(ClasseGrid grid) {
-        this.grid = grid;
-    }
+//    public void setGrid(ClasseGrid grid) {
+//        this.grid = grid;
+//    }
 
     public InsegnamentoForm getForm() {
         return form;

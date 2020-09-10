@@ -1,6 +1,7 @@
 package com.psss.registro.ui.segretario.components.studenti;
 
 import com.psss.registro.backend.models.Studente;
+import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -30,14 +31,18 @@ public class StudenteGrid extends Div {
     private StudenteEditor editor;
 
     private StudenteService studenteService;
+    private ClasseService classeService;
+
 
     private List<Studente> studenti;
 
-    public StudenteGrid(StudenteService studenteService) {
+    public StudenteGrid(StudenteService studenteService, ClasseService classeService) {
         setId("grid-wrapper");
         setWidthFull();
 
         this.studenteService = studenteService;
+        this.classeService = classeService;
+
         studenti = this.studenteService.findAll();
 
         grid.setColumns("nome", "cognome","codiceFiscale","username","data", "sesso" ,"telefono","classe");
@@ -81,7 +86,7 @@ public class StudenteGrid extends Div {
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            dialog = new StudenteDialog(this.studenteService);
+            dialog = new StudenteDialog(this.studenteService,this.classeService);
             dialog.setGrid(this);
             dialog.open();
         });

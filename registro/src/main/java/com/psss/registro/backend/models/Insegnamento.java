@@ -43,4 +43,7 @@ public class Insegnamento extends AbstractEntity{
         return docente.getDocente() + " (" + materia.getNome() + ")";
     }
 
+    public String toString() {
+        return docente.toString() + " (" + materia.getNome() + ")";
+    }
 }

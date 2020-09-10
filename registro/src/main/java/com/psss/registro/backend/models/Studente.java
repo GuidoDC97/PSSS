@@ -73,6 +73,9 @@ public class Studente extends User {
         if (this.classe != null) {
             classe.addStudente(this);
         }
+    }
 
+    public String toString() {
+        return nome + " " + cognome;
     }
 }

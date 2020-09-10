@@ -15,6 +15,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.validator.EmailValidator;
 
+import java.time.Year;
+
 public class StudenteForm extends FormLayout {
 
     private final TextField nome = new TextField("Nome");
@@ -30,13 +32,12 @@ public class StudenteForm extends FormLayout {
 
     private ClasseService classeService;
 
-    public StudenteForm() {
-       // this.classeService=classeService;
+    public StudenteForm(ClasseService classeService) {
+        this.classeService=classeService;
 
         codiceFiscale.setClearButtonVisible(true);
         codiceFiscale.addValueChangeListener(e->{
             codiceFiscale.setValue(codiceFiscale.getValue().toUpperCase());
-        });
 
         sesso.setItems('M','F');
         username.setClearButtonVisible(true);
@@ -45,8 +46,9 @@ public class StudenteForm extends FormLayout {
 //                .withValidator(new EmailValidator("Inserire una e-mail valida"))
 //                .bind(Studente::getUsername, Studente::setUsername);
 
-        //classe.setItems(classeService.findAll());
-        //classe.setItemLabelGenerator(Classe::getClasse);
+        classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
+        classe.setItemLabelGenerator(Classe::getClasse);
+
         add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
         binder.bindInstanceFields(this);
     }
