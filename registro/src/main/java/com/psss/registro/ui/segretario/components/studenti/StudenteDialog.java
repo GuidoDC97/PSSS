@@ -63,6 +63,7 @@ public class StudenteDialog extends Dialog{
 
             conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
             conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
+            conferma.setEnabled(false);
             conferma.addClickListener(e -> {
                         Studente studente = new Studente();
                         form.getBinder().writeBeanIfValid(studente);

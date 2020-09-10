@@ -47,25 +47,6 @@ public class Studente extends User {
     private Set<Classe> storicoClassi;
     //TODO: non si riesce a tenere traccia delle classi di uno studente così come lo abbiamo gestito.
 
-    //TODO: Controllare se sono necessari i costruttori con questi argomenti e quello senza argomenti
-    public Studente(String username, String nome, String cognome, String codiceFiscale, Character sesso, LocalDate data,
-                    String telefono, Classe classe) {
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String password = nome.replaceAll("[^a-zA-Z]", "").toLowerCase()
-                + "." + cognome.replaceAll("[^a-zA-Z]", "").toLowerCase();
-        this.setPassword(passwordEncoder.encode(password));
-        this.setUsername(username);
-
-        this.nome = nome;
-        this.cognome = cognome;
-        this.codiceFiscale = codiceFiscale;
-        this.sesso = sesso;
-        this.data = data;
-        this.telefono = telefono;
-        this.classe = classe;
-    }
-
     public void setClasse(Classe classe){
 
         this.classe = classe;

@@ -55,6 +55,7 @@ public class ClasseDialog extends Dialog{
 
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
+        conferma.setEnabled(false);
         conferma.addClickListener(e -> {
             Classe classe = new Classe();
             form.getBinder().writeBeanIfValid(classe);

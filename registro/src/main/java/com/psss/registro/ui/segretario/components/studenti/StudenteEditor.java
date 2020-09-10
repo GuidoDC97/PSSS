@@ -25,8 +25,6 @@ public class StudenteEditor extends Div{
     private final Button aggiorna = new Button("Aggiorna");
     private final Button elimina = new Button("Elimina");
 
-    private final Details details = new Details();
-
     private final ListBox<Docente> listBox = new ListBox<>();
 
     private Dialog dialog;
@@ -51,12 +49,11 @@ public class StudenteEditor extends Div{
 
         Div formDiv = new Div();
         formDiv.setId("editor");
-        formDiv.add(titolo, form, details);
+        formDiv.add(titolo, form);
 
         add(formDiv, createButtonLayout());
 
     }
-
 
     private HorizontalLayout createButtonLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
@@ -81,12 +78,12 @@ public class StudenteEditor extends Div{
             notification.setDuration(3000);
            if(studenteService.updateStudente(studente)){
                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-               notification.setText("Studente aggiunto con successo!");
+               notification.setText("Studente aggiornato con successo!");
                notification.open();
                grid.getGrid().setItems(grid.getStudenti());
         }else {
                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-               notification.setText("Attenzione: non è possibile aggiungere lo studente!");
+               notification.setText("Attenzione: non è possibile aggiornare lo studente!");
                notification.open();
            }});
 

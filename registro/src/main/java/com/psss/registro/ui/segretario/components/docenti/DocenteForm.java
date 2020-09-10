@@ -29,7 +29,7 @@ public class DocenteForm extends FormLayout {
 
     private final EmailField username = new EmailField("E-mail");
 
-    private final MultiselectComboBox<Materia> materie = new MultiselectComboBox<>();
+    private final MultiselectComboBox<Materia> materie = new MultiselectComboBox<>("Materia");
 
     private final Binder<Docente> binder = new BeanValidationBinder<>(Docente.class);
 
