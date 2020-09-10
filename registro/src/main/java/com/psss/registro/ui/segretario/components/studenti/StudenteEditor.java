@@ -3,6 +3,7 @@ package com.psss.registro.ui.segretario.components.studenti;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Studente;
+import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -19,7 +20,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 
 public class StudenteEditor extends Div{
-    private final StudenteForm form = new StudenteForm();
+    private StudenteForm form;
 
     private final Button aggiorna = new Button("Aggiorna");
     private final Button elimina = new Button("Elimina");
@@ -33,11 +34,17 @@ public class StudenteEditor extends Div{
     private StudenteGrid grid;
 
     private StudenteService studenteService;
+    private ClasseService classeService;
 
-    public StudenteEditor(StudenteService studenteService) {
+    public StudenteEditor(StudenteService studenteService, ClasseService classeService) {
+
         setId("editor-layout");
 
         this.studenteService = studenteService;
+        this.classeService = classeService;
+
+        form = new StudenteForm(this.classeService);
+
 
         Label titolo = new Label("Scheda studente");
         titolo.setClassName("bold-text-layout");

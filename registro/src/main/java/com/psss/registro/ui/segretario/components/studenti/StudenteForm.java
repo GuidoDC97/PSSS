@@ -29,10 +29,12 @@ public class StudenteForm extends FormLayout {
 
     private ClasseService classeService;
 
-    public StudenteForm() {
-       // this.classeService=classeService;
+    public StudenteForm(ClasseService classeService) {
+        this.classeService=classeService;
 
         nome.setClearButtonVisible(true);
+        cognome.setClearButtonVisible(true);
+
         nome.addValueChangeListener(e->{
             nome.setValue(nome.getValue().toUpperCase());
         });
@@ -40,8 +42,9 @@ public class StudenteForm extends FormLayout {
         sesso.setItems('M','F');
         username.setClearButtonVisible(true);
 
-        //classe.setItems(classeService.findAll());
-        //classe.setItemLabelGenerator(Classe::getClasse);
+        classe.setItems(classeService.findAll());
+        classe.setItemLabelGenerator(Classe::getClasse);
+
         add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
         binder.bindInstanceFields(this);
     }

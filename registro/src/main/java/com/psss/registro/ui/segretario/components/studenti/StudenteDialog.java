@@ -2,6 +2,7 @@ package com.psss.registro.ui.segretario.components.studenti;
 
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.MateriaService;
 import com.psss.registro.backend.services.StudenteService;
 import com.psss.registro.ui.segretario.components.docenti.DocenteForm;
 import com.vaadin.flow.component.Key;
@@ -17,7 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class StudenteDialog extends Dialog{
 
-    private final StudenteForm form=new StudenteForm();
+    private final StudenteForm form;
 
     private final Button conferma = new Button("Conferma");
 
@@ -27,14 +28,14 @@ public class StudenteDialog extends Dialog{
     private ClasseService classeService;
 
 
-    public StudenteDialog(StudenteService studenteService) {
+    public StudenteDialog(StudenteService studenteService, ClasseService classeService) {
         setId("editor-layout");
 
         this.studenteService = studenteService;
-        //this.classeService = classeService;
+        this.classeService = classeService;
 
-        //form = new ClasseForm(this.classeService);
-        //TODO: DARIO DEVE AGGIUSTARLO
+        form = new StudenteForm(this.classeService);
+
         Label titolo = new Label("Nuovo Studente");
         titolo.setClassName("bold-text-layout");
 
