@@ -17,8 +17,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data @NoArgsConstructor @AllArgsConstructor
-@Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti"})
-@EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti"})
+@Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti", "insegnamenti"})
+@EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti", "insegnamenti"})
 public class Classe extends AbstractEntity{
     @Min(1)
     @Max(5)
@@ -41,10 +41,6 @@ public class Classe extends AbstractEntity{
         this.insegnamenti = new HashSet<>();
     }
 
-//    public String getClasse() {
-//        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
-//    }
-
     public void addStudente(Studente studente) {
         studenti.add(studente);
     }
@@ -53,14 +49,6 @@ public class Classe extends AbstractEntity{
     public void preRemove(){
         studenti.forEach(studente -> studente.setClasse(null));
     }
-
-    //    public void addDocente(Docente docente) {
-//        docenti.add(docente);
-//    }
-//
-//    public void removeDocente(Docente docente) {
-//        docenti.remove(docente);
-//    }
 
     public String toString() {
         return this.anno + this.sezione.toString() + " - " + this.annoScolastico;

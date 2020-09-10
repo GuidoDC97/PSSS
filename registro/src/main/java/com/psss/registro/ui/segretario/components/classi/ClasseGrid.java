@@ -99,7 +99,7 @@ public class ClasseGrid extends Div {
 
             if(editor.isVisible()) {
                 editor.getInsegnamentiList().setItems(classe.getInsegnamenti());
-                System.out.println(classe.getInsegnamenti());
+                System.out.println(classe.getInsegnamenti() + " " + classe.getInsegnamenti().size());
             }
         });
 

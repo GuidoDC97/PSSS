@@ -1,6 +1,8 @@
 package com.psss.registro.backend.models;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -10,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 //@AllArgsConstructor
 @Entity(name = "insegnamenti") @ToString(exclude = {"docente", "materia", "classe"})
-@EqualsAndHashCode(exclude = {"docente", "materia", "classe"})
+@EqualsAndHashCode()
 public class Insegnamento extends AbstractEntity{
 
     @ManyToOne
@@ -37,10 +39,6 @@ public class Insegnamento extends AbstractEntity{
     public void setClasse(Classe classe){
         this.classe = classe;
         classe.getInsegnamenti().add(this);
-    }
-
-    public String getDocenteMateria() {
-        return docente.getDocente() + " (" + materia.getNome() + ")";
     }
 
     public String toString() {

@@ -34,7 +34,6 @@ public class Materia extends AbstractEntity{
     public Materia(String codice, String nome) {
         this.codice = codice;
         this.nome = nome;
-//        this.classi = new HashSet<>();
         this.docenti = new HashSet<>();
     }
 
