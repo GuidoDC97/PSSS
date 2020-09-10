@@ -71,8 +71,8 @@ public class MainView extends AppLayout {
         HorizontalLayout logoLayout = new HorizontalLayout();
         logoLayout.setId("logo");
         logoLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        logoLayout.add(new Image("images/logo.svg", "Registro logo"));
-        logoLayout.add(new H1("Registro"));
+        logoLayout.add(new Image("icons/icon.png", "Registro logo"));
+        logoLayout.add(new H1("Registro Elettronico"));
         layout.add(logoLayout, menu);
         return layout;
     }
