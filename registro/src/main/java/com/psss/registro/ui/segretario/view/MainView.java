@@ -16,6 +16,7 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -23,7 +24,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
  * The main view is a top-level placeholder for other views.
  */
 @JsModule("./styles/shared-styles.js")
-//@PWA(name = "Registro", shortName = "Registro",  enableInstallPrompt = false)
+@PWA(name = "Registro", shortName = "Registro",  enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @CssImport("./styles/views/main/main-view.css")
 @Route(value = "segretario")
