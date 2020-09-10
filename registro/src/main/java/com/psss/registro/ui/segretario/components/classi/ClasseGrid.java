@@ -2,6 +2,8 @@ package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Docente;
+import com.psss.registro.backend.models.Insegnamento;
+import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.DocenteService;
 import com.psss.registro.backend.services.InsegnamentoService;
@@ -50,11 +52,17 @@ public class ClasseGrid extends Div {
         grid.setColumns("anno", "sezione", "annoScolastico");
         grid.addComponentColumn(classe -> {
 
-            Button insegnamento = new Button("Aggiungi insegnamento");
+            Button insegnamentoButton = new Button("Aggiungi insegnamento");
 
-            insegnamento.addClickListener(buttonClickEvent -> {
+            insegnamentoButton.addClickListener(buttonClickEvent -> {
                 InsegnamentoDialog insegnamentoDialog = new InsegnamentoDialog(insegnamentoService, docenteService);
                 insegnamentoDialog.setCloseOnEsc(true);
+
+                Classe classeSelezionata = grid.getSelectedItems().iterator().next();
+                insegnamentoDialog.getForm().getClasse().setItems(classeSelezionata);
+                insegnamentoDialog.getForm().getClasse().setValue(classeSelezionata);
+
+                insegnamentoDialog.open();
 
                 insegnamentoDialog.addOpenedChangeListener(e -> {
                     if(!e.isOpened()) {
@@ -62,13 +70,13 @@ public class ClasseGrid extends Div {
                     }
                 });
             });
-            insegnamento.setEnabled(false);
+            insegnamentoButton.setEnabled(false);
 
             grid.addSelectionListener(selectionEvent -> {
-                insegnamento.setEnabled(selectionEvent.getAllSelectedItems().contains(classe));
+                insegnamentoButton.setEnabled(selectionEvent.getAllSelectedItems().contains(classe));
             });
 
-            return insegnamento;
+            return insegnamentoButton;
         }).setKey("Insegnamento").setHeader("");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
         grid.setHeightFull();
@@ -78,6 +86,21 @@ public class ClasseGrid extends Div {
 
             editor.getForm().getBinder().readBean(classe);
             editor.setVisible(!event.getHasValue().isEmpty());
+
+            editor.getStudentiDetails().setOpened(false);
+            editor.getStudentiList().setItems((Studente) null);
+
+            if(editor.isVisible()) {
+                editor.getStudentiList().setItems(classe.getStudenti());
+            }
+
+            editor.getInsegnamentiDetails().setOpened(false);
+            editor.getInsegnamentiList().setItems((Insegnamento) null);
+
+            if(editor.isVisible()) {
+                editor.getInsegnamentiList().setItems(classe.getInsegnamenti());
+                System.out.println(classe.getInsegnamenti());
+            }
         });
 
         add(createToolbarLayout(), grid);

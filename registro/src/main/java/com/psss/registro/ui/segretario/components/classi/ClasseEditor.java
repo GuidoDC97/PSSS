@@ -11,6 +11,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -24,12 +25,11 @@ public class ClasseEditor extends Div {
     private final Button aggiorna = new Button("Aggiorna");
     private final Button elimina = new Button("Elimina");
 
-    private final Details docentiDetails = new Details();
-
-    private final MultiselectComboBox<Insegnamento> insegnamentiCombo = new MultiselectComboBox<>();
-
+    private final Details insegnamentiDetails = new Details();
     private final Details studentiDetails = new Details();
-    private final ListBox<String> studentiList = new ListBox<>();
+
+    private final MultiSelectListBox<Insegnamento> insegnamentiList = new MultiSelectListBox<>();
+    private final ListBox<Studente> studentiList = new ListBox<>();
 
     private Dialog dialog;
 
@@ -47,7 +47,7 @@ public class ClasseEditor extends Div {
 
         Div formDiv = new Div();
         formDiv.setId("editor");
-        formDiv.add(titolo, form, docentiDetails, studentiDetails);
+        formDiv.add(titolo, form, studentiDetails, insegnamentiDetails);
 
         add(formDiv, createButtonLayout());
 
@@ -57,16 +57,16 @@ public class ClasseEditor extends Div {
 
 
     private void createDocentiDetails() {
-        docentiDetails.setSummaryText("Docenti");
-        docentiDetails.setContent(insegnamentiCombo);
+        insegnamentiDetails.setSummaryText("Docenti");
+        insegnamentiDetails.setContent(insegnamentiList);
 
-        insegnamentiCombo.setItemLabelGenerator(Insegnamento::getDocenteMateria);
-        insegnamentiCombo.setCompactMode(false);
-        insegnamentiCombo.setReadOnly(true);
+//        insegnamentiList.setReadOnly(true);
     }
 
     private void createStudentiDetails() {
         studentiDetails.setSummaryText("Studenti");
+        studentiDetails.setContent(studentiList);
+
         studentiList.setReadOnly(true);
     }
 
@@ -157,20 +157,20 @@ public class ClasseEditor extends Div {
         return form;
     }
 
-    public Details getDocentiDetails() {
-        return docentiDetails;
+    public Details getInsegnamentiDetails() {
+        return insegnamentiDetails;
     }
 
     public Details getStudentiDetails() {
         return studentiDetails;
     }
 
-    public ListBox<String> getListBox() {
+    public ListBox<Studente> getStudentiList() {
         return studentiList;
     }
 
-    public MultiselectComboBox<Insegnamento> getMultiselectComboBox() {
-        return insegnamentiCombo;
+    public MultiSelectListBox<Insegnamento> getInsegnamentiList() {
+        return insegnamentiList;
     }
 
     public void setGrid(ClasseGrid grid) {

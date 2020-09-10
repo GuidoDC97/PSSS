@@ -29,7 +29,7 @@ public class Classe extends AbstractEntity{
     private Character sezione;
     private int annoScolastico;
 
-    @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) //@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
     @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
@@ -42,9 +42,9 @@ public class Classe extends AbstractEntity{
         this.insegnamenti = new HashSet<>();
     }
 
-    public String getClasse() {
-        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
-    }
+//    public String getClasse() {
+//        return (this.anno + this.sezione.toString() + " - " + this.annoScolastico);
+//    }
 
     public void addStudente(Studente studente) {
         studenti.add(studente);
@@ -62,4 +62,8 @@ public class Classe extends AbstractEntity{
 //    public void removeDocente(Docente docente) {
 //        docenti.remove(docente);
 //    }
+
+    public String toString() {
+        return this.anno + this.sezione.toString() + " - " + this.annoScolastico;
+    }
 }

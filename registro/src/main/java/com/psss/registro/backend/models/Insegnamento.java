@@ -25,7 +25,6 @@ public class Insegnamento extends AbstractEntity{
         this.classe = classe;
     }
 
-
     public void setDocente(Docente docente){
         this.docente = docente;
         docente.getInsegnamenti().add(this);
@@ -40,4 +39,7 @@ public class Insegnamento extends AbstractEntity{
         return docente.getDocente() + " (" + materia.getNome() + ")";
     }
 
+    public String toString() {
+        return docente.toString() + " (" + materia.getNome() + ")";
+    }
 }
