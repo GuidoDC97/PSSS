@@ -13,5 +13,6 @@ public interface StudenteRepository extends JpaRepository<Studente, Long> {
     List<Studente> findByClasse(Classe classe);
 
     Optional<Studente> findByCodiceFiscale(String codiceFiscale);
+    Optional<Studente> findByUsername(String username);
 }
 

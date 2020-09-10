@@ -1,7 +1,6 @@
 package com.psss.registro.backend.services;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.repositories.ClasseRepository;
 import com.psss.registro.backend.repositories.DocenteRepository;
 import com.psss.registro.backend.repositories.MateriaRepository;
@@ -37,9 +36,13 @@ public class DocenteService implements CrudService<Docente> {
     public boolean saveDocente(Docente docente) {
         if(docente.getId() == null){
 
-            Optional<Docente> docenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
+            Optional<Docente> docenteExistentCF = findByCodiceFiscale(docente.getCodiceFiscale());
+            Optional<Docente> docenteExistentUser = findByUsername(docente.getUsername());
 
-            if (docenteExistent.isPresent() && !docenteExistent.get().getId().equals(docente.getId())) {
+            if (docenteExistentCF.isPresent() && !docenteExistentCF.get().getId().equals(docente.getId())) {
+                return false;
+            }
+            if(docenteExistentUser.isPresent() && !docenteExistentUser.get().getId().equals(docente.getId())){
                 return false;
             }
 
@@ -74,6 +77,9 @@ public class DocenteService implements CrudService<Docente> {
         }
     }
 
+    private Optional<Docente> findByUsername(String username) {return getRepository().findByUsername(username);
+    }
+
 
     public Optional<Docente> findByCodiceFiscale(String codiceFiscale){return getRepository().findByCodiceFiscale(codiceFiscale);}
 
@@ -81,8 +87,12 @@ public class DocenteService implements CrudService<Docente> {
 
         //Controlli + Lazy
         Optional<Docente> studenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
+        Optional<Docente> docenteExistentUser = findByUsername(docente.getUsername());
 
         if (studenteExistent.isPresent() && !studenteExistent.get().getId().equals(docente.getId())){
+            return false;
+        }
+        if(docenteExistentUser.isPresent() && !docenteExistentUser.get().getId().equals(docente.getId())){
             return false;
         }
 

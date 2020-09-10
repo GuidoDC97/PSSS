@@ -1,7 +1,6 @@
 package com.psss.registro.backend.services;
 
 import com.psss.registro.backend.models.Classe;
-import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.repositories.ClasseRepository;
 import com.psss.registro.backend.repositories.StudenteRepository;
@@ -9,7 +8,6 @@ import com.psss.registro.app.security.UserAuthority;
 import com.psss.registro.app.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,8 +43,12 @@ public class StudenteService implements CrudService<Studente>{
 //            Classe classeSync = classeRepository.findById(studente.getClasse().getId()).get();
 
             Optional<Studente> studenteExistent = findByCodiceFiscale(studente.getCodiceFiscale());
+            Optional<Studente> studenteExistentUser = findByUsername(studente.getUsername());
 
             if (studenteExistent.isPresent() && !studenteExistent.get().getId().equals(studente.getId())) {
+                return false;
+            }
+            if(studenteExistentUser.isPresent() && !studenteExistentUser.get().getId().equals(studente.getId())){
                 return false;
             }
 
@@ -64,14 +66,15 @@ public class StudenteService implements CrudService<Studente>{
 
             studente.setPassword(passwordEncoder.encode(password));
 
-            //getRepository().saveAndFlush(studente);
             return save(studente);
 
         }else{
             return false;
-            //throw new EntityExistsException();
         }
 
+    }
+
+    private Optional<Studente> findByUsername(String username) {return getRepository().findByUsername(username);
     }
 
 
@@ -83,8 +86,12 @@ public class StudenteService implements CrudService<Studente>{
         //Controlli + Lazy initialization = pariamm
 
         Optional<Studente> studenteExistent = findByCodiceFiscale(studente.getCodiceFiscale());
+        Optional<Studente> studenteExistentUser = findByUsername(studente.getUsername());
 
         if (studenteExistent.isPresent() && !studenteExistent.get().getId().equals(studente.getId())){
+            return false;
+        }
+        if(studenteExistentUser.isPresent() && !studenteExistentUser.get().getId().equals(studente.getId())){
             return false;
         }
 
