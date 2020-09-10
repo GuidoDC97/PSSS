@@ -15,9 +15,7 @@ import java.io.Serializable;
 @ToString(exclude = {"userAuthority"}) @EqualsAndHashCode(exclude = {"userAuthority"})
 public class User extends AbstractEntity {
 
-//    @Id
-//    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+
     //@Column(unique=true)
     //@NotNull
     @Email(message = "Inserire una e-mail valida")
@@ -37,7 +35,6 @@ public class User extends AbstractEntity {
     }
 
     public User(User user) {
-        this.id = user.id;
         this.username = user.username;
         this.password = user.password;
         this.enabled = user.enabled;
