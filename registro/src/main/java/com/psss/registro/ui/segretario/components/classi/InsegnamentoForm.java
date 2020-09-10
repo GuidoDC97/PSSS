@@ -8,6 +8,7 @@ import com.psss.registro.backend.services.DocenteService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 public class InsegnamentoForm extends FormLayout {
@@ -16,7 +17,7 @@ public class InsegnamentoForm extends FormLayout {
     private final ComboBox<Materia> materia = new ComboBox<>("Materia");
     private final ComboBox<Classe> classe = new ComboBox<>("Classe");
 
-    private final Binder<Insegnamento> binder = new Binder<>(Insegnamento.class);
+    private final Binder<Insegnamento> binder = new BeanValidationBinder<>(Insegnamento.class);
 
     private DocenteService docenteService;
 

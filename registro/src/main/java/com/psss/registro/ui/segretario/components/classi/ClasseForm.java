@@ -5,6 +5,7 @@ import com.psss.registro.backend.models.Classe;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 public class ClasseForm extends FormLayout {
@@ -12,9 +13,9 @@ public class ClasseForm extends FormLayout {
     private final ComboBox<Integer> anno = new ComboBox<> ("Anno");
     private final ComboBox<Character> sezione = new ComboBox<> ("Sezione");
 
-    private final IntegerField annoScolastico = new IntegerField("Anno scolastico");
+    private final IntegerField annoScolastico = new IntegerField("Anno Scolastico");
 
-    private final Binder<Classe> binder = new Binder<>(Classe.class);
+    private final Binder<Classe> binder = new BeanValidationBinder<>(Classe.class);
 
     public ClasseForm(){
         anno.setAutofocus(true);
@@ -28,7 +29,7 @@ public class ClasseForm extends FormLayout {
         annoScolastico.setClearButtonVisible(true);
         annoScolastico.getElement().getClassList().add("full-width");
 
-        add(anno,sezione,annoScolastico);
+        add(anno, sezione, annoScolastico);
         binder.bindInstanceFields(this);
     }
 

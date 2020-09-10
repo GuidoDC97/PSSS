@@ -12,6 +12,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -65,11 +66,21 @@ public class InsegnamentoDialog extends Dialog {
             Insegnamento insegnamento = new Insegnamento();
 //            Classe classe = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(insegnamento);
-            insegnamentoService.saveInsegnamento(insegnamento);
-            Notification.show("Insegnamento aggiunto con successo!");
-            System.out.println("Insegnamento aggiunto: " + insegnamento.toString());
-            close();
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            if(insegnamentoService.saveInsegnamento(insegnamento)) {
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.setText("Insegnamento inserito con successo!");
+                notification.open();
+                close();
+            } else {
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setText("Attenzione: non è possibile inserire l'insegmaneto!");
+                notification.open();
+            }
         });
+
+        form.getBinder().addStatusChangeListener(e -> conferma.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(conferma);
 
