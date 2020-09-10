@@ -48,7 +48,6 @@ public class ClasseService implements CrudService<Classe>{
 
         if (classeExistent.isPresent() && !classeExistent.get().getId().equals(classe.getId())){
             return false;
-
         }
 
         getRepository().saveAndFlush(classe);

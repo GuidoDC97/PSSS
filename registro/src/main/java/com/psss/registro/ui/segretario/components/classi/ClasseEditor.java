@@ -91,7 +91,6 @@ public class ClasseEditor extends Div {
             notification.setDuration(3000);
 
             if(classeService.updateClasse(classe)) {
-
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Classe aggiornata con successo!");
                 notification.open();

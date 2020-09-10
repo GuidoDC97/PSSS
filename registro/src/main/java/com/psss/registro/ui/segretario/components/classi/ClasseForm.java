@@ -12,7 +12,7 @@ public class ClasseForm extends FormLayout {
     private final ComboBox<Integer> anno = new ComboBox<> ("Anno");
     private final ComboBox<Character> sezione = new ComboBox<> ("Sezione");
 
-    private final IntegerField annoScolastico = new IntegerField("Anno colastico");
+    private final IntegerField annoScolastico = new IntegerField("Anno scolastico");
 
     private final Binder<Classe> binder = new Binder<>(Classe.class);
 

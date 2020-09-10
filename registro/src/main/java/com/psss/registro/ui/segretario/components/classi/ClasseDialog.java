@@ -10,6 +10,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
@@ -58,14 +59,25 @@ public class ClasseDialog extends Dialog{
         conferma.setEnabled(false);
         conferma.addClickListener(e -> {
             Classe classe = new Classe();
+
             form.getBinder().writeBeanIfValid(classe);
-            classeService.saveClasse(classe);
-            Notification.show("Classe aggiunta con successo!");
-            System.out.println("Classe aggiunta: " + classe.toString());
-            grid.getClassi().add(classe);
-            grid.getGrid().setItems(grid.getClassi());
-            close();
+            Notification notification = new Notification();
+            notification.setDuration(3000);
+            if(classeService.saveClasse(classe)) {
+                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notification.setText("Classe inserita con successo!");
+                notification.open();
+                grid.getClassi().add(classe);
+                grid.getGrid().setItems(grid.getClassi());
+                close();
+            } else {
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                notification.setText("Attenzione: non è possibile inserire la classe!");
+                notification.open();
+            }
         });
+
+        form.getBinder().addStatusChangeListener(e -> conferma.setEnabled(form.getBinder().isValid()));
 
         buttonLayout.add(conferma);
 
