@@ -82,12 +82,12 @@ public class MateriaEditor extends Div {
             notification.setDuration(3000);
             if(materiaService.updateMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                notification.setText("Materia aggiunta con successo!");
+                notification.setText("Materia aggiornata con successo!");
                 notification.open();
                 grid.getGrid().setItems(grid.getMaterie());
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setText("Attenzione: non è possibile aggiungere la materia!");
+                notification.setText("Attenzione: non è possibile aggiornare la materia!");
                 notification.open();
             }
         });

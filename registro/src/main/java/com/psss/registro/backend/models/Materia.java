@@ -50,7 +50,6 @@ public class Materia extends AbstractEntity{
         docenti.remove(docente);
     }
 
-
     @PreRemove
     public void preRemove(){
 

@@ -68,14 +68,15 @@ public class DocenteEditor extends Div {
             form.getBinder().writeBeanIfValid(docente);
             Notification notification = new Notification();
             notification.setDuration(3000);
+            System.out.println(docente.getPassword());
             if(docenteService.updateDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                notification.setText("Materia aggiunta con successo!");
+                notification.setText("Docente aggiornato con successo!");
                 notification.open();
                 grid.getGrid().setItems(grid.getDocenti());
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setText("Attenzione: non è possibile aggiungere la materia!");
+                notification.setText("Attenzione: non è possibile aggiungere la docente!");
                 notification.open();
             }
         });
@@ -96,7 +97,7 @@ public class DocenteEditor extends Div {
         dialogDiv.setId("editor");
         dialog.add(dialogDiv);
 
-        Label text = new Label("Sei sicuro di voler eliminare una materia?");
+        Label text = new Label("Sei sicuro di voler eliminare un docente?");
         text.setClassName("text-layout");
         dialogDiv.add(text);
 

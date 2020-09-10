@@ -52,25 +52,6 @@ public class Docente extends User {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 
-    public Docente(String username, String nome, String cognome, String codiceFiscale, Character sesso,
-                   LocalDate data, String telefono, Set<Materia> materie) {
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String password = nome.replaceAll("[^a-zA-Z]", "").toLowerCase()
-                + "." + cognome.replaceAll("[^a-zA-Z]", "").toLowerCase();
-        this.setPassword(passwordEncoder.encode(password));
-        this.setUsername(username);
-
-        this.nome = nome;
-        this.cognome = cognome;
-        this.codiceFiscale = codiceFiscale;
-        this.sesso = sesso;
-        this.data = data;
-        this.telefono = telefono;
-        this.materie = materie;
-        this.insegnamenti = new HashSet<Insegnamento>();
-    }
-
     public String getDocente() {
         return (this.nome + " " + this.cognome);
     }

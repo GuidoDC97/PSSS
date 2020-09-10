@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
     @Size(min = 1, max = 50, message = "La e-mail deve essere compresa fra 1 e 50 caratteri")
     private String username;
     @NotBlank(message = "Inserire la password")
-    @Size(min = 1, max = 50, message = "La password deve essere compresa fra 1 e 50 caratteri")
+//    @Size(min = 1, max = 50, message = "La password deve essere compresa fra 1 e 50 caratteri")
     private String password;
     private Boolean enabled = true;
     @ManyToOne

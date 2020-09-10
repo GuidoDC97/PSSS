@@ -9,6 +9,8 @@ import com.psss.registro.app.security.UserAuthority;
 import com.psss.registro.app.security.UserAuthorityRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +39,7 @@ public class DocenteService implements CrudService<Docente> {
 
             Optional<Docente> docenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
 
-            if (docenteExistent.isPresent() && docenteExistent.get().getId() != docente.getId()) {
+            if (docenteExistent.isPresent() && !docenteExistent.get().getId().equals(docente.getId())) {
                 return false;
             }
 
@@ -47,12 +49,16 @@ public class DocenteService implements CrudService<Docente> {
 
             docente.setUserAuthority(authority);
 
-            // TODO: il docente va aggiunto alla materia qua o nel model?
-            for (Materia materia : docente.getMaterie()) {
-                materia.addDocente(docente);
-                materiaRepository.saveAndFlush(materia);
-                // TODO per guido: è necessario fare il save and flush della classe? (fatto)
-            }
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String password = docente.getNome().replaceAll("[^a-zA-Z]", "").toLowerCase()
+                    + "." + docente.getCognome().replaceAll("[^a-zA-Z]", "").toLowerCase();
+
+            docente.setPassword(passwordEncoder.encode(password));
+
+//            for (Materia materia : docente.getMaterie()) {
+//                materia.addDocente(docente);
+//                materiaRepository.saveAndFlush(materia);
+//            }
 
     //        for (Classe classe : classi) {
     //            classe.addDocente(docente);
@@ -76,7 +82,7 @@ public class DocenteService implements CrudService<Docente> {
         //Controlli + Lazy
         Optional<Docente> studenteExistent = findByCodiceFiscale(docente.getCodiceFiscale());
 
-        if (studenteExistent.isPresent() && studenteExistent.get().getId() != docente.getId()){
+        if (studenteExistent.isPresent() && !studenteExistent.get().getId().equals(docente.getId())){
             return false;
         }
 

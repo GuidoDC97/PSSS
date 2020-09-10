@@ -67,16 +67,17 @@ public class DocenteDialog extends Dialog {
             form.getBinder().writeBeanIfValid(docente);
             Notification notification = new Notification();
             notification.setDuration(3000);
+            System.out.println(docente.getPassword());
             if(docenteService.saveDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                notification.setText("Materia inserita con successo!");
+                notification.setText("Docente inserito con successo!");
                 notification.open();
                 grid.getDocenti().add(docente);
                 grid.getGrid().setItems(grid.getDocenti());
                 close();
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                notification.setText("Attenzione: non è possibile inserita la materia!");
+                notification.setText("Attenzione: non è possibile inserire il docente!");
                 notification.open();
             }
         });
