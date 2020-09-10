@@ -1,12 +1,12 @@
 package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.Classe;
-import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.DocenteService;
 import com.psss.registro.backend.services.InsegnamentoService;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;

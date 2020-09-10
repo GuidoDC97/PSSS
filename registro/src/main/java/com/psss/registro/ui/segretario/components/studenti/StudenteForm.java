@@ -22,9 +22,9 @@ public class StudenteForm extends FormLayout {
     private final TextField cognome= new TextField("Cognome");
     private final TextField codiceFiscale = new TextField("Codice Fiscale");
     private final EmailField username = new EmailField("Email");
-    private final DatePicker dataNascita = new DatePicker("Data di nascita");
+    private final DatePicker data = new DatePicker("Data di nascita");
     private final ComboBox<Character> sesso = new ComboBox<>("Sesso");
-    private final TextField numeroTelefono = new TextField("Telefono");
+    private final TextField telefono = new TextField("Telefono");
     private final ComboBox<Classe> classe = new ComboBox<>("Classe");
 
     private final Binder<Studente> binder = new BeanValidationBinder<>(Studente.class);
@@ -45,9 +45,9 @@ public class StudenteForm extends FormLayout {
         username.setClearButtonVisible(true);
 
         classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
-        classe.setItemLabelGenerator(Classe::getClasse);
+//        classe.setItemLabelGenerator(Classe::getClasse);
 
-        add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
+        add(nome, cognome, codiceFiscale, username, data, sesso, telefono, classe);
         binder.bindInstanceFields(this);
     }
 

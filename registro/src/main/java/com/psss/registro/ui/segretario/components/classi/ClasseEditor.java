@@ -16,7 +16,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import org.vaadin.gatanaso.MultiselectComboBox;
 
 public class ClasseEditor extends Div {
 

@@ -66,7 +66,6 @@ public class Studente extends User {
         this.classe = classe;
     }
 
-
     public void setClasse(Classe classe){
 
         this.classe = classe;
