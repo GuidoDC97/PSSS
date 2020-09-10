@@ -14,6 +14,8 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
+import java.time.Year;
+
 public class StudenteForm extends FormLayout {
 
     private final TextField nome = new TextField("Nome");
@@ -42,7 +44,7 @@ public class StudenteForm extends FormLayout {
         sesso.setItems('M','F');
         username.setClearButtonVisible(true);
 
-        classe.setItems(classeService.findAll());
+        classe.setItems(classeService.findByAnnoScolastico(Year.now().getValue()));
         classe.setItemLabelGenerator(Classe::getClasse);
 
         add(nome, cognome,codiceFiscale,username,dataNascita,sesso,numeroTelefono,classe);
