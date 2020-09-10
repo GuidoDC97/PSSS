@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -18,8 +19,10 @@ public class User extends AbstractEntity {
 //    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     //@Column(unique=true)
-    @NotBlank(message = "Inserire lo username")
+    //@NotNull
     @Email(message = "Inserire una e-mail valida")
+    @NotBlank(message = "Inserire una e-mail")
+    @Size(min = 1, max = 50, message = "La e-mail deve essere compresa fra 1 e 50 caratteri")
     private String username;
     @NotBlank(message = "Inserire la password")
     @Size(min = 1, max = 50, message = "La password deve essere compresa fra 1 e 50 caratteri")
