@@ -4,6 +4,7 @@ import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Materia;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,14 +1,12 @@
 package com.psss.registro.backend.models;
 
-import com.psss.registro.backend.repositories.DocenteRepository;
 import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 

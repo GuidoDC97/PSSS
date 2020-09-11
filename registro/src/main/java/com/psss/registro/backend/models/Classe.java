@@ -4,15 +4,10 @@ import lombok.*;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import com.psss.registro.backend.models.Classe;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

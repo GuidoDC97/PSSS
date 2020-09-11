@@ -1,19 +1,15 @@
 package com.psss.registro.ui.segretario.view;
 
-import com.psss.registro.backend.models.Classe;
-import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.StudenteService;
 import com.psss.registro.ui.segretario.components.studenti.StudenteGrid;
 import com.psss.registro.ui.segretario.components.studenti.StudenteEditor;
+
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import java.util.List;
-import java.time.Year;
 
 @Route(value = "segretario/studenti", layout = MainView.class)
 @PageTitle("Studenti")

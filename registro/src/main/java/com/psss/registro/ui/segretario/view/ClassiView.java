@@ -1,48 +1,17 @@
 package com.psss.registro.ui.segretario.view;
 
-import com.psss.registro.backend.models.*;
 import com.psss.registro.backend.services.ClasseService;
 import com.psss.registro.backend.services.DocenteService;
 import com.psss.registro.backend.services.InsegnamentoService;
 import com.psss.registro.backend.services.StudenteService;
 import com.psss.registro.ui.segretario.components.classi.ClasseEditor;
 import com.psss.registro.ui.segretario.components.classi.ClasseGrid;
-import com.psss.registro.ui.segretario.components.docenti.DocenteEditor;
-import com.psss.registro.ui.segretario.components.docenti.DocenteGrid;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.details.Details;
-import com.vaadin.flow.component.listbox.ListBox;
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
+
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationResult;
-import com.vaadin.flow.data.binder.Validator;
-import com.vaadin.flow.data.binder.ValueContext;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.vaadin.gatanaso.MultiselectComboBox;
-
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 //TODO: definire final i campi inizializzati fuori dal costruttore.
 @Route(value = "segretario/classi", layout = MainView.class)
