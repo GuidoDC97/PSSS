@@ -1,6 +1,5 @@
 package com.psss.registro.ui.segretario.view;
 
-import com.psss.registro.ui.segretario.view.MainView;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;

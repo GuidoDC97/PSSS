@@ -5,8 +5,8 @@ import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.repositories.InsegnamentoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

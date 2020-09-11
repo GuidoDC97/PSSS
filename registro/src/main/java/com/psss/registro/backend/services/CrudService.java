@@ -1,11 +1,9 @@
 package com.psss.registro.backend.services;
 
 import com.psss.registro.backend.models.AbstractEntity;
-import com.psss.registro.backend.models.Docente;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 

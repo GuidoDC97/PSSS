@@ -15,7 +15,6 @@ import java.io.Serializable;
 @ToString(exclude = {"userAuthority"}) @EqualsAndHashCode(exclude = {"userAuthority"})
 public class User extends AbstractEntity {
 
-
     //@Column(unique=true)
     //@NotNull
     @Email(message = "Inserire una e-mail valida")
