@@ -1,8 +1,10 @@
 package com.psss.registro.ui;
 
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -25,9 +27,11 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
         Image image = new Image("icons/icon.png", "Registro logo");
-        image.setWidth("200px");
-        image.setHeight("200px");
-        add(image, new Text("Registro Elettronico"), login);
+        image.setWidth("150px");
+        image.setHeight("150px");
+        Label titolo = new Label("Registro Elettronico");
+        titolo.setClassName("bold-text-layout");
+        add(image, titolo, login);
     }
 
     @Override
