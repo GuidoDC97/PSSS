@@ -28,7 +28,6 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
         return getRepository().findByDocenteAndMateriaAndClasse(docente, materia, classe);
     }
 
-
     public boolean saveInsegnamento(Insegnamento insegnamento){
         Optional<Insegnamento> insegnamentoExistent = findByDocenteAndMateriaAndClasse(insegnamento.getDocente(),insegnamento.getMateria(), insegnamento.getClasse());
 
