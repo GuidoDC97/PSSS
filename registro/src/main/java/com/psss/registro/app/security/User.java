@@ -12,7 +12,8 @@ import java.io.Serializable;
 
 @Data @AllArgsConstructor @NoArgsConstructor
 @Entity(name = "users") @Inheritance(strategy = InheritanceType.JOINED)
-@ToString(exclude = {"userAuthority"}) @EqualsAndHashCode(exclude = {"userAuthority"})
+@ToString(exclude = {"userAuthority"})
+@EqualsAndHashCode(exclude = {"userAuthority"}, callSuper = false)
 public class User extends AbstractEntity {
 
     //@Column(unique=true)

@@ -10,5 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface InsegnamentoRepository extends JpaRepository<Insegnamento, Long> {
+
     Optional<Insegnamento> findByDocenteAndMateriaAndClasse(Docente docente, Materia materia, Classe classe);
 }

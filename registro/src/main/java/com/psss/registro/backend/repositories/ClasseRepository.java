@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClasseRepository extends JpaRepository<Classe, Long> {
-    public List<Classe> findByAnnoScolastico(int annoScolastico);
 
-    Classe findByStudenti(Studente studente);
-
+    List<Classe> findByAnnoScolastico(int annoScolastico);
     Optional<Classe> findByAnnoAndAnnoScolasticoAndSezione(int anno, int annoScolastico, Character sezione);
+
+    // TODO: verificare se serve
+    Classe findByStudenti(Studente studente);
 
 }
 

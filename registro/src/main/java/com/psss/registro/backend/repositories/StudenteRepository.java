@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface StudenteRepository extends JpaRepository<Studente, Long> {
 
-    List<Studente> findByClasse(Classe classe);
-
     Optional<Studente> findByCodiceFiscale(String codiceFiscale);
     Optional<Studente> findByUsername(String username);
+    // TODO: verificare se serve
+    List<Studente> findByClasse(Classe classe);
 }
 

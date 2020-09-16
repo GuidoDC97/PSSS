@@ -1,8 +1,6 @@
 package com.psss.registro.backend.services;
 
-import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Studente;
-import com.psss.registro.backend.repositories.ClasseRepository;
 import com.psss.registro.backend.repositories.StudenteRepository;
 import com.psss.registro.app.security.UserAuthority;
 import com.psss.registro.app.security.UserAuthorityRepository;
@@ -13,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,25 +19,26 @@ public class StudenteService implements CrudService<Studente>{
 
     @Autowired
     private UserAuthorityRepository userAuthorityRepository;
+
     @Autowired
     private StudenteRepository studenteRepository;
-    @Autowired
-    private ClasseRepository classeRepository;
 
     @Override
     public StudenteRepository getRepository() {
         return studenteRepository;
     }
 
-    public List<Studente> findByClasse(Classe classe){
-        return studenteRepository.findByClasse(classe);
+    private Optional<Studente> findByUsername(String username) {
+        return getRepository().findByUsername(username);
     }
 
-    //TODO: non si dovrebbe gestire il save dello studente come il save del docente tramite le Autorità?
+    private Optional<Studente> findByCodiceFiscale(String codiceFiscale){
+        return getRepository().findByCodiceFiscale(codiceFiscale);
+    }
+
     public boolean saveStudente(Studente studente) {
 
         if(studente.getId() == null){
-//            Classe classeSync = classeRepository.findById(studente.getClasse().getId()).get();
 
             Optional<Studente> studenteExistent = findByCodiceFiscale(studente.getCodiceFiscale());
             Optional<Studente> studenteExistentUser = findByUsername(studente.getUsername());
@@ -58,8 +56,6 @@ public class StudenteService implements CrudService<Studente>{
 
             studente.setUserAuthority(authority);
 
-//            classeSync.addStudente(studente);
-
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String password = studente.getNome().replaceAll("[^a-zA-Z]", "").toLowerCase()
                     + "." + studente.getCognome().replaceAll("[^a-zA-Z]", "").toLowerCase();
@@ -74,16 +70,7 @@ public class StudenteService implements CrudService<Studente>{
 
     }
 
-    private Optional<Studente> findByUsername(String username) {return getRepository().findByUsername(username);
-    }
-
-
-    public Optional<Studente> findByCodiceFiscale(String codiceFiscale){return getRepository().findByCodiceFiscale(codiceFiscale);}
-
-
     public boolean updateStudente(Studente studente) {
-
-        //Controlli + Lazy initialization = pariamm
 
         Optional<Studente> studenteExistent = findByCodiceFiscale(studente.getCodiceFiscale());
         Optional<Studente> studenteExistentUser = findByUsername(studente.getUsername());
@@ -97,27 +84,6 @@ public class StudenteService implements CrudService<Studente>{
 
         getRepository().saveAndFlush(studente);
         return true;
-
-
-
-        //Studente studenteSync = studenteRepository.findById(studente.getId()).get();
-//        Classe classeOld = classeRepository.findByStudenti(studenteOld);
-//        classeOld.removeStudente(studenteOld); //Forse da problemi
-//
-//        studenteOld.setNome(studenteNew.getNome());
-//        studenteOld.setCognome(studenteNew.getCognome());
-//        studenteOld.setCodiceFiscale(studenteNew.getCodiceFiscale());
-//        studenteOld.setSesso(studenteNew.getSesso());
-//        studenteOld.setData(studenteNew.getData());
-//        studenteOld.setUsername(studenteNew.getUsername());
-//        studenteOld.setTelefono(studenteNew.getTelefono());
-//
-//        studenteOld.setClasse(studenteNew.getClasse());
-//
-//        studenteNew.getClasse().addStudente(studenteOld);
-
-        //return save(studente);
-
     }
 
 }

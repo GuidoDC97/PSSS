@@ -24,7 +24,7 @@ public class EventListenerInitialize {
 
     @EventListener(ApplicationReadyEvent.class)
     public void initializeDatabase() {
-        logger.info("Initializing database");
+//        logger.info("Initializing database");
         // Decommentare la prima volta per popolare il database
 //         UserAuthority segretarioAuthority = new UserAuthority("SEGRETARIO");
 //         UserAuthority docenteAuthority = new UserAuthority("DOCENTE");

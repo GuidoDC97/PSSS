@@ -17,7 +17,6 @@ public interface CrudService <T extends AbstractEntity> {
             return true;
         }else{
             return false;
-            //throw new EntityExistsException();
         }
     }
 
@@ -33,7 +32,6 @@ public interface CrudService <T extends AbstractEntity> {
         T entity = getRepository().findById(id).orElse(null);
         if(entity == null){
             return false;
-            //throw EntityNotFoundException();
         }
         getRepository().deleteById(id);
         return true;

@@ -33,7 +33,6 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
 
         if (insegnamentoExistent.isPresent() && !insegnamentoExistent.get().getId().equals(insegnamento.getId())){
             return false;
-
         }
 
         getRepository().saveAndFlush(insegnamento);

@@ -26,7 +26,6 @@ public class InsegnamentoForm extends FormLayout {
         this.docenteService = docenteService;
 
         docente.setItems(docenteService.findAll());
-        docente.setItemLabelGenerator(Docente::getDocente);
         docente.addValueChangeListener(event -> {
             if(event.getValue()!= null) {
                 materia.setEnabled(true);

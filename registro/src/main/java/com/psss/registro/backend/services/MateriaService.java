@@ -21,19 +21,18 @@ public class MateriaService implements CrudService<Materia> {
         return materiaRepository;
     }
 
+    private Optional<Materia> findByCodice(String codice){
+        return getRepository().findByCodice(codice);
+    }
 
     public boolean saveMateria(Materia materia) {
+
         Optional<Materia> materiaExistent = findByCodice(materia.getCodice());
 
         if (materiaExistent.isPresent() && !materiaExistent.get().getId().equals(materia.getId())) {
             return false;
         }
         return save(materia);
-
-    }
-
-    public Optional<Materia> findByCodice(String codice){
-        return getRepository().findByCodice(codice);
     }
 
     //TODO: chiedere al prof Amalfitano se va bene gestire l'unicità delle entity in questo modo.

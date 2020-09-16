@@ -1,30 +1,40 @@
 package com.psss.registro.backend.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @NoArgsConstructor @AllArgsConstructor
-@Entity(name = "classi") @ToString(exclude = {"materie", "docenti", "studenti", "insegnamenti"})
-@EqualsAndHashCode(exclude = {"id", "materie", "docenti", "studenti", "insegnamenti"})
+@Data
+@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"studenti", "insegnamenti"}, callSuper = false)
+@Entity(name = "classi")
 public class Classe extends AbstractEntity{
+
     @Min(1)
     @Max(5)
     private int anno;
+
     @NotNull(message = "Selezionare la sezione")
     private Character sezione;
+
     @NotNull(message = "Inserire l'anno scolastico")
     private int annoScolastico;
 
     @OneToMany(mappedBy = "classe", fetch = FetchType.LAZY) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Studente> studenti;
+
     @OneToMany(mappedBy = "classe", cascade = CascadeType.REMOVE) @LazyCollection(LazyCollectionOption.FALSE)
     private Set<Insegnamento> insegnamenti;
 

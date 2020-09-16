@@ -1,27 +1,33 @@
 package com.psss.registro.backend.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @AllArgsConstructor
-@Entity(name = "materie") @ToString(exclude = {"classi","docenti"})
-@EqualsAndHashCode(exclude = {"id","nome", "docenti"})
+@Data
+@AllArgsConstructor
+@ToString(exclude = {"docenti"})
+@EqualsAndHashCode(exclude = {"nome", "docenti"}, callSuper = false)
+@Entity(name = "materie")
 public class Materia extends AbstractEntity{
 
-//    https://stackoverflow.com/questions/17137307/in-hibernate-validator-4-1-what-is-the-difference-between-notnull-notempty
     @NotBlank(message = "Inserire il codice")
     @Size(min = 1, max = 10, message = "Il codice deve essere compreso fra 1 e 10 caratteri")
     private String codice;
+
     @NotBlank(message = "Inserire il nome")
     @Size(min = 1, max = 50, message = "Il nome deve essere compreso fra 1 e 50 caratteri")
     private String nome;
@@ -50,8 +56,7 @@ public class Materia extends AbstractEntity{
     @PreRemove
     public void preRemove(){
 
-        //TODO: GESTIRE ELIMINAZIONE MATERIA E RELATIVI INSEGNAMENTI
-
+        //TODO: gestire l'eliminazione degli insegnamenti di una materia
 //        for(Docente docente : docenti){
 //            Set<Insegnamento> insegnamenti = docente.getInsegnamenti();
 //            for(Insegnamento insegnamento : insegnamenti){
@@ -74,9 +79,6 @@ public class Materia extends AbstractEntity{
         for(Docente docente : docenti){
             docente.removeMateria(this);
         }
-
-
-
     }
 }
 
