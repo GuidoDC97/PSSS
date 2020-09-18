@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class ClasseService implements CrudService<Classe>{
+class ClasseService implements CrudService<Classe>{
 
     @Autowired
     private ClasseRepository classeRepository;
@@ -22,11 +22,11 @@ public class ClasseService implements CrudService<Classe>{
         return classeRepository;
     }
 
+    private Optional<Classe> findByAnnoAndAnnoScolasticoAndSezione(int anno, int annoScolastico, Character sezione){return getRepository().findByAnnoAndAnnoScolasticoAndSezione(anno, annoScolastico,sezione);}
+
     public List<Classe> findByAnnoScolastico(int annoScolastico) {
         return classeRepository.findByAnnoScolastico(annoScolastico);
     }
-
-    private Optional<Classe> findByAnnoAndAnnoScolasticoAndSezione(int anno, int annoScolastico, Character sezione){return getRepository().findByAnnoAndAnnoScolasticoAndSezione(anno, annoScolastico,sezione);}
 
     public boolean saveClasse(Classe classe){
         Optional<Classe> classeExistent = findByAnnoAndAnnoScolasticoAndSezione(classe.getAnno(),classe.getAnnoScolastico(),classe.getSezione());

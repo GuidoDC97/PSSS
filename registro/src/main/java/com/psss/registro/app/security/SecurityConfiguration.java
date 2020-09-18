@@ -64,7 +64,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new MySimpleUrlAuthenticationSuccessHandler();
     }
 
-    // TODO: fare in modo che si veda l'icona sulla tab di Chrome
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(

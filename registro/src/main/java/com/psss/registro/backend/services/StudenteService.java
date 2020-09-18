@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class StudenteService implements CrudService<Studente>{
+class StudenteService implements CrudService<Studente>{
 
     @Autowired
     private UserAuthorityRepository userAuthorityRepository;

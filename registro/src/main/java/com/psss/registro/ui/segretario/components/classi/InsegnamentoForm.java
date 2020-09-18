@@ -4,10 +4,10 @@ import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Materia;
-import com.psss.registro.backend.services.DocenteService;
+import com.psss.registro.backend.services.ServiceFacade;
+
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
@@ -19,13 +19,13 @@ public class InsegnamentoForm extends FormLayout {
 
     private final Binder<Insegnamento> binder = new BeanValidationBinder<>(Insegnamento.class);
 
-    private DocenteService docenteService;
+    private ServiceFacade serviceFacade;
 
-    public InsegnamentoForm(DocenteService docenteService) {
+    public InsegnamentoForm(ServiceFacade serviceFacade) {
 
-        this.docenteService = docenteService;
+        this.serviceFacade = serviceFacade;
 
-        docente.setItems(docenteService.findAll());
+        docente.setItems(serviceFacade.findAllDocenti());
         docente.addValueChangeListener(event -> {
             if(event.getValue()!= null) {
                 materia.setEnabled(true);

@@ -3,10 +3,8 @@ package com.psss.registro.ui.segretario.components.classi;
 import com.psss.registro.backend.models.Classe;
 import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Studente;
-import com.psss.registro.backend.services.ClasseService;
-import com.psss.registro.backend.services.DocenteService;
-import com.psss.registro.backend.services.InsegnamentoService;
 
+import com.psss.registro.backend.services.ServiceFacade;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -33,21 +31,17 @@ public class ClasseGrid extends Div {
 
     private ClasseEditor editor;
 
-    private ClasseService classeService;
-    private InsegnamentoService insegnamentoService;
-    private DocenteService docenteService;
+    private ServiceFacade serviceFacade;
 
     private List<Classe> classi;
 
-    public ClasseGrid(ClasseService classeService, InsegnamentoService insegnamentoService, DocenteService docenteService) {
+    public ClasseGrid(ServiceFacade serviceFacade) {
         setId("grid-wrapper");
         setWidthFull();
 
-        this.classeService = classeService;
-        this.insegnamentoService = insegnamentoService;
-        this.docenteService = docenteService;
+        this.serviceFacade = serviceFacade;
 
-        classi = this.classeService.findAll();
+        classi = this.serviceFacade.findAllClassi();
 
         grid.setColumns("anno", "sezione", "annoScolastico");
         grid.addComponentColumn(classe -> {
@@ -55,7 +49,7 @@ public class ClasseGrid extends Div {
             Button insegnamentoButton = new Button("Aggiungi insegnamento");
 
             insegnamentoButton.addClickListener(buttonClickEvent -> {
-                InsegnamentoDialog insegnamentoDialog = new InsegnamentoDialog(insegnamentoService, docenteService);
+                InsegnamentoDialog insegnamentoDialog = new InsegnamentoDialog(serviceFacade);
                 insegnamentoDialog.setCloseOnEsc(true);
 
                 Classe classeSelezionata = grid.getSelectedItems().iterator().next();
@@ -99,7 +93,6 @@ public class ClasseGrid extends Div {
 
             if(editor.isVisible()) {
                 editor.getInsegnamentiList().setItems(classe.getInsegnamenti());
-                System.out.println(classe.getInsegnamenti() + " " + classe.getInsegnamenti().size());
             }
         });
 
@@ -126,7 +119,7 @@ public class ClasseGrid extends Div {
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            classeDialog = new ClasseDialog(this.classeService);
+            classeDialog = new ClasseDialog(serviceFacade);
             classeDialog.setGrid(this);
             classeDialog.open();
         });

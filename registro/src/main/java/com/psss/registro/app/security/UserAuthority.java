@@ -12,6 +12,7 @@ import java.util.List;
 public class UserAuthority extends AbstractEntity {
 
     String authority;
+
     @OneToMany(mappedBy = "userAuthority", fetch = FetchType.EAGER)
     List<User> users;
 

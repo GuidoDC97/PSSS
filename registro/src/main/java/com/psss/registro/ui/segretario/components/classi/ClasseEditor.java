@@ -1,7 +1,7 @@
 package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.*;
-import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -34,12 +34,12 @@ public class ClasseEditor extends Div {
 
     private ClasseGrid grid;
 
-    private ClasseService classeService;
+    private ServiceFacade serviceFacade;
 
-    public ClasseEditor(ClasseService classeService) {
+    public ClasseEditor(ServiceFacade serviceFacade) {
         setId("editor-layout");
 
-        this.classeService = classeService;
+        this.serviceFacade = serviceFacade;
 
         Label titolo = new Label("Scheda classe");
         titolo.setClassName("bold-text-layout");
@@ -58,8 +58,6 @@ public class ClasseEditor extends Div {
     private void createDocentiDetails() {
         insegnamentiDetails.setSummaryText("Docenti");
         insegnamentiDetails.setContent(insegnamentiList);
-
-//        insegnamentiList.setReadOnly(true);
     }
 
     private void createStudentiDetails() {
@@ -90,7 +88,7 @@ public class ClasseEditor extends Div {
             Notification notification = new Notification();
             notification.setDuration(3000);
 
-            if(classeService.updateClasse(classe)) {
+            if(serviceFacade.updateClasse(classe)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Classe aggiornata con successo!");
                 notification.open();
@@ -133,7 +131,7 @@ public class ClasseEditor extends Div {
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Classe classe = grid.getGrid().getSelectedItems().iterator().next();
-            classeService.deleteById(classe.getId());
+            serviceFacade.deleteClasseById(classe.getId());
             Notification notification = new Notification();
             notification.setDuration(3000);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
@@ -174,6 +172,4 @@ public class ClasseEditor extends Div {
     public void setGrid(ClasseGrid grid) {
         this.grid = grid;
     }
-
-
 }

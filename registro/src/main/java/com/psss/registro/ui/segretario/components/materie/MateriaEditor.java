@@ -2,7 +2,7 @@ package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -32,13 +32,13 @@ public class MateriaEditor extends Div {
 
     private MateriaGrid grid;
 
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
-    public MateriaEditor(MateriaService materiaService) {
+    public MateriaEditor(ServiceFacade serviceFacade) {
 
         setId("editor-layout");
 
-        this.materiaService = materiaService;
+        this.serviceFacade = serviceFacade;
 
         Label titolo = new Label("Scheda materia");
         titolo.setClassName("bold-text-layout");
@@ -80,7 +80,7 @@ public class MateriaEditor extends Div {
 
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(materiaService.updateMateria(materia)) {
+            if(serviceFacade.updateMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia aggiornata con successo!");
                 notification.open();
@@ -122,7 +122,7 @@ public class MateriaEditor extends Div {
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Materia materia = grid.getGrid().getSelectedItems().iterator().next();
-            materiaService.deleteById(materia.getId());
+            serviceFacade.deleteMateriaById(materia.getId());
             Notification notification = new Notification();
             notification.setDuration(3000);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

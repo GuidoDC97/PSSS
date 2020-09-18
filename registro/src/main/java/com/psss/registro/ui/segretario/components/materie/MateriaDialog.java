@@ -1,7 +1,7 @@
 package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Materia;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -22,12 +22,12 @@ public class MateriaDialog extends Dialog {
 
     private MateriaGrid grid;
 
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
-    public MateriaDialog(MateriaService materiaService) {
+    public MateriaDialog(ServiceFacade serviceFacade) {
         setId("editor-layout");
 
-        this.materiaService = materiaService;
+        this.serviceFacade = serviceFacade;
 
         Label titolo = new Label("Nuova materia");
         titolo.setClassName("bold-text-layout");
@@ -63,7 +63,7 @@ public class MateriaDialog extends Dialog {
 
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(materiaService.saveMateria(materia)) {
+            if(serviceFacade.saveMateria(materia)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Materia inserita con successo!");
                 notification.open();

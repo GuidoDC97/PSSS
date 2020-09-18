@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class InsegnamentoService implements CrudService<Insegnamento>{
+class InsegnamentoService implements CrudService<Insegnamento>{
 
     @Autowired
     InsegnamentoRepository insegnamentoRepository;
@@ -24,7 +24,7 @@ public class InsegnamentoService implements CrudService<Insegnamento>{
         return insegnamentoRepository;
     }
 
-    public Optional<Insegnamento> findByDocenteAndMateriaAndClasse(Docente docente, Materia materia, Classe classe){
+    private Optional<Insegnamento> findByDocenteAndMateriaAndClasse(Docente docente, Materia materia, Classe classe){
         return getRepository().findByDocenteAndMateriaAndClasse(docente, materia, classe);
     }
 

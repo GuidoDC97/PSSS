@@ -5,9 +5,8 @@ import com.psss.registro.backend.models.AbstractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CrudService <T extends AbstractEntity> {
+interface CrudService <T extends AbstractEntity> {
 
     JpaRepository<T, Long> getRepository();
 
@@ -24,10 +23,6 @@ public interface CrudService <T extends AbstractEntity> {
         return getRepository().findAll();
     }
 
-    default Optional<T> findById(Long id) {
-        return getRepository().findById(id);
-    }
-
     default boolean deleteById(Long id){
         T entity = getRepository().findById(id).orElse(null);
         if(entity == null){
@@ -36,5 +31,4 @@ public interface CrudService <T extends AbstractEntity> {
         getRepository().deleteById(id);
         return true;
     }
-
 }

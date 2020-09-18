@@ -12,7 +12,5 @@ public interface StudenteRepository extends JpaRepository<Studente, Long> {
 
     Optional<Studente> findByCodiceFiscale(String codiceFiscale);
     Optional<Studente> findByUsername(String username);
-    // TODO: verificare se serve
-    List<Studente> findByClasse(Classe classe);
 }
 

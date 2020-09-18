@@ -1,7 +1,7 @@
 package com.psss.registro.ui.segretario.components.classi;
 
 import com.psss.registro.backend.models.Classe;
-import com.psss.registro.backend.services.ClasseService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -22,12 +22,12 @@ public class ClasseDialog extends Dialog{
 
     private ClasseGrid grid;
 
-    private ClasseService classeService;
+    private ServiceFacade serviceFacade;
 
-    public ClasseDialog(ClasseService classeService) {
+    public ClasseDialog(ServiceFacade serviceFacade) {
         setId("editor-layout");
 
-        this.classeService = classeService;
+        this.serviceFacade = serviceFacade;
 
         Label titolo = new Label("Nuova classe");
         titolo.setClassName("bold-text-layout");
@@ -63,7 +63,7 @@ public class ClasseDialog extends Dialog{
             form.getBinder().writeBeanIfValid(classe);
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(classeService.saveClasse(classe)) {
+            if(serviceFacade.saveClasse(classe)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Classe inserita con successo!");
                 notification.open();

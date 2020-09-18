@@ -1,8 +1,7 @@
 package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.services.DocenteService;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -26,17 +25,15 @@ public class DocenteEditor extends Div {
 
     private DocenteGrid grid;
 
-    private DocenteService docenteService;
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
-    public DocenteEditor(DocenteService docenteService, MateriaService materiaService) {
+    public DocenteEditor(ServiceFacade serviceFacade) {
 
         setId("editor-layout");
 
-        this.docenteService = docenteService;
-        this.materiaService = materiaService;
+        this.serviceFacade = serviceFacade;
 
-        form = new DocenteForm(this.materiaService);
+        form = new DocenteForm(this.serviceFacade);
 
         Label titolo = new Label("Scheda docente");
         titolo.setClassName("bold-text-layout");
@@ -68,8 +65,7 @@ public class DocenteEditor extends Div {
             form.getBinder().writeBeanIfValid(docente);
             Notification notification = new Notification();
             notification.setDuration(3000);
-            System.out.println(docente.getPassword());
-            if(docenteService.updateDocente(docente)) {
+            if(serviceFacade.updateDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Docente aggiornato con successo!");
                 notification.open();
@@ -111,7 +107,7 @@ public class DocenteEditor extends Div {
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Docente docente = grid.getGrid().getSelectedItems().iterator().next();
-            docenteService.deleteById(docente.getId());
+            serviceFacade.deleteDocenteById(docente.getId());
             Notification notification = new Notification();
             notification.setDuration(3000);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
