@@ -12,9 +12,5 @@ public interface ClasseRepository extends JpaRepository<Classe, Long> {
 
     List<Classe> findByAnnoScolastico(int annoScolastico);
     Optional<Classe> findByAnnoAndAnnoScolasticoAndSezione(int anno, int annoScolastico, Character sezione);
-
-    // TODO: verificare se serve
-    Classe findByStudenti(Studente studente);
-
 }
 

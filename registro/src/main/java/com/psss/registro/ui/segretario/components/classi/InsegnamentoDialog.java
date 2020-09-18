@@ -1,9 +1,7 @@
 package com.psss.registro.ui.segretario.components.classi;
 
-
 import com.psss.registro.backend.models.Insegnamento;
-import com.psss.registro.backend.services.DocenteService;
-import com.psss.registro.backend.services.InsegnamentoService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -22,18 +20,14 @@ public class InsegnamentoDialog extends Dialog {
 
     private final Button conferma = new Button("Conferma");
 
-//    private ClasseGrid grid;
+    private ServiceFacade serviceFacade;
 
-    private InsegnamentoService insegnamentoService;
-    private DocenteService docenteService;
-
-    public InsegnamentoDialog(InsegnamentoService insegnamentoService, DocenteService docenteService) {
+    public InsegnamentoDialog(ServiceFacade serviceFacade) {
         setId("editor-layout");
 
-        this.insegnamentoService = insegnamentoService;
-        this.docenteService = docenteService;
+        this.serviceFacade = serviceFacade;
 
-        form = new InsegnamentoForm(this.docenteService);
+        form = new InsegnamentoForm(this.serviceFacade);
 
         Label titolo = new Label("Nuovo insegnamento");
         titolo.setClassName("bold-text-layout");
@@ -64,11 +58,10 @@ public class InsegnamentoDialog extends Dialog {
         conferma.addClickShortcut(Key.ENTER).listenOn(formDiv);
         conferma.addClickListener(e -> {
             Insegnamento insegnamento = new Insegnamento();
-//            Classe classe = grid.getGrid().getSelectedItems().iterator().next();
             form.getBinder().writeBeanIfValid(insegnamento);
             Notification notification = new Notification();
             notification.setDuration(3000);
-            if(insegnamentoService.saveInsegnamento(insegnamento)) {
+            if(serviceFacade.saveInsegnamento(insegnamento)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Insegnamento inserito con successo!");
                 notification.open();
@@ -86,10 +79,6 @@ public class InsegnamentoDialog extends Dialog {
 
         return buttonLayout;
     }
-
-//    public void setGrid(ClasseGrid grid) {
-//        this.grid = grid;
-//    }
 
     public InsegnamentoForm getForm() {
         return form;

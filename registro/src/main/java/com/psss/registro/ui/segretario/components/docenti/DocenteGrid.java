@@ -1,8 +1,7 @@
 package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.services.DocenteService;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,6 +16,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 public class DocenteGrid extends Div {
 
     private final Grid<Docente> grid = new Grid<>(Docente.class);
@@ -29,19 +29,17 @@ public class DocenteGrid extends Div {
 
     private DocenteEditor editor;
 
-    private DocenteService docenteService;
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
     private List<Docente> docenti;
 
-    public DocenteGrid(DocenteService docenteService, MateriaService materiaService) {
+    public DocenteGrid(ServiceFacade serviceFacade) {
         setId("grid-wrapper");
         setWidthFull();
 
-        this.docenteService = docenteService;
-        this.materiaService = materiaService;
+        this.serviceFacade = serviceFacade;
 
-        docenti = this.docenteService.findAll();
+        docenti = this.serviceFacade.findAllDocenti();
 
         grid.setColumns("nome", "cognome", "codiceFiscale", "sesso", "data", "username", "telefono");
         grid.getColumnByKey("username").setHeader("E-mail");
@@ -78,7 +76,7 @@ public class DocenteGrid extends Div {
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            dialog = new DocenteDialog(this.docenteService, this.materiaService);
+            dialog = new DocenteDialog(this.serviceFacade);
             dialog.setGrid(this);
             dialog.open();
         });

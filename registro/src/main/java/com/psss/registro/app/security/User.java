@@ -16,16 +16,16 @@ import java.io.Serializable;
 @EqualsAndHashCode(exclude = {"userAuthority"}, callSuper = false)
 public class User extends AbstractEntity {
 
-    //@Column(unique=true)
-    //@NotNull
     @Email(message = "Inserire una e-mail valida")
     @NotBlank(message = "Inserire una e-mail")
     @Size(min = 1, max = 50, message = "La e-mail deve essere compresa fra 1 e 50 caratteri")
     private String username;
+
     @NotBlank(message = "Inserire la password")
 //    @Size(min = 1, max = 50, message = "La password deve essere compresa fra 1 e 50 caratteri")
     private String password;
     private Boolean enabled = true;
+
     @ManyToOne
     private UserAuthority userAuthority;
 

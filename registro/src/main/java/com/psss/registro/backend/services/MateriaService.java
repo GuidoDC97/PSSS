@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class MateriaService implements CrudService<Materia> {
+class MateriaService implements CrudService<Materia> {
 
     @Autowired
     private MateriaRepository materiaRepository;
@@ -35,7 +35,6 @@ public class MateriaService implements CrudService<Materia> {
         return save(materia);
     }
 
-    //TODO: chiedere al prof Amalfitano se va bene gestire l'unicità delle entity in questo modo.
     public boolean updateMateria(Materia materia) {
 
         Optional<Materia> materiaExistent = findByCodice(materia.getCodice());

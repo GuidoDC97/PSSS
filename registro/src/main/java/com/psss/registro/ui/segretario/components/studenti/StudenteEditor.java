@@ -3,12 +3,11 @@ package com.psss.registro.ui.segretario.components.studenti;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Studente;
-import com.psss.registro.backend.services.ClasseService;
-import com.psss.registro.backend.services.StudenteService;
+import com.psss.registro.backend.services.ServiceFacade;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -31,18 +30,15 @@ public class StudenteEditor extends Div{
 
     private StudenteGrid grid;
 
-    private StudenteService studenteService;
-    private ClasseService classeService;
+    private ServiceFacade serviceFacade;
 
-    public StudenteEditor(StudenteService studenteService, ClasseService classeService) {
+    public StudenteEditor(ServiceFacade serviceFacade) {
 
         setId("editor-layout");
 
-        this.studenteService = studenteService;
-        this.classeService = classeService;
+        this.serviceFacade = serviceFacade;
 
-        form = new StudenteForm(this.classeService);
-
+        form = new StudenteForm(this.serviceFacade);
 
         Label titolo = new Label("Scheda studente");
         titolo.setClassName("bold-text-layout");
@@ -76,7 +72,7 @@ public class StudenteEditor extends Div{
 
             Notification notification = new Notification();
             notification.setDuration(3000);
-           if(studenteService.updateStudente(studente)){
+           if(serviceFacade.updateStudente(studente)){
                notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                notification.setText("Studente aggiornato con successo!");
                notification.open();
@@ -117,7 +113,7 @@ public class StudenteEditor extends Div{
         conferma.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         conferma.addClickListener(e -> {
             Studente studente = grid.getGrid().getSelectedItems().iterator().next();
-            studenteService.deleteById(studente.getId());
+            serviceFacade.deleteStudenteById(studente.getId());
             Notification notification = new Notification();
             notification.setDuration(3000);
             notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

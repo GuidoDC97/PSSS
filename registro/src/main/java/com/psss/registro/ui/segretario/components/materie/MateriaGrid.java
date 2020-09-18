@@ -2,7 +2,7 @@ package com.psss.registro.ui.segretario.components.materie;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -30,16 +30,16 @@ public class MateriaGrid extends Div {
 
     private MateriaEditor editor;
 
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
     private List<Materia> materie;
 
-    public MateriaGrid(MateriaService materiaService) {
+    public MateriaGrid(ServiceFacade serviceFacade) {
         setId("grid-wrapper");
         setWidthFull();
 
-        this.materiaService = materiaService;
-        materie = this.materiaService.findAll();
+        this.serviceFacade = serviceFacade;
+        materie = this.serviceFacade.findAllMaterie();
 
         grid.setColumns("codice", "nome");
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
@@ -82,7 +82,7 @@ public class MateriaGrid extends Div {
 
         aggiungi.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         aggiungi.addClickListener(event -> {
-            dialog = new MateriaDialog(this.materiaService);
+            dialog = new MateriaDialog(this.serviceFacade);
             dialog.setGrid(this);
             dialog.open();
         });

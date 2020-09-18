@@ -2,8 +2,7 @@ package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
-import com.psss.registro.backend.models.Studente;
-import com.psss.registro.backend.services.MateriaService;
+import com.psss.registro.backend.services.ServiceFacade;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -13,7 +12,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
-import com.vaadin.flow.data.validator.EmailValidator;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 public class DocenteForm extends FormLayout {
@@ -33,10 +31,10 @@ public class DocenteForm extends FormLayout {
 
     private final Binder<Docente> binder = new BeanValidationBinder<>(Docente.class);
 
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
-    public DocenteForm(MateriaService materiaService) {
-        this.materiaService = materiaService;
+    public DocenteForm(ServiceFacade serviceFacade) {
+        this.serviceFacade = serviceFacade;
 
         nome.setClearButtonVisible(true);
 
@@ -52,12 +50,8 @@ public class DocenteForm extends FormLayout {
         sesso.setItems('M','F');
 
         username.setClearButtonVisible(true);
-//        binder.forField(username)
-//                .asRequired()
-//                .withValidator(new EmailValidator("Inserire una e-mail valida"))
-//                .bind(Docente::getUsername, Docente::setUsername);
 
-        materie.setItems(materiaService.findAll());
+        materie.setItems(serviceFacade.findAllMaterie());
         materie.setItemLabelGenerator(Materia::getNome);
 
         add(nome, cognome, codiceFiscale, username, data, sesso, telefono, materie);

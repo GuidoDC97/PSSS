@@ -1,9 +1,8 @@
 package com.psss.registro.ui.segretario.components.docenti;
 
 import com.psss.registro.backend.models.Docente;
-import com.psss.registro.backend.services.DocenteService;
-import com.psss.registro.backend.services.MateriaService;
 
+import com.psss.registro.backend.services.ServiceFacade;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -23,16 +22,14 @@ public class DocenteDialog extends Dialog {
 
     private DocenteGrid grid;
 
-    private DocenteService docenteService;
-    private MateriaService materiaService;
+    private ServiceFacade serviceFacade;
 
-    public DocenteDialog(DocenteService docenteService, MateriaService materiaService) {
+    public DocenteDialog(ServiceFacade serviceFacade) {
         setId("editor-layout");
 
-        this.docenteService = docenteService;
-        this.materiaService = materiaService;
+        this.serviceFacade = serviceFacade;
 
-        form = new DocenteForm(this.materiaService);
+        form = new DocenteForm(this.serviceFacade);
 
         Label titolo = new Label("Nuovo docente");
         titolo.setClassName("bold-text-layout");
@@ -68,7 +65,7 @@ public class DocenteDialog extends Dialog {
             Notification notification = new Notification();
             notification.setDuration(3000);
             System.out.println(docente.getPassword());
-            if(docenteService.saveDocente(docente)) {
+            if(serviceFacade.saveDocente(docente)) {
                 notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                 notification.setText("Docente inserito con successo!");
                 notification.open();
