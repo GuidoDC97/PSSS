@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MateriaGrid extends Div implements AbstractGrid {
+class MateriaGrid extends Div implements AbstractGrid {
 
     private final Grid<Materia> grid = new Grid<>(Materia.class);
 

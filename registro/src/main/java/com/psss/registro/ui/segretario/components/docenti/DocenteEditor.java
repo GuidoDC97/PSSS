@@ -16,7 +16,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class DocenteEditor extends Div implements AbstractEditor {
+class DocenteEditor extends Div implements AbstractEditor {
 
     private DocenteForm form;
 

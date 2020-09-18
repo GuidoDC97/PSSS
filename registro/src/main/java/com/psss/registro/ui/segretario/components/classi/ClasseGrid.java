@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ClasseGrid extends Div implements AbstractGrid {
+class ClasseGrid extends Div implements AbstractGrid {
 
     private final Grid<Classe> grid = new Grid<>(Classe.class);
 

@@ -11,7 +11,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
-public class InsegnamentoForm extends FormLayout {
+class InsegnamentoForm extends FormLayout {
 
     private final ComboBox<Docente> docente = new ComboBox<>("Docente");
     private final ComboBox<Materia> materia = new ComboBox<>("Materia");

@@ -14,7 +14,7 @@ import com.vaadin.flow.data.binder.Binder;
 
 import org.vaadin.gatanaso.MultiselectComboBox;
 
-public class DocenteForm extends FormLayout {
+class DocenteForm extends FormLayout {
 
     private final TextField nome = new TextField("Nome");
     private final TextField cognome = new TextField("Cognome");

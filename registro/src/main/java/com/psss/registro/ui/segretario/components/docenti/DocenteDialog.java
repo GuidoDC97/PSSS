@@ -14,7 +14,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class DocenteDialog extends Dialog {
+class DocenteDialog extends Dialog {
 
     private final DocenteForm form;
 

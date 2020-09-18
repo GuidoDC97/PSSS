@@ -14,7 +14,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class MateriaDialog extends Dialog {
+class MateriaDialog extends Dialog {
 
     private final MateriaForm form = new MateriaForm();
 

@@ -7,7 +7,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
-public class MateriaForm extends FormLayout {
+class MateriaForm extends FormLayout {
 
     private final TextField codice = new TextField("Codice");
     private final TextField nome = new TextField("Nome");

@@ -19,7 +19,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class MateriaEditor extends Div implements AbstractEditor {
+class MateriaEditor extends Div implements AbstractEditor {
 
     private final MateriaForm form = new MateriaForm();
 

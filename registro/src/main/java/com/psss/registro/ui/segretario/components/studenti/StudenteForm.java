@@ -15,7 +15,7 @@ import com.vaadin.flow.data.binder.Binder;
 
 import java.time.Year;
 
-public class StudenteForm extends FormLayout {
+class StudenteForm extends FormLayout {
 
     private final TextField nome = new TextField("Nome");
     private final TextField cognome= new TextField("Cognome");

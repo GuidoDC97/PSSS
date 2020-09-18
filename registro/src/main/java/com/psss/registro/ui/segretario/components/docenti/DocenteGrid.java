@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DocenteGrid extends Div implements AbstractGrid {
+class DocenteGrid extends Div implements AbstractGrid {
 
     private final Grid<Docente> grid = new Grid<>(Docente.class);
 

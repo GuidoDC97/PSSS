@@ -8,7 +8,7 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
-public class ClasseForm extends FormLayout {
+class ClasseForm extends FormLayout {
 
     private final ComboBox<Integer> anno = new ComboBox<> ("Anno");
     private final ComboBox<Character> sezione = new ComboBox<> ("Sezione");
