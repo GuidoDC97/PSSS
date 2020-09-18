@@ -4,6 +4,8 @@ import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Materia;
 import com.psss.registro.backend.services.ServiceFacade;
 
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MateriaGrid extends Div {
+public class MateriaGrid extends Div implements AbstractGrid {
 
     private final Grid<Materia> grid = new Grid<>(Materia.class);
 
@@ -100,7 +102,7 @@ public class MateriaGrid extends Div {
         return materie;
     }
 
-    public void setEditor(MateriaEditor editor) {
-        this.editor = editor;
+    public void setEditor(AbstractEditor editor) {
+        this.editor = (MateriaEditor) editor;
     }
 }

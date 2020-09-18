@@ -5,6 +5,8 @@ import com.psss.registro.backend.models.Insegnamento;
 import com.psss.registro.backend.models.Studente;
 
 import com.psss.registro.backend.services.ServiceFacade;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -19,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ClasseGrid extends Div {
+public class ClasseGrid extends Div implements AbstractGrid {
 
     private final Grid<Classe> grid = new Grid<>(Classe.class);
 
@@ -137,8 +139,8 @@ public class ClasseGrid extends Div {
         return classi;
     }
 
-    public void setEditor(ClasseEditor editor) {
-        this.editor = editor;
+    public void setEditor(AbstractEditor editor) {
+        this.editor = (ClasseEditor) editor;
     }
 
 }

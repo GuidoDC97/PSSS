@@ -1,9 +1,12 @@
 package com.psss.registro.ui.segretario.view;
 
 import com.psss.registro.backend.services.*;
-import com.psss.registro.ui.segretario.components.classi.ClasseEditor;
-import com.psss.registro.ui.segretario.components.classi.ClasseGrid;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractFactory;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
+import com.psss.registro.ui.segretario.components.classi.ClasseFactory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -26,15 +29,17 @@ public class ClassiView extends Div {
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        ClasseGrid classeGrid = new ClasseGrid(serviceFacade);
-        ClasseEditor classeEditor = new ClasseEditor(serviceFacade);
-        classeEditor.setVisible(false);
+        AbstractFactory abstractFactory = new ClasseFactory(this.serviceFacade);
+        AbstractGrid grid = abstractFactory.createGrid();
+        AbstractEditor editor = abstractFactory.createEditor();
+        editor.setVisible(false);
 
-        classeGrid.setEditor(classeEditor);
-        classeEditor.setGrid(classeGrid);
+        grid.setEditor(editor);
+        editor.setGrid(grid);
 
-        splitLayout.addToPrimary(classeGrid);
-        splitLayout.addToSecondary(classeEditor);
+        splitLayout.addToPrimary((Component) grid);
+        splitLayout.addToSecondary((Component) editor);
+
         add(splitLayout);
     }
 

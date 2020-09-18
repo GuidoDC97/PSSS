@@ -1,9 +1,12 @@
 package com.psss.registro.ui.segretario.view;
 
 import com.psss.registro.backend.services.ServiceFacade;
-import com.psss.registro.ui.segretario.components.docenti.DocenteEditor;
-import com.psss.registro.ui.segretario.components.docenti.DocenteGrid;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractFactory;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
+import com.psss.registro.ui.segretario.components.docenti.DocenteFactory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -26,15 +29,17 @@ public class DocentiView extends Div {
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        DocenteGrid docenteGrid = new DocenteGrid(this.serviceFacade);
-        DocenteEditor docenteEditor = new DocenteEditor(this.serviceFacade);
-        docenteEditor.setVisible(false);
+        AbstractFactory abstractFactory = new DocenteFactory(this.serviceFacade);
+        AbstractGrid grid = abstractFactory.createGrid();
+        AbstractEditor editor = abstractFactory.createEditor();
+        editor.setVisible(false);
 
-        docenteGrid.setEditor(docenteEditor);
-        docenteEditor.setGrid(docenteGrid);
+        grid.setEditor(editor);
+        editor.setGrid(grid);
 
-        splitLayout.addToPrimary(docenteGrid);
-        splitLayout.addToSecondary(docenteEditor);
+        splitLayout.addToPrimary((Component) grid);
+        splitLayout.addToSecondary((Component) editor);
+
         add(splitLayout);
     }
 

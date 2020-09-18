@@ -5,6 +5,8 @@ import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ServiceFacade;
 
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -18,7 +20,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 
-public class StudenteEditor extends Div{
+public class StudenteEditor extends Div implements AbstractEditor {
     private StudenteForm form;
 
     private final Button aggiorna = new Button("Aggiorna");
@@ -135,7 +137,7 @@ public class StudenteEditor extends Div{
         return form;
     }
 
-    public void setGrid(StudenteGrid grid) {
-        this.grid = grid;
+    public void setGrid(AbstractGrid grid) {
+        this.grid = (StudenteGrid) grid;
     }
 }

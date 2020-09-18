@@ -1,9 +1,12 @@
 package com.psss.registro.ui.segretario.view;
 
 import com.psss.registro.backend.services.ServiceFacade;
-import com.psss.registro.ui.segretario.components.studenti.StudenteGrid;
-import com.psss.registro.ui.segretario.components.studenti.StudenteEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractFactory;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
+import com.psss.registro.ui.segretario.components.studenti.StudenteFactory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -26,15 +29,17 @@ public class StudentiView extends Div {
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        StudenteGrid studenteGrid = new StudenteGrid(this.serviceFacade);
-        StudenteEditor studenteEditor = new StudenteEditor(this.serviceFacade);
-        studenteEditor.setVisible(false);
+        AbstractFactory abstractFactory = new StudenteFactory(this.serviceFacade);
+        AbstractGrid grid = abstractFactory.createGrid();
+        AbstractEditor editor = abstractFactory.createEditor();
+        editor.setVisible(false);
 
-        studenteGrid.setEditor(studenteEditor);
-        studenteEditor.setGrid(studenteGrid);
+        grid.setEditor(editor);
+        editor.setGrid(grid);
 
-        splitLayout.addToPrimary(studenteGrid);
-        splitLayout.addToSecondary(studenteEditor);
+        splitLayout.addToPrimary((Component) grid);
+        splitLayout.addToSecondary((Component) editor);
+
         add(splitLayout);
     }
 }

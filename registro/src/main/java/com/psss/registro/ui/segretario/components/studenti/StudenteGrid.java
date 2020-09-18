@@ -3,6 +3,8 @@ package com.psss.registro.ui.segretario.components.studenti;
 import com.psss.registro.backend.models.Studente;
 import com.psss.registro.backend.services.ServiceFacade;
 
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -18,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class StudenteGrid extends Div {
+public class StudenteGrid extends Div implements AbstractGrid {
 
     private final Grid<Studente> grid = new Grid<>(Studente.class);
 
@@ -53,9 +55,6 @@ public class StudenteGrid extends Div {
 
             editor.getForm().getBinder().readBean(studente);
             editor.setVisible(!event.getHasValue().isEmpty());
-
-
-
         });
 
         add(createToolbarLayout(), grid);
@@ -101,8 +100,8 @@ public class StudenteGrid extends Div {
         return studenti;
     }
 
-    public void setEditor(StudenteEditor editor) {
-        this.editor = editor;
+    public void setEditor(AbstractEditor editor) {
+        this.editor = (StudenteEditor) editor;
     }
 }
 

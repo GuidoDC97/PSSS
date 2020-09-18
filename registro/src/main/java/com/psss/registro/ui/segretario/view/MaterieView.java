@@ -1,9 +1,12 @@
 package com.psss.registro.ui.segretario.view;
 
 import com.psss.registro.backend.services.ServiceFacade;
-import com.psss.registro.ui.segretario.components.materie.MateriaEditor;
-import com.psss.registro.ui.segretario.components.materie.MateriaGrid;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractFactory;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
+import com.psss.registro.ui.segretario.components.materie.MateriaFactory;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -26,15 +29,17 @@ public class MaterieView extends Div {
         SplitLayout splitLayout = new SplitLayout();
         splitLayout.setSizeFull();
 
-        MateriaGrid materiaGrid = new MateriaGrid(serviceFacade);
-        MateriaEditor materiaEditor = new MateriaEditor(serviceFacade);
-        materiaEditor.setVisible(false);
+        AbstractFactory abstractFactory = new MateriaFactory(this.serviceFacade);
+        AbstractGrid grid = abstractFactory.createGrid();
+        AbstractEditor editor = abstractFactory.createEditor();
+        editor.setVisible(false);
 
-        materiaGrid.setEditor(materiaEditor);
-        materiaEditor.setGrid(materiaGrid);
+        grid.setEditor(editor);
+        editor.setGrid(grid);
 
-        splitLayout.addToPrimary(materiaGrid);
-        splitLayout.addToSecondary(materiaEditor);
+        splitLayout.addToPrimary((Component) grid);
+        splitLayout.addToSecondary((Component) editor);
+
         add(splitLayout);
     }
 }

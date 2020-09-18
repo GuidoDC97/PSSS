@@ -3,6 +3,8 @@ package com.psss.registro.ui.segretario.components.docenti;
 import com.psss.registro.backend.models.Docente;
 import com.psss.registro.backend.services.ServiceFacade;
 
+import com.psss.registro.ui.segretario.abstractComponents.AbstractEditor;
+import com.psss.registro.ui.segretario.abstractComponents.AbstractGrid;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -14,7 +16,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
-public class DocenteEditor extends Div {
+public class DocenteEditor extends Div implements AbstractEditor {
 
     private DocenteForm form;
 
@@ -129,7 +131,7 @@ public class DocenteEditor extends Div {
         return form;
     }
 
-    public void setGrid(DocenteGrid grid) {
-        this.grid = grid;
+    public void setGrid(AbstractGrid grid) {
+        this.grid = (DocenteGrid) grid;
     }
 }
