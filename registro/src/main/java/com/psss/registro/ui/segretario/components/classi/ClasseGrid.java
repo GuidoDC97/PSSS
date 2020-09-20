@@ -52,6 +52,7 @@ class ClasseGrid extends Div implements AbstractGrid {
 
             insegnamentoButton.addClickListener(buttonClickEvent -> {
                 InsegnamentoDialog insegnamentoDialog = new InsegnamentoDialog(serviceFacade);
+                insegnamentoDialog.setEditor(editor);
                 insegnamentoDialog.setCloseOnEsc(true);
 
                 Classe classeSelezionata = grid.getSelectedItems().iterator().next();
