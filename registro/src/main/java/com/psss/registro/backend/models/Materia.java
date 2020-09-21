@@ -55,27 +55,6 @@ public class Materia extends AbstractEntity{
 
     @PreRemove
     public void preRemove(){
-
-        //TODO: gestire l'eliminazione degli insegnamenti di una materia
-//        for(Docente docente : docenti){
-//            Set<Insegnamento> insegnamenti = docente.getInsegnamenti();
-//            for(Insegnamento insegnamento : insegnamenti){
-//                if(insegnamento.getMateria().equals(this)){
-//                    insegnamento.getClasse().removeInsegnamento(insegnamento);
-//                    docente.removeInsegnamento(insegnamento);
-//                }
-//            }
-//        }
-//Con lambda
-//        docenti.forEach(docente -> {
-//            docente.getInsegnamenti().forEach(insegnamento -> {
-//                if(insegnamento.getMateria().equals(this))
-//                        docente.removeInsegnamento(insegnamento);
-//            });
-//        });
-
-
-        //Gestione relazione materia-docente
         for(Docente docente : docenti){
             docente.removeMateria(this);
         }

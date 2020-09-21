@@ -1,4 +1,4 @@
-package com.psss.registro.ui.docente;
+package com.psss.registro.ui.studente;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -26,19 +26,19 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * The main view is a top-level placeholder for other views.
+ * The main view is a top-leveal placeholder for other views.
  */
 @JsModule("./styles/shared-styles.js")
 //@PWA(name = "Registro", shortName = "Registro",  enableInstallPrompt = false)
 @Theme(value = Lumo.class, variant = Lumo.LIGHT)
 @CssImport("./styles/views/main/main-view.css")
-@Route(value = "docente")
-public class DocenteMainView extends AppLayout {
+@Route(value = "studente")
+public class StudenteMainView extends AppLayout {
 
     private final Tabs menu;
     private H1 viewTitle;
 
-    public DocenteMainView() {
+    public StudenteMainView() {
         setPrimarySection(Section.DRAWER);
         addToNavbar(true, createHeaderContent());
         menu = createMenu();
@@ -92,8 +92,9 @@ public class DocenteMainView extends AppLayout {
     private Component[] createMenuItems() {
         RouterLink[] links = new RouterLink[] {
             new RouterLink("About", AboutView.class),
+//            new RouterLink("Docenti", DocentiView.class)
         };
-        return Arrays.stream(links).map(DocenteMainView::createTab).toArray(Tab[]::new);
+        return Arrays.stream(links).map(StudenteMainView::createTab).toArray(Tab[]::new);
     }
 
     private static Tab createTab(Component content) {

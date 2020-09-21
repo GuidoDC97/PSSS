@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                 .mvcMatchers("/segretario/**", "/").hasAuthority("SEGRETARIO")
                 .mvcMatchers("/docente/**").hasAuthority("DOCENTE")
+                .mvcMatchers("/studente/**").hasAuthority("STUDENTE")
                 .and()
                 .formLogin()
                 .loginPage(LOGIN_URL).permitAll()

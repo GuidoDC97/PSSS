@@ -17,7 +17,6 @@ import java.util.*;
 @Transactional
 class DocenteService implements CrudService<Docente> {
 
-    // TODO: eventualmente si può organizzare meglio il package security e far chiamare un service
     @Autowired
     private UserAuthorityRepository userAuthorityRepository;
 

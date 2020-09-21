@@ -36,11 +36,6 @@ public class Docente extends Persona {
         }
     }
 
-    //TODO: verificare se vengono utilizzate nella pre-remove della materia
-    public void addMateria(Materia materia) {
-        materie.add(materia);
-    }
-
     public void removeMateria(Materia materia) {
         materie.remove(materia);
     }

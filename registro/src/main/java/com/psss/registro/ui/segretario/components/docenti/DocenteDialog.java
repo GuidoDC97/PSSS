@@ -71,7 +71,6 @@ class DocenteDialog extends Dialog {
                 notification.open();
                 grid.getDocenti().add(docente);
                 grid.getGrid().setItems(grid.getDocenti());
-                // TODO: creare un metodo grid.addDocente(docente) in cui mettiamo le due righe di codice di sopra
                 close();
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
