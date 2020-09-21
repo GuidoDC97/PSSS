@@ -18,6 +18,8 @@ class InsegnamentoDialog extends Dialog {
 
     private final InsegnamentoForm form;
 
+    private ClasseEditor editor;
+
     private final Button conferma = new Button("Conferma");
 
     private ServiceFacade serviceFacade;
@@ -66,6 +68,7 @@ class InsegnamentoDialog extends Dialog {
                 notification.setText("Insegnamento inserito con successo!");
                 notification.open();
                 close();
+                editor.setVisible(false);
             } else {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 notification.setText("Attenzione: non è possibile inserire l'insegmaneto!");
@@ -82,5 +85,9 @@ class InsegnamentoDialog extends Dialog {
 
     public InsegnamentoForm getForm() {
         return form;
+    }
+
+    public void setEditor(ClasseEditor editor) {
+        this.editor = editor;
     }
 }
