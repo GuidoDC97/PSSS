@@ -17,7 +17,7 @@ Finally, the application was deployed on **Amazon Elastic Beanstalk**.
 
 ## Documentation & Code
 
-Complete documentation of project can be found **[here](/Documentazione/Documentazione.pdf)**.
+Complete documentation in **LaTex** of project can be found **[here](/Documentazione/Documentazione.pdf)**.
 
 Visual paradigm file containing UML diagrams useful to understand and to design the project can be found **[here](/Visual%20paradigm/registro.vpp)**.
 
