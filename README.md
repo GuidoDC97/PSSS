@@ -2,6 +2,7 @@
 Repository for Software Systems Design and Development project.
 
 Group project consisting in building a single-page web application: an **electronic register for schools**.
+
 AY 2019/2020
 
 ## Solution
